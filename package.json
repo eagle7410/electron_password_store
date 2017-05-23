@@ -15,8 +15,8 @@
     "url": "git+https://github.com/eagle7410/electron_password_store.git"
   },
   "keywords": [
-    "migration",
-    "yii2"
+    "password",
+    "store"
   ],
   "author": {
     "name": "Igor Stcherbina",
@@ -27,18 +27,12 @@
   "bugs": {
     "url": "https://github.com/eagle7410/electron_password_store/issues"
   },
-  "dependencies": {
-    "dot": "^1.1.1",
-    "electron-packager": "^8.7.0",
-    "utils-igor": "^2.0.5"
-  },
   "devDependencies": {
     "electron-packager": "^8.7.0",
     "electron-prebuilt": "^1.4.13",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-cssmin": "^0.1.7",
-    "gulp-electron": "0.1.3",
     "gulp-uglifyjs": "^0.6.2"
   },
   "homepage": "https://github.com/eagle7410/electron_password_store#readme"
