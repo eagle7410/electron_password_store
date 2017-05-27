@@ -1,16 +1,15 @@
-/* eslint-disable */
-
 const initialState = {
+	id       : false,
 	category : 0,
 	title    : '',
-	login    : false,
+	login    : '',
 	pass     : '',
 	desc     : '',
 	answer   : ''
 };
 
-const add = (state = initialState, action) => {
+const record = (state = initialState, action) => {
 	return state;
 };
 
-export {add};
+export {record};

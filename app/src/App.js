@@ -1,33 +1,27 @@
 // Libs
-import React, {Component} from 'react';
+import React from 'react';
 import './App.css';
-import {NavLinkm, Link} from 'react-router-dom';
-import {Route, Switch} from 'react-router';
+import {Route, Redirect} from 'react-router-dom';
 // Componets
-import Add from './componets/Password/Add';
-import List from './componets/Password/List';
+import Settings from './componets/Settings/Settings';
+import Store from './componets/Storage/Storage';
+import Users from './componets/Users/Users';
+import Login from './componets/Login/Login';
+import Logout from './componets/Logout';
 
-class App extends Component {
-	render() {
-		return (
-			<div className='App'>
-				<div className='App-body container'>
-					<div className="menu row">
-						<ul>
-							<li><Link to="/" >List</Link></li>
-							<li><Link to="/add">Add</Link></li>
-						</ul>
-					</div>
-					<div className="row">
-						<Switch>
-							<Route  path="/" component={List}/>
-							<Route path="/add" component={Add}/>
-						</Switch>
-					</div>
-				</div>
+const App = () => (
+	<div className='App'>
+		<div className='App-body container'>
+			<div className="row">
+				<Route path="/" render={() => <Redirect to="/storage"/>}/>
+				<Route path="/storage"  component={Store}/>
+				<Route path="/settings"   component={Settings}/>
+				<Route path="/users" component={Users}/>
+				<Route path="/login" component={Login}/>
+				<Route path="/logout" component={Logout}/>
 			</div>
-		);
-	}
-}
+		</div>
+	</div>
+);
 
 export default App;

@@ -12,6 +12,6 @@ class Add extends Component {
 
 export default connect(
 	state => ({
-		store: state.home
+		store: state.record
 	})
 )(Add);
