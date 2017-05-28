@@ -2,6 +2,8 @@
 import React from 'react';
 import './App.css';
 import {Route, Redirect} from 'react-router-dom';
+//Const
+import {routes, index} from './const/Routes';
 // Componets
 import Settings from './componets/Settings/Settings';
 import Store from './componets/Storage/Storage';
@@ -13,12 +15,12 @@ const App = () => (
 	<div className='App'>
 		<div className='App-body container'>
 			<div className="row">
-				<Route path="/" render={() => <Redirect to="/storage"/>}/>
-				<Route path="/storage"  component={Store}/>
-				<Route path="/settings"   component={Settings}/>
-				<Route path="/users" component={Users}/>
-				<Route path="/login" component={Login}/>
-				<Route path="/logout" component={Logout}/>
+				<Route path="/" render={() => <Redirect to={index} />}/>
+				<Route path={routes.storage}  component={Store}/>
+				<Route path={routes.settings} component={Settings}/>
+				<Route path={routes.users}    component={Users}/>
+				<Route path={routes.login}    component={Login}/>
+				<Route path={routes.logout}   component={Logout}/>
 			</div>
 		</div>
 	</div>

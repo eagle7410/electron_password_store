@@ -1,32 +1,36 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import IconButton from 'material-ui/IconButton';
-import ActionDelete from 'material-ui/svg-icons/action/delete-forever';
-import ActionEdit from 'material-ui/svg-icons/editor/mode-edit';
+import RowShow from './StorageRowShow';
+import RowEdit from './StorageRowEdit';
 
 import {
 	Table,
 	TableBody,
 	TableHeader,
 	TableHeaderColumn,
-	TableRow,
-	TableRowColumn,
+	TableRow
 } from 'material-ui/Table';
 
-const style = {
-	tooltip : {
-		left : '10px'
-	}
-};
-
 const StorageTable = (state) => {
+	let store = state.store;
+
+	let rows = store.data.filter((record, inx) => !(
+		(store.categorySelect > 1 && record.category !== store.categorySelect) ||
+		(
+			record.login.toLowerCase().indexOf(store.searchText) === -1 &&
+			record.pass.toLowerCase().indexOf(store.searchText) === -1 &&
+			record.title.toLowerCase().indexOf(store.searchText) === -1 &&
+			record.desc.toLowerCase().indexOf(store.searchText) === -1
+		)
+	));
 
 	return (
 		<Table fixedHeader={true} selectable={false}>
-			<TableHeader  displaySelectAll={false}>
+			<TableHeader displaySelectAll={false}>
 				<TableRow>
 					<TableHeaderColumn>Actions</TableHeaderColumn>
 					<TableHeaderColumn>Category</TableHeaderColumn>
+					<TableHeaderColumn>Title</TableHeaderColumn>
 					<TableHeaderColumn>Login</TableHeaderColumn>
 					<TableHeaderColumn>Pass</TableHeaderColumn>
 					<TableHeaderColumn>Answer</TableHeaderColumn>
@@ -38,27 +42,11 @@ const StorageTable = (state) => {
 				showRowHover={true}
 			>
 				{
-					state.store.data.map((record, inx)=> (
-						<TableRow key={`store_${inx}`} data-inx={record.inx} >
-							<TableRowColumn style={{ overflow: 'visible' }}>
-								<IconButton tooltip="Delete"
-											touch={true}
-											tooltipStyles={style.tooltip}>
-									<ActionDelete />
-								</IconButton>
-								<IconButton tooltip="Edit"
-											touch={true}
-											tooltipStyles={style.tooltip}>
-									<ActionEdit />
-								</IconButton>
-							</TableRowColumn>
-							<TableRowColumn>{record.category}</TableRowColumn>
-							<TableRowColumn>{record.login}</TableRowColumn>
-							<TableRowColumn>{record.pass}</TableRowColumn>
-							<TableRowColumn>{record.answer}</TableRowColumn>
-							<TableRowColumn dangerouslySetInnerHTML={{	__html: record.desc.replace("\n", '<br/>')	}}></TableRowColumn>
-						</TableRow>
-					))
+					rows.map((row, inx) =>
+						row.id === store.editRow
+							? <RowEdit key={`store_${row.id}`} />
+							: <RowShow key={`store_${row.id}`} row={row} editRow={state.handelEdit} deleteRow={state.handelDelete}/>
+					)
 				}
 			</TableBody>
 		</Table>

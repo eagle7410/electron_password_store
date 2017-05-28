@@ -4,6 +4,8 @@ import {loginList, auth} from '../../api/Login'
 import Form from './Form'
 import Load from './Load'
 import {Redirect} from 'react-router-dom';
+//Const
+import {afterAuth} from '../../const/Routes';
 
 class Login extends Component {
 	constructor (props) {
@@ -58,7 +60,7 @@ class Login extends Component {
 		}
 
 		if (that.props.store.token && that.props.store.isAuth) {
-			return (<Redirect to="/store"/>);
+			return (<Redirect to={afterAuth}/>);
 		}
 
 		return (
@@ -77,6 +79,7 @@ class Login extends Component {
 export default connect(
 	state => ({
 		store: state.login,
+		navMenu: state.navMenu
 	}),
 	dispatch => ({
 		validateErrors : errs => dispatch({type: 'loginValidateBad', data : errs}),

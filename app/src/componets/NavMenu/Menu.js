@@ -5,7 +5,7 @@ import Paper from 'material-ui/Paper'
 import IconAccoundBox from 'material-ui/svg-icons/action/account-box'
 import IconSettings from 'material-ui/svg-icons/action/settings'
 import IconLogout from 'material-ui/svg-icons/action/lock'
-import IconSecurity from 'material-ui/svg-icons/hardware/security'
+import IconStore from 'material-ui/svg-icons/device/storage'
 
 const Menu = (state) => {
 	return (
@@ -13,7 +13,7 @@ const Menu = (state) => {
 			<BottomNavigation selectedIndex={state.store.select}>
 				<BottomNavigationItem
 					label="Storage"
-					icon={<IconSecurity />}
+					icon={<IconStore />}
 					onTouchTap={() => state.onSelect(0)}
 				/>
 				<BottomNavigationItem
