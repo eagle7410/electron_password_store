@@ -7,15 +7,15 @@ const initialState = {
 	open          : false
 };
 
-const storageConfirm = (state = initialState, action) => {
+const dataConfirm = (state = initialState, action) => {
+	// eslint-disable-next-line
 	switch (action.type) {
-		case 'storeCancelDelete':
-			return {
-				...state,
-				dataCancel  : false,
-				dataConfirm : false,
-				open : false
-			};
+
+		case 'confirmCancel':
+			return {...initialState	};
+
+		case 'confirmOk':
+			return {...initialState	};
 
 		case 'storeConfirm':
 			let data = action.data;
@@ -25,15 +25,10 @@ const storageConfirm = (state = initialState, action) => {
 				...data,
 				open : true,
 			};
-			
-		case 'storeOnDelete':
-			return {
-				...state,
-				open: false
-			};
 	}
 
 	return state;
 };
 
-export {storageConfirm};
+export {dataConfirm};
+

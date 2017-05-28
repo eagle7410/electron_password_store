@@ -9,7 +9,8 @@ import IconStore from 'material-ui/svg-icons/image/grid-on'
 import Tools from './StorageTools'
 import Table from './StorageTable'
 import Add from './Add'
-import Confirm from './Confirm'
+import Confirm from '../Confirm'
+import Alert from '../Alet'
 
 const Storage =  (state) => {
 	return (
@@ -31,6 +32,7 @@ const Storage =  (state) => {
 				</Tab>
 			</Tabs>
 			<Confirm />
+			<Alert />
 		</div>);
 };
 

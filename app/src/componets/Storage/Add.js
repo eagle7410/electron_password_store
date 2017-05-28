@@ -1,17 +1,15 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 
-class Add extends Component {
+const Add = (state) => {
 
-	render() {
-		return (
-			<h1>THIS PASS Add</h1>
-		);
-	}
-}
+	return (
+		<h1>THIS_REACT</h1>
+	);
+};
 
 export default connect(
 	state => ({
-		store: state.record
+		store: state.recordAdd
 	})
 )(Add);

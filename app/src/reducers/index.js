@@ -5,10 +5,11 @@ import {combineReducers} from 'redux';
 import {recordAdd} from './Storage/RecordAdd';
 import {storage} from './Storage/Storage';
 import {storageFilters} from './Storage/StorageFilters';
-import {storageConfirm} from './Storage/Confirm';
+import {dataConfirm} from './Confirm';
 import {users} from './Users/Users';
 import {login} from './Login';
 import {navMenu} from './NavMenu';
+import {alert} from './Alert'
 import { routerReducer } from 'react-router-redux';
 
 const reducer = combineReducers({
@@ -17,8 +18,9 @@ const reducer = combineReducers({
 	storage,
 	login,
 	users,
+	alert,
 	storageFilters,
-	storageConfirm,
+	dataConfirm,
 	navMenu
 });
 

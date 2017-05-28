@@ -31,10 +31,16 @@ const Confirm = (state) => {
 
 export default connect(
 	state => ({
-		store : state.storageConfirm
+		store : state.dataConfirm
 	}),
 	dispatch => ({
-		onCancel : (type, data) => dispatch({type : type, data: data}),
-		onOk     : (type, data) => dispatch({type : type, data: data }),
+		onCancel : (type, data) => {
+			dispatch({type : 'confirmCancel'});
+			dispatch({type : type, data: data})
+		},
+		onOk     : (type, data) => {
+			dispatch({type : 'confirmOk'});
+			dispatch({type : type, data: data})
+		},
 	})
 )(Confirm);
