@@ -4,24 +4,14 @@ import IconButton from 'material-ui/IconButton';
 import ActionEdit from 'material-ui/svg-icons/navigation/cancel';
 import ActionSave from 'material-ui/svg-icons/content/save';
 import { TableRowColumn, TableRow } from 'material-ui/Table';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
+import StorageCategoriesList from './StorageCategoriesList'
 import TextField from 'material-ui/TextField';
 
 const StorageRowEdit = (state) => {
 	const store = state.store;
 	const row = store.editRowData;
 	const id = row.id;
-	const catergory = (
-		<DropDownMenu
-			value={row.category}
-			onChange={state.onEditCategory}
-		>
-			{ Object.keys(store.categoryList).map(
-				inx => Number(inx) === 1 ? false : <MenuItem value={Number(inx)} key={'catEdit'+id + inx } primaryText={store.categoryList[inx]} />
-			)}
-		</DropDownMenu>
-	);
+
 	return (
 		<TableRow >
 			<TableRowColumn style={{overflow: 'visible'}}>
@@ -38,7 +28,7 @@ const StorageRowEdit = (state) => {
 					<ActionSave color="#43A047"/>
 				</IconButton>
 			</TableRowColumn>
-			<TableRowColumn children={catergory} />
+			<TableRowColumn children={<StorageCategoriesList onEdit={state.onEditCategory} keyPrev={'catEdit' + id} val={row.category} />}/>
 			<TableRowColumn children={<TextField id={`edtT_${id}`} value={row.title} onChange={ev => state.onEditText('title', ev.target.value)}/>} />
 			<TableRowColumn children={<TextField id={`edtL_${id}`} value={row.login}/>} onChange={ev => state.onEditText('login', ev.target.value)}/>} />
 			<TableRowColumn children={<TextField id={`edtP_${id}`} value={row.pass}/>} onChange={ev => state.onEditText('pass', ev.target.value)}/>} />
@@ -50,7 +40,7 @@ const StorageRowEdit = (state) => {
 
 export default connect(
 	state => ({
-		store: state.storage
+		store: state.storage,
 	}),
 	dispatch => ({
 		onEdited : () => dispatch({type : 'storeOnEdited'}),

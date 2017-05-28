@@ -32,74 +32,22 @@ const initialState = {
 		desc: "deasds\r\n safdsf sadfasd\n$",
 		answer: 'asddsfa'
 	}],
-	categoryList: {
-		1: 'All Category',
-		2: 'Unknown',
-		3: 'First',
-		4: 'Sec',
-		5: 'Think'
-	},
 	editRow: -1,
 	editRowData: false,
 };
 
 const storage = (state = initialState, action) => {
 
-	let editRowData;
 	let data;
 
 	// eslint-disable-next-line
 	switch (action.type) {
-		case 'storeOnEdit':
-			const id = action.data;
-
+		case 'storeAddRow':
 			return {
 				...state,
-				editRow: action.data,
-				editRowData: Object.assign({}, state.data.find(row => row.id === id))
-			};
-		case 'storeOnEdited':
-			return {
-				...state,
-				editRow: -1,
-				editRowData: false
-			};
-		case 'storeEditRowCategory':
-			editRowData = Object.assign({}, state.editRowData);
-			editRowData.category = action.data;
-
-			return {
-				...state,
-				editRowData: editRowData
-			};
-		case 'storeEditRowText':
-			editRowData = Object.assign({}, state.editRowData);
-			editRowData[action.data.type] = action.data.val;
-
-			return {
-				...state,
-				editRowData: editRowData
-			};
-		case 'storeOnEditDesc':
-
-			editRowData = Object.assign({}, state.editRowData);
-			editRowData.desc = action.data;
-
-			return {
-				...state,
-				editRowData: editRowData
+				data : [action.data].concat(state.data)
 			};
 
-		case 'storeOnSaveEdit':
-			data = [].concat(state.data);
-			data[data.findIndex(row => row.id === state.editRow)] = Object.assign({}, state.editRowData);
-
-			return {
-				...state,
-				editRowData: false,
-				editRow: -1,
-				data: data
-			};
 		case 'storeOnDelete':
 			data = [].concat(state.data);
 			data.splice(data.findIndex(row => row.id === action.data), 1);

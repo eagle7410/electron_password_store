@@ -3,13 +3,15 @@ import React from 'react';
 import './App.css';
 import {Route, Redirect} from 'react-router-dom';
 //Const
-import {routes, index} from './const/Routes';
+import {routes, index} from './const/Routes'
 // Componets
-import Settings from './componets/Settings/Settings';
-import Store from './componets/Storage/Storage';
-import Users from './componets/Users/Users';
-import Login from './componets/Login/Login';
-import Logout from './componets/Logout';
+import Settings from './componets/Settings/Settings'
+import Store from './componets/Storage/Storage'
+import Users from './componets/Users/Users'
+import Login from './componets/Login/Login'
+import Logout from './componets/Logout'
+import Confirm from './componets/Confirm'
+import Alert from './componets/Alet'
 
 const App = () => (
 	<div className='App'>
@@ -23,6 +25,8 @@ const App = () => (
 				<Route path={routes.logout}   component={Logout}/>
 			</div>
 		</div>
+		<Confirm />
+		<Alert />
 	</div>
 );
 

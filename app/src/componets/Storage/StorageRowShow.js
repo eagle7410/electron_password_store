@@ -6,29 +6,30 @@ import ActionEdit from 'material-ui/svg-icons/editor/mode-edit';
 import { TableRowColumn, TableRow } from 'material-ui/Table';
 
 const StorageRowShow = (state) => {
+	const row = state.row;
 	return (
 		<TableRow >
 			<TableRowColumn style={{overflow: 'visible'}}>
 				<IconButton tooltip="Delete"
 							touch={true}
-							onTouchTap={ev => state.onDelete(state.row.id, ev)}
+							onTouchTap={ev => state.onDelete(row.id, ev)}
 				>
 					<ActionDelete color="#B71C1C"/>
 				</IconButton>
 				<IconButton tooltip="Edit"
 							touch={true}
-							onTouchTap={ev => state.onEdit(state.row.id, ev)}
+							onTouchTap={ev => state.onEdit(row.id, ev)}
 				>
 					<ActionEdit color='#009688'/>
 				</IconButton>
 			</TableRowColumn>
-			<TableRowColumn>{state.store.categoryList[state.row.category]}</TableRowColumn>
-			<TableRowColumn>{state.row.title}</TableRowColumn>
-			<TableRowColumn>{state.row.login}</TableRowColumn>
-			<TableRowColumn>{state.row.pass}</TableRowColumn>
-			<TableRowColumn>{state.row.answer}</TableRowColumn>
+			<TableRowColumn>{state.categories.list[row.category]}</TableRowColumn>
+			<TableRowColumn>{row.title}</TableRowColumn>
+			<TableRowColumn>{row.login}</TableRowColumn>
+			<TableRowColumn>{row.pass}</TableRowColumn>
+			<TableRowColumn>{row.answer}</TableRowColumn>
 			<TableRowColumn
-				children={<textarea  rows='6' readOnly={true} defaultValue={state.row.desc} />} onChange={state.onEditDesc}
+				children={<textarea  rows='6' readOnly={true} defaultValue={row.desc} />} onChange={state.onEditDesc}
 			/>
 		</TableRow>
 	);
@@ -36,7 +37,8 @@ const StorageRowShow = (state) => {
 
 export default connect(
 	state => ({
-		store: state.storage
+		store: state.storage,
+		categories : state.storageCategories
 	}),
 	dispatch => ({
 		onEdit : id => dispatch({type : 'storeOnEdit', data : id}),

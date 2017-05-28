@@ -1,15 +1,14 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import AddForm from './AddForm'
 
 const Add = (state) => {
 
 	return (
-		<h1>THIS_REACT</h1>
+		<div style={ {textAlign : 'center'} }>
+			<AddForm />
+		</div>
+
 	);
 };
 
-export default connect(
-	state => ({
-		store: state.recordAdd
-	})
-)(Add);
+export default Add;

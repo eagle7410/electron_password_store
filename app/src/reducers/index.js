@@ -4,7 +4,9 @@
 import {combineReducers} from 'redux';
 import {recordAdd} from './Storage/RecordAdd';
 import {storage} from './Storage/Storage';
-import {storageFilters} from './Storage/StorageFilters';
+import {storageEdit} from './Storage/StorageEdit';
+import {storageFilters} from './Storage/Filters';
+import {storageCategories} from './Storage/Categories';
 import {dataConfirm} from './Confirm';
 import {users} from './Users/Users';
 import {login} from './Login';
@@ -15,11 +17,13 @@ import { routerReducer } from 'react-router-redux';
 const reducer = combineReducers({
 	routing: routerReducer,
 	recordAdd,
-	storage,
 	login,
 	users,
-	alert,
+	storage,
+	storageEdit,
 	storageFilters,
+	storageCategories,
+	alert,
 	dataConfirm,
 	navMenu
 });

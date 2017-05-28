@@ -1,14 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import ActionSearch from 'material-ui/svg-icons/action/search';
+import StorageCategoriesList from './StorageCategoriesList'
 
 const StoreTools = (state) => {
-	let store = state.store;
 	let filters = state.filters;
 	let fieldSearch = '';
 
@@ -38,11 +36,7 @@ const StoreTools = (state) => {
 				{fieldSearch}
 				<ToolbarSeparator />
 
-				<DropDownMenu value={filters.categorySelect} onChange={state.changeCategory} >
-					{Object.keys(store.categoryList).map(
-						inx => <MenuItem value={Number(inx)} key={'cat'+inx } primaryText={store.categoryList[inx]} />
-					)}
-				</DropDownMenu>
+				<StorageCategoriesList onEdit={state.changeCategory} showAll={true} val={filters.categorySelect} />
 
 			</ToolbarGroup>
 		</Toolbar>
@@ -51,7 +45,6 @@ const StoreTools = (state) => {
 
 export default connect(
 	state => ({
-		store : state.storage,
 		filters : state.storageFilters
 	}),
 	dispatch => ({

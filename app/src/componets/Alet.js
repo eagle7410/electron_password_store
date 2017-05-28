@@ -30,7 +30,11 @@ const Alert = (state) => {
 			modal={false}
 			open={alert.open}
 		>
-			<Paper style={paper}>{icon} {alert.message}</Paper>
+			<Paper style={paper}>
+				<table>
+					<tbody><tr><td>{icon}</td><td>{alert.message}</td></tr></tbody>
+				</table>
+			</Paper>
 		</Dialog>
 	);
 };

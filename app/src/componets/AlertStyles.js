@@ -1,12 +1,12 @@
-const padding = {
-	paddingLeft : '5px',
+const shareIcons = {
+	marginLeft : '15px',
 };
 const size = {
-	height : '48px',
-	width  : '48px',
+	height : '40px',
+	width  : '40px',
 };
 const icoOk = {
-	...padding,
+	...shareIcons,
 	...size,
 	color : '#4CAF50'
 };
