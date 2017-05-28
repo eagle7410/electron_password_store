@@ -1,8 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import IconButton from 'material-ui/IconButton';
-import ActionEdit from 'material-ui/svg-icons/navigation/cancel';
-import ActionSave from 'material-ui/svg-icons/content/save';
+import ActionButtonSave from '../tools/ActionButtonSave'
+import ActionButtonCancel from '../tools/ActionButtonCancel'
 import { TableRowColumn, TableRow } from 'material-ui/Table';
 import StorageCategoriesList from './StorageCategoriesList'
 import TextField from 'material-ui/TextField';
@@ -15,18 +14,8 @@ const StorageRowEdit = (state) => {
 	return (
 		<TableRow >
 			<TableRowColumn style={{overflow: 'visible'}}>
-				<IconButton tooltip="Edit"
-							touch={true}
-							onTouchTap={state.onEdited}
-				>
-					<ActionEdit color="#FFD600"/>
-				</IconButton>
-				<IconButton tooltip="Edit"
-							touch={true}
-							onTouchTap={state.onSaveEdit}
-				>
-					<ActionSave color="#43A047"/>
-				</IconButton>
+				<ActionButtonCancel onTouch={state.onEdited}/>
+				<ActionButtonSave onTouch={state.onSaveEdit}/>
 			</TableRowColumn>
 			<TableRowColumn children={<StorageCategoriesList onEdit={state.onEditCategory} keyPrev={'catEdit' + id} val={row.category} />}/>
 			<TableRowColumn children={<TextField id={`edtT_${id}`} value={row.title} onChange={ev => state.onEditText('title', ev.target.value)}/>} />

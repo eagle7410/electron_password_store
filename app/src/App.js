@@ -10,8 +10,8 @@ import Store from './componets/Storage/Storage'
 import Users from './componets/Users/Users'
 import Login from './componets/Login/Login'
 import Logout from './componets/Logout'
-import Confirm from './componets/Confirm'
-import Alert from './componets/Alet'
+import Confirm from './componets/tools/Confirm'
+import Alert from './componets/tools/Alet'
 
 const App = () => (
 	<div className='App'>

@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SocialMood from 'material-ui/svg-icons/social/mood';
 import SocialMoodBad from 'material-ui/svg-icons/social/mood-bad';
 import Paper from 'material-ui/Paper'
-import AlertStatus from '../const/AlertStatus'
+import AlertStatus from '../../const/AlertStatus'
 import {icoBad,icoOk,paper} from './AlertStyles'
 
 const Alert = (state) => {

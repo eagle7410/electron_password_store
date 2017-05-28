@@ -1,27 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import IconButton from 'material-ui/IconButton';
-import ActionDelete from 'material-ui/svg-icons/action/delete-forever';
-import ActionEdit from 'material-ui/svg-icons/editor/mode-edit';
 import { TableRowColumn, TableRow } from 'material-ui/Table';
+import ActionButtonDelete from '../tools/ActionButtonDelete'
+import ActionButtonEdit from '../tools/ActionButtonEdit'
 
 const StorageRowShow = (state) => {
 	const row = state.row;
 	return (
 		<TableRow >
 			<TableRowColumn style={{overflow: 'visible'}}>
-				<IconButton tooltip="Delete"
-							touch={true}
-							onTouchTap={ev => state.onDelete(row.id, ev)}
-				>
-					<ActionDelete color="#B71C1C"/>
-				</IconButton>
-				<IconButton tooltip="Edit"
-							touch={true}
-							onTouchTap={ev => state.onEdit(row.id, ev)}
-				>
-					<ActionEdit color='#009688'/>
-				</IconButton>
+				<ActionButtonDelete id={row.id} onTouch={state.onDelete}/>
+				<ActionButtonEdit id={row.id} onTouch={state.onEdit}/>
 			</TableRowColumn>
 			<TableRowColumn>{state.categories.list[row.category]}</TableRowColumn>
 			<TableRowColumn>{row.title}</TableRowColumn>

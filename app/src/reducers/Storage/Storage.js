@@ -1,3 +1,5 @@
+import storageEdit from './StorageActionEdit'
+
 const initialState = {
 	data: [{
 		id: 1,
@@ -38,8 +40,11 @@ const initialState = {
 
 const storage = (state = initialState, action) => {
 
-	let data;
+	let data = storageEdit(state, action);
 
+	if (data !== null) {
+		return data;
+	}
 	// eslint-disable-next-line
 	switch (action.type) {
 		case 'storeAddRow':
@@ -55,8 +60,10 @@ const storage = (state = initialState, action) => {
 			return {
 				...state,
 				data: data
-			}
+			};
+
 	}
+
 	return state;
 };
 
