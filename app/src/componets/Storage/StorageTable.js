@@ -13,29 +13,38 @@ import {
 
 const StorageTable = (state) => {
 	let store = state.store;
+	let filters = state.filters;
+	let filterCategory = filters.categorySelect;
 
-	let rows = store.data.filter((record, inx) => !(
-		(store.categorySelect > 1 && record.category !== store.categorySelect) ||
+	let rows = store.data.filter((row, inx) => !(
+		(filterCategory > 1 && row.category !== filterCategory) ||
 		(
-			record.login.toLowerCase().indexOf(store.searchText) === -1 &&
-			record.pass.toLowerCase().indexOf(store.searchText) === -1 &&
-			record.title.toLowerCase().indexOf(store.searchText) === -1 &&
-			record.desc.toLowerCase().indexOf(store.searchText) === -1
+			row.login.toLowerCase().indexOf(filters.searchText) === -1 &&
+			row.pass.toLowerCase().indexOf(filters.searchText) === -1 &&
+			row.title.toLowerCase().indexOf(filters.searchText) === -1 &&
+			row.desc.toLowerCase().indexOf(filters.searchText) === -1
 		)
 	));
+
+	let headColumns = [];
+
+	const headColumnsLabel =[
+		'Actions',
+		'Category',
+		'Title',
+		'Login',
+		'Pass',
+		'Answer',
+		'Description',
+	];
+
+	for (let i = 0; i<headColumnsLabel.length; ++i)
+		headColumns.push(<TableHeaderColumn key={'St_' + i}>{headColumnsLabel[i]}</TableHeaderColumn>);
 
 	return (
 		<Table fixedHeader={true} selectable={false}>
 			<TableHeader displaySelectAll={false}>
-				<TableRow>
-					<TableHeaderColumn>Actions</TableHeaderColumn>
-					<TableHeaderColumn>Category</TableHeaderColumn>
-					<TableHeaderColumn>Title</TableHeaderColumn>
-					<TableHeaderColumn>Login</TableHeaderColumn>
-					<TableHeaderColumn>Pass</TableHeaderColumn>
-					<TableHeaderColumn>Answer</TableHeaderColumn>
-					<TableHeaderColumn>Description</TableHeaderColumn>
-				</TableRow>
+				<TableRow>{headColumns}</TableRow>
 			</TableHeader>
 			<TableBody
 				displayRowCheckbox={false}
@@ -45,7 +54,7 @@ const StorageTable = (state) => {
 					rows.map((row, inx) =>
 						row.id === store.editRow
 							? <RowEdit key={`store_${row.id}`} />
-							: <RowShow key={`store_${row.id}`} row={row} editRow={state.handelEdit} deleteRow={state.handelDelete}/>
+							: <RowShow key={`store_${row.id}`} row={row} />
 					)
 				}
 			</TableBody>
@@ -55,7 +64,8 @@ const StorageTable = (state) => {
 
 export default connect(
 	state => ({
-		store: state.storage
+		store: state.storage,
+		filters : state.storageFilters
 	})
 )(StorageTable);
 

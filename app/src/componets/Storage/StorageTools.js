@@ -9,13 +9,14 @@ import ActionSearch from 'material-ui/svg-icons/action/search';
 
 const StoreTools = (state) => {
 	let store = state.store;
+	let filters = state.filters;
 	let fieldSearch = '';
 
-	if (store.showSearchText) {
+	if (filters.showSearchText) {
 		fieldSearch = <TextField
 			id="inputSearch"
 			hintText='Enter for search'
-			onChange ={state.handelChangeSearchText}
+			onChange ={state.changeSearchText}
 		/>
 	}
 
@@ -29,15 +30,15 @@ const StoreTools = (state) => {
 					tooltipPosition="bottom-right"
 				>
 					<ActionSearch
-						hoverColor={store.searchIcoActive}
-						color={store.searchIcoNow}
-						onTouchTap={state.handelChangeShowSearchText}
+						hoverColor={filters.searchIcoActive}
+						color={filters.searchIcoNow}
+						onTouchTap={state.changeShowSearchText}
 					/>
 				</IconButton>
 				{fieldSearch}
 				<ToolbarSeparator />
 
-				<DropDownMenu value={store.categorySelect} onChange={state.handelChangeCategory} >
+				<DropDownMenu value={filters.categorySelect} onChange={state.changeCategory} >
 					{Object.keys(store.categoryList).map(
 						inx => <MenuItem value={Number(inx)} key={'cat'+inx } primaryText={store.categoryList[inx]} />
 					)}
@@ -50,6 +51,12 @@ const StoreTools = (state) => {
 
 export default connect(
 	state => ({
-		store : state.storage
+		store : state.storage,
+		filters : state.storageFilters
+	}),
+	dispatch => ({
+		changeCategory : (event, index, value) => dispatch({type: 'changeCategory', data: value}),
+		changeSearchText : (ev, val) => dispatch({type: 'changeSearchText', data: val.toLowerCase()}),
+		changeShowSearchText : ev => dispatch({type: 'changeShowSearchText', data: ev.target.value}),
 	})
 )(StoreTools);

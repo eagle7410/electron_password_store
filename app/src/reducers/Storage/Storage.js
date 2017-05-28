@@ -39,41 +39,17 @@ const initialState = {
 		4: 'Sec',
 		5: 'Think'
 	},
-	categorySelect: 1,
-	searchText: '',
-	showSearchText: false,
-	searchIcoActive: '#F44336',
-	searchIcoInactive: '#FFA726',
-	searchIcoNow: '#FFA726',
 	editRow: -1,
-	editRowData: false
+	editRowData: false,
 };
 
 const storage = (state = initialState, action) => {
 
 	let editRowData;
+	let data;
 
 	// eslint-disable-next-line
 	switch (action.type) {
-		case 'changeCategory':
-			return {
-				...state,
-				categorySelect: action.data
-			};
-		case 'changeSearchText':
-			return {
-				...state,
-				searchText: action.data
-			};
-		case 'changeShowSearchText':
-			const show = !state.showSearchText;
-
-			return {
-				...state,
-				showSearchText: show,
-				searchText: show ? state.searchText : '',
-				searchIcoNow: show ? state.searchIcoActive : state.searchIcoInactive
-			};
 		case 'storeOnEdit':
 			const id = action.data;
 
@@ -115,9 +91,8 @@ const storage = (state = initialState, action) => {
 			};
 
 		case 'storeOnSaveEdit':
-			let data = [].concat(state.data);
-			let inx = data.findIndex(row => row.id === state.editRow);
-			data[inx] = Object.assign({}, state.editRowData);
+			data = [].concat(state.data);
+			data[data.findIndex(row => row.id === state.editRow)] = Object.assign({}, state.editRowData);
 
 			return {
 				...state,
@@ -125,6 +100,14 @@ const storage = (state = initialState, action) => {
 				editRow: -1,
 				data: data
 			};
+		case 'storeOnDelete':
+			data = [].concat(state.data);
+			data.splice(data.findIndex(row => row.id === action.data), 1);
+
+			return {
+				...state,
+				data: data
+			}
 	}
 	return state;
 };

@@ -11,13 +11,13 @@ const StorageRowShow = (state) => {
 			<TableRowColumn style={{overflow: 'visible'}}>
 				<IconButton tooltip="Delete"
 							touch={true}
-							onTouchTap={ev => state.deleteRow(state.row.id, ev)}
+							onTouchTap={ev => state.onDelete(state.row.id, ev)}
 				>
 					<ActionDelete color="#B71C1C"/>
 				</IconButton>
 				<IconButton tooltip="Edit"
 							touch={true}
-							onTouchTap={ev => state.editRow(state.row.id, ev)}
+							onTouchTap={ev => state.onEdit(state.row.id, ev)}
 				>
 					<ActionEdit color='#009688'/>
 				</IconButton>
@@ -37,5 +37,18 @@ const StorageRowShow = (state) => {
 export default connect(
 	state => ({
 		store: state.storage
+	}),
+	dispatch => ({
+		onEdit : id => dispatch({type : 'storeOnEdit', data : id}),
+		onDelete : id => dispatch({
+			type : 'storeConfirm',
+			data : {
+				actionCancel   : 'storeCancelDelete',
+				actionConfirm  : 'storeOnDelete',
+				question       : 'Are you sure?',
+				dataConfirm    : id
+
+			}
+		}),
 	})
 )(StorageRowShow);

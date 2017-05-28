@@ -8,8 +8,8 @@ const initialState = {
 	answer   : ''
 };
 
-const record = (state = initialState, action) => {
+const recordAdd = (state = initialState, action) => {
 	return state;
 };
 
-export {record};
+export {recordAdd};
