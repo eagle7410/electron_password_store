@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "pkg-linux": "electron-packager . --overwrite --platform=linux  --arch=x64  --ignore='/app/|/node_modules/(babel*|gulp*|electron*|grunt*)|/.idea/' --icon=database-migration.ico --prune=true --out=app_build",
-    "pkg-win":   "electron-packager . --asar=true --platform=win32  --arch=ia32 --ignore='/app/|/node_modules/(babel*|gulp*|electron*|grunt*)|/.idea/' --icon=database-migration.ico --prune=true --out=app_build -version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName='Electron migrate creator'",
-    "pkg-mac":   "electron-packager . --overwrite --platform=darwin --arch=x64  --ignore='/app/|/node_modules/(babel*|gulp*|electron*|grunt*)|/.idea/' --icon=database-migration.ico --prune=true --out=app_build"
+    "pkg-win": "electron-packager . --asar=true --platform=win32  --arch=ia32 --ignore='/app/|/node_modules/(babel*|gulp*|electron*|grunt*)|/.idea/' --icon=database-migration.ico --prune=true --out=app_build -version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName='Electron migrate creator'",
+    "pkg-mac": "electron-packager . --overwrite --platform=darwin --arch=x64  --ignore='/app/|/node_modules/(babel*|gulp*|electron*|grunt*)|/.idea/' --icon=database-migration.ico --prune=true --out=app_build"
   },
   "repository": {
     "type": "git",
@@ -35,5 +35,8 @@
     "gulp-cssmin": "^0.1.7",
     "gulp-uglifyjs": "^0.6.2"
   },
-  "homepage": "https://github.com/eagle7410/electron_password_store#readme"
+  "homepage": "https://github.com/eagle7410/electron_password_store#readme",
+  "dependencies": {
+    "tingodb": "^0.5.1"
+  }
 }
