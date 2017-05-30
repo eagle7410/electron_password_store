@@ -11,6 +11,7 @@ import {users} from './Users/Users';
 import {login} from './Login';
 import {navMenu} from './NavMenu';
 import {alert} from './Alert'
+import {dataLoader} from './DataLoader'
 import { routerReducer } from 'react-router-redux';
 
 const reducer = combineReducers({
@@ -23,6 +24,7 @@ const reducer = combineReducers({
 	storageCategories,
 	alert,
 	dataConfirm,
+	dataLoader,
 	navMenu
 });
 

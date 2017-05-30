@@ -1,5 +1,6 @@
 const initialState = {
-	categorySelect: 1,
+	categorySelect: 2,
+	categoryAll   : 2,
 	searchText: '',
 	showSearchText: false,
 	searchIcoActive: '#F44336',

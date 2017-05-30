@@ -4,7 +4,7 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionAdd from 'material-ui/svg-icons/content/add-circle';
-import {addRecord} from '../../api/Category'
+import {add} from '../../api/Category'
 import AlertStatus from '../../const/AlertStatus'
 
 const CategoriesTools = (state) => {
@@ -17,11 +17,11 @@ const CategoriesTools = (state) => {
 			return state.showAlert('Enter new category name', AlertStatus.BAD);
 		}
 
-		addRecord(val).then(data => {
+		add(val).then(data => {
 			state.save(data);
 			state.showAlert('Category is saved.', AlertStatus.OK);
 		}, err => {
-			state.showAlert('No save record. Inner error. Go to support', AlertStatus.BAD);
+			state.showAlert(err, AlertStatus.BAD);
 		});
 	};
 

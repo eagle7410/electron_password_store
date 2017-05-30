@@ -2,7 +2,7 @@
   "name": "electron_password_store",
   "version": "1.0.0",
   "description": "App for store passwords.",
-  "main": "index-app.js",
+  "main": "index-app-dev.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
@@ -28,6 +28,7 @@
     "url": "https://github.com/eagle7410/electron_password_store/issues"
   },
   "devDependencies": {
+    "electron-devtools-installer": "^2.2.0",
     "electron-packager": "^8.7.0",
     "electron-prebuilt": "^1.4.13",
     "gulp": "^3.9.1",
@@ -37,6 +38,8 @@
   },
   "homepage": "https://github.com/eagle7410/electron_password_store#readme",
   "dependencies": {
+    "async": "2.4.1",
+    "electron-devtools-installer": "^2.2.0",
     "tingodb": "^0.5.1"
   }
 }

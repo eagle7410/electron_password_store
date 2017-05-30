@@ -2,10 +2,11 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {loginList, auth} from '../../api/Login'
 import Form from './Form'
-import Load from './Load'
-import {Redirect} from 'react-router-dom';
+import LoadAnime from '../tools/LoadAnime'
+import DataLoader from '../tools/DataLoader'
 //Const
 import {afterAuth} from '../../const/Routes';
+import AlertStatus from '../../const/AlertStatus';
 
 class Login extends Component {
 	constructor (props) {
@@ -14,7 +15,9 @@ class Login extends Component {
 		let that = this;
 
 		if (that.props.store.isLoaded !== true) {
-			loginList().then(that.props.onLoadedOk, that.props.onLoadedBad);
+			loginList().then(that.props.onLoadedOk, e => {
+				that.props.showAlert('Sorry, login list not loaded', AlertStatus.BAD);
+			});
 		}
 	}
 
@@ -56,11 +59,11 @@ class Login extends Component {
 		let that = this;
 
 		if (that.props.store.isLoad === true) {
-			return (<Load/>);
+			return (<LoadAnime/>);
 		}
 
 		if (that.props.store.token && that.props.store.isAuth) {
-			return (<Redirect to={afterAuth}/>);
+			return (<DataLoader pathAfter={afterAuth}/>);
 		}
 
 		return (
@@ -90,7 +93,11 @@ export default connect(
 		onAuthBad : err => dispatch({type: 'loginOnAuthBad', data: err}),
 		handelChangeLogin: data => dispatch({type: 'loginOnLoginChange', data: data}),
 		handelChangePass: data => dispatch({type: 'loginOnPassChange', data: data}),
-		logout : () =>dispatch({type : 'logout'})
+		logout : () =>dispatch({type : 'logout'}),
+		showAlert : (mess, type) => dispatch({type : 'alertShow', data: {
+			message : mess,
+			status  : type
+		}})
 	})
 )(Login);
 

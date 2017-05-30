@@ -3,6 +3,7 @@ const initialState = {
 	actionConfirm : '',
 	dataCancel    : false,
 	dataConfirm   : false,
+	callConfirm   : false,
 	question      : '',
 	open          : false
 };

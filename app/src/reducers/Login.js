@@ -19,12 +19,19 @@ const login = (state = initialState, action) => {
 				...action.data
 			};
 		case 'loginOnLoadOk':
-			return {
+			let newState = {
 				...state,
 				isLoad: false,
 				isLoaded: true,
 				list: action.data
 			};
+
+			if (newState.list.length === 1) {
+				newState.login = newState.list[0];
+			}
+
+			return newState;
+
 		case 'loginOnLoginChange':
 			return {
 				...state,

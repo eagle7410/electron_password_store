@@ -17,7 +17,7 @@ const StorageTable = (state) => {
 	let filterCategory = filters.categorySelect;
 
 	let rows = store.data.filter((row, inx) => !(
-		(filterCategory > 1 && row.category !== filterCategory) ||
+		(filterCategory !== filters.categoryAll && row.category !== filterCategory) ||
 		(
 			row.login.toLowerCase().indexOf(filters.searchText) === -1 &&
 			row.pass.toLowerCase().indexOf(filters.searchText) === -1 &&
@@ -35,7 +35,7 @@ const StorageTable = (state) => {
 		'Login',
 		'Pass',
 		'Answer',
-		'Description',
+		'Description'
 	];
 
 	for (let i = 0; i<headColumnsLabel.length; ++i)

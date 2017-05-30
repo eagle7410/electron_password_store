@@ -5,6 +5,20 @@ import FlatButton from 'material-ui/FlatButton';
 
 const Confirm = (state) => {
 	let confirm = state.store;
+	const confirmAction = () => {
+
+		state.close();
+
+		if (typeof confirm.callPromiseConfirm === 'function') {
+			confirm.callPromiseConfirm().then(
+				isDelete => state.onOk(confirm.actionConfirm, confirm.dataConfirm, isDelete),
+				() => state.onOk(confirm.actionConfirm, confirm.dataConfirm, false),
+			);
+		} else {
+			state.onOk(confirm.actionConfirm, confirm.dataConfirm, true);
+		}
+	};
+
 	const actions = [
 		<FlatButton
 			label="Cancel"
@@ -14,7 +28,7 @@ const Confirm = (state) => {
 		<FlatButton
 			label="Ok"
 			secondary={true}
-			onTouchTap={ev => state.onOk(confirm.actionConfirm, confirm.dataConfirm) }
+			onTouchTap={confirmAction}
 		/>,
 	];
 
@@ -38,9 +52,11 @@ export default connect(
 			dispatch({type : 'confirmCancel'});
 			dispatch({type : type, data: data})
 		},
-		onOk     : (type, data) => {
-			dispatch({type : 'confirmOk'});
-			dispatch({type : type, data: data})
+		close    : () => dispatch({type : 'confirmOk'}),
+		onOk     : (type, data, isDelete) => {
+			if (isDelete) {
+				dispatch({type : type, data: data})
+			}
 		},
 	})
 )(Confirm);
