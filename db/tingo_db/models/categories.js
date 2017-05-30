@@ -62,3 +62,16 @@ module.exports.save = name => new Promise((ok, bad) => {
 module.exports.delete = id => new Promise((ok, bad) => {
 	model.remove({_id :id}, err => err ? bad(err) : ok());
 });
+
+module.exports.updateSafe = (id, name) => new Promise((ok, bad) => {
+	isValid(name)
+		.then(() => {
+			model.update({_id: id}, {name : name }, err => {
+				if (err) {
+					return bad(err);
+				}
+
+				ok();
+			})
+		}, bad);
+});

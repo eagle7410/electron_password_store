@@ -23,6 +23,23 @@ const modelCategories = models.get(db, 'categories');
 
 module.exports = {
 	run : (mainWindow) => {
+		listen('PUT-category', (res, action, data) => {
+
+			modelCategories.updateSafe(data.id, data.name)
+				.then(() => {
+					send.ok(res, action);
+				}).catch( err => {
+					switch (err.type) {
+						case libErr.constants.valid :
+							send.err(res, action, err.mess);
+							break;
+						default :
+							console.log('!ERR update category', err);
+							send.err(res, action, 'No update category. Create ticket to support.');
+					}
+				});
+		});
+
 		listen('DELETE-category', (res, action, id) => {
 			modelCategories.delete(id)
 				.then(() => {

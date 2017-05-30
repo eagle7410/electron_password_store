@@ -1,4 +1,4 @@
-import {save, status, move} from '../utils/Req'
+import {save, status, move, update} from '../utils/Req'
 
 const add = name => new Promise((ok , bad) => {
 	save('category', name).then(
@@ -20,4 +20,11 @@ const del = id => new Promise((ok , bad) => {
 	)
 });
 
-export {add, del};
+const edit = (id, name) => new Promise((ok, bad) =>{
+	update('category', {id : id, name : name})
+		.then(r => r.status === status.ok ? ok() : bad(r.data) , e => {
+			console.log('Err update', e);
+			bad('Sorry inner error. Go to support.');
+		});
+});
+export {add, del, edit};
