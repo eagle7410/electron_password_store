@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import StorageCategoriesList from './StorageCategoriesList'
+import {StorageFilters} from '../../const/Events'
 
 const StoreTools = (state) => {
 	let filters = state.filters;
@@ -48,8 +49,8 @@ export default connect(
 		filters : state.storageFilters
 	}),
 	dispatch => ({
-		changeCategory : (event, index, value) => dispatch({type: 'changeCategory', data: value}),
-		changeSearchText : (ev, val) => dispatch({type: 'changeSearchText', data: val.toLowerCase()}),
-		changeShowSearchText : ev => dispatch({type: 'changeShowSearchText', data: ev.target.value}),
+		changeCategory : (event, index, value) => dispatch({type: StorageFilters.chCat, data: value}),
+		changeSearchText : (ev, val) => dispatch({type: StorageFilters.chText, data: val.toLowerCase()}),
+		changeShowSearchText : ev => dispatch({type: StorageFilters.toggleText, data: ev.target.value}),
 	})
 )(StoreTools);

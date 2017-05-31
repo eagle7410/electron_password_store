@@ -1,3 +1,5 @@
+import {Confirm} from '../const/Events'
+
 const initialState = {
 	actionCancel  : '',
 	actionConfirm : '',
@@ -12,13 +14,13 @@ const dataConfirm = (state = initialState, action) => {
 	// eslint-disable-next-line
 	switch (action.type) {
 
-		case 'confirmCancel':
+		case Confirm.no:
 			return {...initialState	};
 
-		case 'confirmOk':
+		case Confirm.yes:
 			return {...initialState	};
 
-		case 'storeConfirm':
+		case Confirm.show:
 			let data = action.data;
 
 			return {

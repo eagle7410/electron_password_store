@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import {Confirm as Action} from '../../const/Events'
 
 const Confirm = (state) => {
 	let confirm = state.store;
@@ -49,10 +50,10 @@ export default connect(
 	}),
 	dispatch => ({
 		onCancel : (type, data) => {
-			dispatch({type : 'confirmCancel'});
+			dispatch({type : Action.no});
 			dispatch({type : type, data: data})
 		},
-		close    : () => dispatch({type : 'confirmOk'}),
+		close    : () => dispatch({type : Action.yes}),
 		onOk     : (type, data, isDelete) => {
 			if (isDelete) {
 				dispatch({type : type, data: data})

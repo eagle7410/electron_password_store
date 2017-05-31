@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import { TableRowColumn, TableRow } from 'material-ui/Table';
 import ActionButtonDelete from '../tools/ActionButtonDelete'
 import ActionButtonEdit from '../tools/ActionButtonEdit'
+import {Storage, Confirm as ConfirmAction} from '../../const/Events'
+import {Confirm} from '../../const/Messages'
 
 const StorageRowShow = (state) => {
 	const row = state.row;
@@ -30,13 +32,13 @@ export default connect(
 		categories : state.storageCategories
 	}),
 	dispatch => ({
-		onEdit : id => dispatch({type : 'storeOnEdit', data : id}),
+		onEdit : id => dispatch({type : Storage.modeEdit, data : id}),
 		onDelete : id => dispatch({
-			type : 'storeConfirm',
+			type : ConfirmAction.show,
 			data : {
-				actionCancel   : 'storeCancelDelete',
-				actionConfirm  : 'storeOnDelete',
-				question       : 'Are you sure?',
+				actionCancel   : Storage.cancelMove,
+				actionConfirm  : Storage.move,
+				question       : Confirm.question,
 				dataConfirm    : id
 
 			}

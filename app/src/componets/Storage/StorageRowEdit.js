@@ -5,6 +5,7 @@ import ActionButtonCancel from '../tools/ActionButtonCancel'
 import { TableRowColumn, TableRow } from 'material-ui/Table';
 import StorageCategoriesList from './StorageCategoriesList'
 import TextField from 'material-ui/TextField';
+import {Storage} from '../../const/Events'
 
 const StorageRowEdit = (state) => {
 	const store = state.store;
@@ -14,7 +15,7 @@ const StorageRowEdit = (state) => {
 	return (
 		<TableRow >
 			<TableRowColumn style={{overflow: 'visible'}}>
-				<ActionButtonCancel onTouch={state.onEdited}/>
+				<ActionButtonCancel onTouch={state.onCancel}/>
 				<ActionButtonSave onTouch={state.onSaveEdit}/>
 			</TableRowColumn>
 			<TableRowColumn children={<StorageCategoriesList onEdit={state.onEditCategory} keyPrev={'catEdit' + id} val={row.category} />}/>
@@ -32,11 +33,17 @@ export default connect(
 		store: state.storage,
 	}),
 	dispatch => ({
-		onEdited : () => dispatch({type : 'storeOnEdited'}),
-		onSaveEdit : () => dispatch({type : 'storeOnSaveEdit'}),
-		onEditCategory: (event, index, value) => dispatch({type : 'storeEditRowCategory', data: value}),
-		onEditDesc : ev => dispatch({type : 'storeOnEditDesc', data : ev.target.value}),
-		onEditText: (type,val) => dispatch({type : 'storeEditRowText', data: {
+		onCancel   : () => dispatch({type : Storage.editClear}),
+		onSaveEdit : () => dispatch({type : Storage.saved}),
+		onEditCategory: (event, index, value) => dispatch({type : Storage.edit, data: {
+			type : 'category',
+			val  : value
+		}}),
+		onEditDesc : ev => dispatch({type : Storage.edit, data : {
+			type : 'desc',
+			val  : ev.target.value
+		}}),
+		onEditText: (type,val) => dispatch({type : Storage.edit, data: {
 			type : type,
 			val  : val
 		}})

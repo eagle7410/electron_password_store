@@ -6,6 +6,7 @@ import ActionButtonCancel from '../tools/ActionButtonCancel'
 import TextField from 'material-ui/TextField';
 import {edit} from '../../api/Category'
 import AlertStatus from '../../const/AlertStatus'
+import {StorageCategory, Alert} from '../../const/Events'
 
 const CategoriesRowEdit = (state) => {
 	const store = state.store;
@@ -34,11 +35,11 @@ export default connect(
 		store: state.storageCategories,
 	}),
 	dispatch => ({
-		onCancel : () => dispatch({type : 'storeOnCancelEditCategory'}),
-		onSaveEdit : () => dispatch({type : 'storeOnSaveEditCategory'}),
-		onEditCategory: event => dispatch({type : 'storeChangeEditCategory', data: event.target.value}),
+		onCancel : () => dispatch({type : StorageCategory.editCancel}),
+		onSaveEdit : () => dispatch({type : StorageCategory.editSave}),
+		onEditCategory: event => dispatch({type : StorageCategory.edit, data: event.target.value}),
 		showAlert: (mess, type) => dispatch({
-			type: 'alertShow', data: {
+			type: Alert.show, data: {
 				message: mess,
 				status: type
 			}

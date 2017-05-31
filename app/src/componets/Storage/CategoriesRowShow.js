@@ -5,6 +5,8 @@ import { TableRowColumn, TableRow } from 'material-ui/Table';
 import ActionButtonDelete from '../tools/ActionButtonDelete'
 import ActionButtonEdit from '../tools/ActionButtonEdit'
 import AlertStatus from '../../const/AlertStatus'
+import {StorageCategory, Alert, Confirm as ConfirmAction} from '../../const/Events'
+import {Confirm, CategoryError} from '../../const/Messages'
 
 const CategoriesRowShow = (state) => {
 
@@ -12,8 +14,8 @@ const CategoriesRowShow = (state) => {
 
 		state.confirm(id, ()=> new Promise((ok, bad) => {
 			del(id).then(r => ok(true), e => {
-				console.log('Error delete category', e);
-				state.showAlert('Error delete category', AlertStatus.BAD);
+				console.log(CategoryError.move, e);
+				state.showAlert(CategoryError.move, AlertStatus.BAD);
 				bad();
 			});
 		}));
@@ -37,19 +39,19 @@ export default connect(
 		categories : state.storageCategories
 	}),
 	dispatch => ({
-		onEdit : id => dispatch({type : 'storeOnEditCategory', data : id}),
+		onEdit : id => dispatch({type : StorageCategory.editMode , data : id}),
 		confirm : (id, backPromise) => dispatch({
-			type : 'storeConfirm',
+			type : ConfirmAction.show,
 			data : {
-				actionCancel       : 'storeCancelDeleteCategory',
-				actionConfirm      : 'storeOnDeleteCategory',
-				question           : 'Are you sure?',
+				actionCancel       : StorageCategory.moveCancel,
+				actionConfirm      : StorageCategory.move,
+				question           : Confirm.question,
 				dataConfirm        : id,
 				callPromiseConfirm : backPromise
 			}
 		}),
 		showAlert: (mess, type) => dispatch({
-			type: 'alertShow', data: {
+			type: Alert.show, data: {
 				message: mess,
 				status: type
 			}

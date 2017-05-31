@@ -1,3 +1,5 @@
+import {RecordAdd} from '../../const/Events'
+
 const initialState = {
 	category: false,
 	title: '',
@@ -9,43 +11,29 @@ const initialState = {
 };
 
 const recordAdd = (state = initialState, action) => {
-	let newState;
 
 	// eslint-disable-next-line
 	switch (action.type) {
-		case 'storeAddInit':
+		case RecordAdd.init:
 			return {...initialState};
 
-		case 'storeAddRecordErrorCategory':
+		case RecordAdd.errCat:
 			return {
 				...state,
 				errorCategory : action.data
 			};
-		case 'storeAddRecordOnSave':
+		case RecordAdd.saved:
 			return {
 				...state,
 				errorCategory : ''
 			};
 
-		case 'storeAddRecordAddText':
-			newState = Object.assign({}, state);
+		case RecordAdd.change:
+			let newState = Object.assign({}, state);
 			newState[action.data.type] = action.data.val;
-
 			return {
 				...state,
 				...newState
-			};
-
-		case 'storeAddRecordAddCategory':
-			return {
-				...state,
-				category: action.data
-			};
-
-		case 'storeAddRecordAddDesc':
-			return {
-				...state,
-				desc: action.data
 			};
 	}
 

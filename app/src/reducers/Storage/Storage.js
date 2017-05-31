@@ -1,4 +1,4 @@
-import storageEdit from './StorageActionEdit'
+import {RecordAdd, Storage} from '../../const/Events'
 
 const initialState = {
 	data: [],
@@ -8,25 +8,23 @@ const initialState = {
 
 const storage = (state = initialState, action) => {
 
-	let data = storageEdit(state, action);
+	let editRowData;
+	let data;
 
-	if (data !== null) {
-		return data;
-	}
 	// eslint-disable-next-line
 	switch (action.type) {
-		case 'dataForStore':
+		case Storage.init:
 			return {
 				...state,
 				data : action.data
 			};
-		case 'storeAddRow':
+		case RecordAdd.save:
 			return {
 				...state,
 				data : [action.data].concat(state.data)
 			};
 
-		case 'storeOnDelete':
+		case Storage.move:
 			data = [].concat(state.data);
 			data.splice(data.findIndex(row => row.id === action.data), 1);
 
@@ -34,7 +32,38 @@ const storage = (state = initialState, action) => {
 				...state,
 				data: data
 			};
+		case Storage.modeEdit:
+			const id = action.data;
 
+			return {
+				...state,
+				editRow: id,
+				editRowData: Object.assign({}, state.data.find(row => row.id === id))
+			};
+		case Storage.editClear:
+			return {
+				...state,
+				editRow: -1,
+				editRowData: false
+			};
+		case Storage.saved:
+			data = [].concat(state.data);
+			data[data.findIndex(row => row.id === state.editRow)] = Object.assign({}, state.editRowData);
+
+			return {
+				...state,
+				editRowData: false,
+				editRow: -1,
+				data: data
+			};
+		case Storage.edit:
+			editRowData = Object.assign({}, state.editRowData);
+			editRowData[action.data.type] = action.data.val;
+
+			return {
+				...state,
+				editRowData: editRowData
+			};
 	}
 
 	return state;

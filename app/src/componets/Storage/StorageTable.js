@@ -15,14 +15,14 @@ const StorageTable = (state) => {
 	let store = state.store;
 	let filters = state.filters;
 	let filterCategory = filters.categorySelect;
-
+	let filterCheckText = (data) => data.toLowerCase().indexOf(filters.searchText);
 	let rows = store.data.filter((row, inx) => !(
 		(filterCategory !== filters.categoryAll && row.category !== filterCategory) ||
 		(
-			row.login.toLowerCase().indexOf(filters.searchText) === -1 &&
-			row.pass.toLowerCase().indexOf(filters.searchText) === -1 &&
-			row.title.toLowerCase().indexOf(filters.searchText) === -1 &&
-			row.desc.toLowerCase().indexOf(filters.searchText) === -1
+			!~filterCheckText(row.login) &&
+			!~filterCheckText(row.pass) &&
+			!~filterCheckText(row.title) &&
+			!~filterCheckText(row.desc)
 		)
 	));
 

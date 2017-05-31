@@ -1,3 +1,5 @@
+import {StorageFilters} from '../../const/Events'
+
 const initialState = {
 	categorySelect: 2,
 	categoryAll   : 2,
@@ -12,17 +14,17 @@ const storageFilters = (state = initialState, action) => {
 
 	// eslint-disable-next-line
 	switch (action.type) {
-		case 'changeCategory':
+		case StorageFilters.chCat:
 			return {
 				...state,
 				categorySelect: action.data
 			};
-		case 'changeSearchText':
+		case StorageFilters.chText:
 			return {
 				...state,
 				searchText: action.data
 			};
-		case 'changeShowSearchText':
+		case StorageFilters.toggleText:
 			const show = !state.showSearchText;
 
 			return {
