@@ -31,7 +31,6 @@ const Storage =  (state) => {
 					<Categories/>
 				</Tab>
 			</Tabs>
-
 		</div>);
 };
 

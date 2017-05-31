@@ -53,8 +53,48 @@ module.exports.list = () => new Promise((ok, bad) => {
 			if (err) {
 				return bad(err);
 			}
+			let objList = [];
+			list.map(user => {
+				let newUser =Object.assign({}, user);
+				newUser._id = Number(user._id);
+				objList.push(newUser);
+			});
 
-			ok(list);
+			ok(objList);
 		})
 	});
+});
+
+const isValid = data => new Promise((ok, bad) => {
+	if (!data.login) {
+		return bad(libErr.valid('Login empty'));
+	}
+
+	if (!data.pass) {
+		return bad(libErr.valid('Pass empty'));
+	}
+
+	model.count({login : data.login}, (err, count) => {
+		if (err) {
+			return bad(err);
+		}
+
+		if (count === 0) {
+			return ok();
+		}
+
+		bad(libErr.valid('User no unique'));
+	});
+});
+
+module.exports.save = data => new Promise((ok, bad) => {
+	isValid(data)
+		.then(() => {
+			model.insert(data, (err, data) => {
+				if (err) {
+					return bad(err);
+				}
+				ok(Number(data[0]._id));
+			})
+		}, bad);
 });

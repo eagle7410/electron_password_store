@@ -7,8 +7,9 @@ import {Redirect} from 'react-router-dom';
 
 class DataLoader extends Component {
 
-	componentWillMount () {
-		let props = this.props;
+	constructor (props) {
+		super(props);
+		// let props = this.props;
 
 		fullData().then(res => {
 			props.dataForCategories(res.categories);

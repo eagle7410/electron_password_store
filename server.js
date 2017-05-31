@@ -23,6 +23,23 @@ const modelCategories = models.get(db, 'categories');
 
 module.exports = {
 	run : (mainWindow) => {
+		listen('POST-user', (res, action, data) => {
+
+			modelUsers.save(data)
+				.then(user => {
+					send.ok(res, action, user);
+				}).catch( err => {
+				switch (err.type) {
+					case libErr.constants.valid :
+						send.err(res, action, err.mess);
+						break;
+					default :
+						console.log('!ERR save user', err);
+						send.err(res, action, 'Server error no save.');
+				}
+			});
+		});
+
 		listen('PUT-category', (res, action, data) => {
 
 			modelCategories.updateSafe(data.id, data.name)

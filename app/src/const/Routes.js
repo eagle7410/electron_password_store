@@ -7,7 +7,7 @@ const routes = {
 	dataLoader: '/data-loader'
 };
 
-const afterAuth = routes.storage;
+const afterAuth = routes.users;
 const index     = routes.dataLoader;
 
 export {routes, afterAuth, index};
