@@ -1,7 +1,9 @@
 import {save, status, move, update} from '../utils/Req'
+import Routes from '../const/apiRoutes'
+import {Alert} from '../const/Messages'
 
 const add = (data) => new Promise((ok , bad) => {
-	save('user', data).then(
+	save(Routes.usr, data).then(
 		r => {
 			if (r.status === status.ok) {
 				return ok(r.data);
@@ -9,7 +11,7 @@ const add = (data) => new Promise((ok , bad) => {
 
 			bad(r.data);
 		},
-		e => bad('Sorry inner error. Go to support.')
+		e => bad(Alert.errorInner)
 	)
 });
 

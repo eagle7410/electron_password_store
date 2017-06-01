@@ -4,23 +4,22 @@ import LoadAnime from './LoadAnime'
 import {fullData}  from '../../api/Loader'
 import AlertStatus from '../../const/AlertStatus'
 import {Redirect} from 'react-router-dom';
-import {StorageCategory, Storage} from '../../const/Events'
+import {StorageCategory, Storage, Alert, DataLoader as DataLoaderEvent} from '../../const/Events'
+
 class DataLoader extends Component {
 
 	constructor (props) {
 		super(props);
-		// let props = this.props;
 
 		fullData().then(res => {
-			props.dataForCategories(res.categories);
-			props.dataForUsers(res.users);
-			props.dataForStore(res.storage);
-			props.dataForSettings(res.settings);
+			['Categories', 'Users', 'Storage', 'Settings'].forEach(
+				p => props['init'+p](res[p.toLowerCase()])
+			);
 			props.isLoadOk();
 
 		}, e => {
-			console.log('Error get data', e );
-			props.showAlert('No get data. Inner error. Go to support', AlertStatus.BAD);
+			console.log(Alert.noGetData, e );
+			props.showAlert(Alert.noGetData, AlertStatus.BAD);
 			props.isLoadBad();
 		});
 	}
@@ -37,13 +36,13 @@ export default connect(
 		store: state.dataLoader
 	}),
 	dispatch => ({
-		isLoadOk          : ()    => dispatch({type: 'dataLoadedOk'}),
-		isLoadBad         : ()    => dispatch({type: 'dataLoadedBad'}),
-		dataForStore      : data  => dispatch({type: Storage.init , data:data}),
-		dataForCategories : data  => dispatch({type: StorageCategory.init , data:data}),
-		dataForUsers      : data  => dispatch({type: 'dataForUsers' , data:data}),
-		dataForSettings   : data  => dispatch({type: 'dataForSettings' , data:data}),
-		showAlert  : (mess, type) => dispatch({type : 'alertShow', data: {
+		isLoadOk       : ()    => dispatch({type: DataLoaderEvent.ok}),
+		isLoadBad      : ()    => dispatch({type: DataLoaderEvent.bad}),
+		initUsers      : data  => dispatch({type: 'dataForUsers' , data:data}),
+		initStorage    : data  => dispatch({type: Storage.init , data:data}),
+		initSettings   : data  => dispatch({type: 'dataForSettings' , data:data}),
+		initCategories : data  => dispatch({type: StorageCategory.init , data:data}),
+		showAlert      : (mess, type) => dispatch({type : Alert.show, data: {
 			message : mess,
 			status  : type
 		}})

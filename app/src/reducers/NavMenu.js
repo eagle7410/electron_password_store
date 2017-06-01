@@ -1,3 +1,4 @@
+import {Login, NavMenu} from '../const/Events'
 
 const initialState = {
 	routeTo: '/',
@@ -8,18 +9,18 @@ const initialState = {
 const navMenu = (state = initialState, action) => {
 	// eslint-disable-next-line
 	switch (action.type) {
-		case 'goTo' :
+		case NavMenu.goto :
 			return {
 				...state,
 				routeForm : state.routeTo,
 				...action.data
 			};
-		case 'goToClear' :
+		case NavMenu.clear :
 			return {
 				...state,
 				routeForm : state.routeTo,
 			};
-		case 'logout':
+		case Login.logout:
 			return {
 				...initialState
 			}

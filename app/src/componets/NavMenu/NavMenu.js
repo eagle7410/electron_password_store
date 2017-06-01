@@ -4,6 +4,7 @@ import Menu from './Menu';
 import Navigate from './Navigate';
 //Const
 import {routes, afterAuth} from '../../const/Routes';
+import {NavMenu as NavMenuEvent} from '../../const/Events';
 
 class NavMenu extends Component {
 
@@ -51,7 +52,7 @@ export default connect(
 		store: state.navMenu
 	}),
 	dispatch => ({
-		goTo: route => dispatch({type: 'goTo', data: route}),
-		noRedirect : () => dispatch({type: 'goToClear'}),
+		goTo: route => dispatch({type: NavMenuEvent.goto, data: route}),
+		noRedirect : () => dispatch({type: NavMenuEvent.clear}),
 	})
 )(NavMenu);

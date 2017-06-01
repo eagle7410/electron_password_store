@@ -1,9 +1,11 @@
-
+const GoToSupport = 'Create ticket in support';
 const Alert = {
 	empty      : 'Data empty',
 	save       : 'Data saved',
-	errorInner : 'No save data. Inner error. Go to support',
-	noUserList : 'Sorry, login list not loaded'
+	noUserList : 'Sorry, login list not loaded.' + GoToSupport,
+	errorSave  : 'No save data. '+ GoToSupport,
+	noGetData  : 'Sorry, no loaded data.' + GoToSupport,
+	errorInner : 'Sorry, inner error.' + GoToSupport,
 };
 
 export default Alert;

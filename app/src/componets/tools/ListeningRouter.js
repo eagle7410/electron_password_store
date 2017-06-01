@@ -1,7 +1,5 @@
-// Workaround for React Router v4 blocked updates issue/feature
 // https://github.com/ReactTraining/react-router/blob/7f002d35deae5d32dcf27eef9ae9296d27028ee4/packages/react-router/docs/guides/blocked-updates.md
 // https://github.com/ReactTraining/react-router/issues/4671
-
 import React from "react";
 import {pick} from "lodash/fp";
 import {connect} from "react-redux";

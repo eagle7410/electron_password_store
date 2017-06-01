@@ -53,7 +53,7 @@ const AddForm = (state) => {
 			state.clear();
 			state.showAlert(AlertMessages.save, AlertStatus.OK);
 		}, err => {
-			state.showAlert(AlertMessages.errorInner, AlertStatus.BAD);
+			state.showAlert(AlertMessages.errorSave, AlertStatus.BAD);
 		});
 
 	};

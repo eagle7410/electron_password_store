@@ -1,7 +1,9 @@
+import Routes from '../const/apiRoutes'
 import {get, status} from '../utils/Req'
+import {Auth} from '../const/Messages'
 
 const loginList = () => new Promise((ok, bad) => {
-	get('users-list')
+	get(Routes.appInit)
 		.then(r => {
 			if (r.status === status.ok) {
 				return ok(r.data);
@@ -14,18 +16,17 @@ const loginList = () => new Promise((ok, bad) => {
 });
 
 const auth = (login, pass) => new Promise((ok, bad) => {
-	const messBad = 'No correct password';
 
-	get('auth', {login: login, pass: pass})
+	get(Routes.auth, {login: login, pass: pass})
 		.then(r => {
 			if (r.status === status.ok) {
 				return ok(r.data);
 			}
 
-			bad(messBad);
+			bad(Auth.passBad);
 		}, e => {
-			console.log('Err response auth', e);
-			bad(messBad)
+			console.log(Auth.authBad, e);
+			bad(Auth.passBad)
 		});
 });
 
