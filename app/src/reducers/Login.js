@@ -1,26 +1,51 @@
 import {Login} from '../const/Events'
 
 const initialState = {
-	login: false,
-	pass: false,
-	token: false,
-	list: [],
-	isLoad: true,
-	isLoaded: false,
-	isAuth: false,
-	errorPass : '',
+	pass       : false,
+	list       : [],
+	login      : false,
+	token      : false,
+	isAuth     : false,
+	isLoad     : true,
+	isLoaded   : false,
+	errorPass  : '',
 	errorLogin : ''
 };
 
 const login = (state = initialState, action) => {
 	/* eslint-disable default-case */
 	switch (action.type) {
-		case 'loginValidateBad':
+		case Login.authTry:
+			return {
+				...state,
+				errorPass: '',
+				errorLogin: '',
+			};
+		case Login.authOK:
+			return {
+				...state,
+				isAuth: true,
+				token: action.data
+			};
+		case Login.authBad:
+			return {
+				...state,
+				errorPass: action.data
+			};
+		case Login.validBad:
 			return {
 				...state,
 				...action.data
 			};
-		case 'loginOnLoadOk':
+		case Login.logout:
+			return {
+				...state,
+				login: false,
+				pass: false,
+				token: false,
+				isAuth: false,
+			};
+		case Login.initOk:
 			let newState = {
 				...state,
 				isLoad: false,
@@ -34,41 +59,13 @@ const login = (state = initialState, action) => {
 
 			return newState;
 
-		case 'loginOnLoginChange':
+		case Login.dataChange:
+			let data = {};
+			data[action.data.type] = action.data.val;
 			return {
 				...state,
-				login: action.data
+				...data
 			};
-		case 'loginOnPassChange':
-			return {
-				...state,
-				pass: action.data
-			};
-		case 'loginOnSubmit':
-			return {
-				...state,
-				errorPass: '',
-				errorLogin: '',
-			};
-		case 'loginOnAuthOk':
-			return {
-				...state,
-				isAuth: true,
-				token: action.data
-			};
-		case 'loginOnAuthBad':
-			return {
-				...state,
-				errorPass: action.data
-			};
-		case Login.logout:
-			return {
-				...state,
-				login: false,
-				pass: false,
-				token: false,
-				isAuth: false,
-			}
 	}
 
 	return state;

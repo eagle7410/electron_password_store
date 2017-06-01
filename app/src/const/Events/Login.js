@@ -2,14 +2,12 @@ const prefix = 'login';
 
 const Login = {
 	logout     : 'logout',
-	create     : prefix + 'Create',
-	createMode : prefix + 'ModeCreate',
-	edit       : prefix + 'Edit',
-	editMode   : prefix + 'ModeEdit',
-	editSave   : prefix + 'SaveEdit',
-	editCancel : prefix + 'CancelEdit',
-	move       : prefix + 'Delete',
-	moveCancel : prefix + 'CancelDelete',
+	initOk     : prefix + 'InitOk',
+	validBad   : prefix + 'ValidBad',
+	dataChange : prefix + 'DataChange',
+	authTry    : prefix + 'TryAuth',
+	authOK     : prefix + 'AuthOK',
+	authBad    : prefix + 'AuthBad',
 };
 
 export default Login;

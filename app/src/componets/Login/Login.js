@@ -87,16 +87,21 @@ export default connect(
 		navMenu: state.navMenu
 	}),
 	dispatch => ({
-		validateErrors : errs => dispatch({type: 'loginValidateBad', data : errs}),
-		onLoadedBad : err => dispatch({type: 'loginOnLoadBad', data : err}),
-		onLoadedOk: data => dispatch({type: 'loginOnLoadOk', data: data}),
-		onSubmit : () => dispatch({type: 'loginOnSubmit'}),
-		onAuthOk : token => dispatch({type: 'loginOnAuthOk', data: token}),
-		onAuthBad : err => dispatch({type: 'loginOnAuthBad', data: err}),
-		handelChangeLogin: data => dispatch({type: 'loginOnLoginChange', data: data}),
-		handelChangePass: data => dispatch({type: 'loginOnPassChange', data: data}),
-		logout : () =>dispatch({type : LoginEvent.logout}),
-		showAlert : (mess, type) => dispatch({type : AlertAction.show, data: {
+		validateErrors    : errs  => dispatch({type: LoginEvent.validBad, data : errs}),
+		onLoadedOk        : data  => dispatch({type: LoginEvent.initOk, data: data}),
+		onSubmit          : ()    => dispatch({type: LoginEvent.authTry}),
+		onAuthOk          : token => dispatch({type: LoginEvent.authOK, data: token}),
+		onAuthBad         : err   => dispatch({type: LoginEvent.authBad, data: err}),
+		handelChangeLogin : login => dispatch({type: LoginEvent.dataChange, data: {
+			type : 'login',
+			val  : login
+		}}),
+		handelChangePass  : pass  => dispatch({type:  LoginEvent.dataChange, data: {
+			type : 'pass',
+			val  : pass
+		}}),
+		logout            : ()           => dispatch({type : LoginEvent.logout}),
+		showAlert         : (mess, type) => dispatch({type : AlertAction.show, data: {
 			message : mess,
 			status  : type
 		}})
