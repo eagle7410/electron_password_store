@@ -7,6 +7,8 @@ import DataLoader from '../tools/DataLoader'
 //Const
 import {afterAuth} from '../../const/Routes';
 import AlertStatus from '../../const/AlertStatus';
+import {Alert as Messages} from '../../const/Messages';
+import {Alert as AlertAction, Login as LoginEvent} from '../../const/Events';
 
 class Login extends Component {
 	constructor (props) {
@@ -16,7 +18,7 @@ class Login extends Component {
 
 		if (that.props.store.isLoaded !== true) {
 			loginList().then(that.props.onLoadedOk, e => {
-				that.props.showAlert('Sorry, login list not loaded', AlertStatus.BAD);
+				that.props.showAlert(Messages.noUserList, AlertStatus.BAD);
 			});
 		}
 	}
@@ -93,8 +95,8 @@ export default connect(
 		onAuthBad : err => dispatch({type: 'loginOnAuthBad', data: err}),
 		handelChangeLogin: data => dispatch({type: 'loginOnLoginChange', data: data}),
 		handelChangePass: data => dispatch({type: 'loginOnPassChange', data: data}),
-		logout : () =>dispatch({type : 'logout'}),
-		showAlert : (mess, type) => dispatch({type : 'alertShow', data: {
+		logout : () =>dispatch({type : LoginEvent.logout}),
+		showAlert : (mess, type) => dispatch({type : AlertAction.show, data: {
 			message : mess,
 			status  : type
 		}})

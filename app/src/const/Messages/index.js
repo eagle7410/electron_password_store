@@ -5,6 +5,6 @@ import Alert from './Alert';
 export {
 	Confirm,
 	CategoryError,
-	Alert
+	Alert,
 };
 

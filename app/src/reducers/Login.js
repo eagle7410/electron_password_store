@@ -1,4 +1,5 @@
-/* eslint-disable default-case */
+import {Login} from '../const/Events'
+
 const initialState = {
 	login: false,
 	pass: false,
@@ -12,6 +13,7 @@ const initialState = {
 };
 
 const login = (state = initialState, action) => {
+	/* eslint-disable default-case */
 	switch (action.type) {
 		case 'loginValidateBad':
 			return {
@@ -59,7 +61,7 @@ const login = (state = initialState, action) => {
 				...state,
 				errorPass: action.data
 			};
-		case 'logout':
+		case Login.logout:
 			return {
 				...state,
 				login: false,

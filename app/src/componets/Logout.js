@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom';
+import {Login as LoginEvent} from '../const/Events';
 
 class Logout extends Component {
 	render () {
@@ -15,6 +16,6 @@ export default connect(
 		store: state.login
 	}),
 	dispatch => ({
-		logout : () =>dispatch({type : 'logout'})
+		logout : () =>dispatch({type : LoginEvent.logout})
 	})
 )(Logout);
