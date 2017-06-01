@@ -3,7 +3,7 @@ import {get, status} from '../utils/Req'
 import {Auth} from '../const/Messages'
 
 const loginList = () => new Promise((ok, bad) => {
-	get(Routes.appInit)
+	get(Routes.usrList)
 		.then(r => {
 			if (r.status === status.ok) {
 				return ok(r.data);
