@@ -54,7 +54,7 @@ let config = [
 ];
 
 module.exports = {
-	setModel : (dbModel) => model = dbModel,
+	setModel : (dbModel) => {model = dbModel; return module.exports },
 	config   : config.map(conf => {
 		conf.route = conf.route|| main;
 		return conf;

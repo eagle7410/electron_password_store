@@ -1,6 +1,6 @@
-const electron   = require('electron');
+const electron    = require('electron');
 const ipcRenderer = electron.ipcMain;
-
+const dialog      = electron.dialog;
 // Db
 const Engine = require('tingodb')();
 const dbPath = __dirname + '/db_test/tingo_db';
@@ -8,6 +8,7 @@ const db     = new Engine.Db(dbPath, {});
 const models = require('./db/tingo_db/models');
 
 // Messages
+const listenSdf        = require('./listeners_config/sdf');
 const listenAuth       = require('./listeners_config/auth');
 const listenUsers      = require('./listeners_config/users');
 const listenCategories = require('./listeners_config/categories');
@@ -35,13 +36,12 @@ const modelCategories = models.get(db, 'categories');
 
 module.exports = {
 	run: (mainWindow) => {
-		listenAuth.setModels(modelUsers, modelStorage, modelSettings, modelCategories);
-		listeners(listenAuth.config);
+		listeners(listenSdf.setDialog(dialog).setWindow(mainWindow).setModelStorage(modelStorage).config);
 
-		listenCategories.setModel(modelCategories);
-		listeners(listenCategories.config);
+		listeners(listenAuth.setModels(modelUsers, modelStorage, modelSettings, modelCategories).config);
 
-		listenUsers.setModel(modelUsers);
-		listeners(listenUsers.config);
+		listeners(listenCategories.setModel(modelCategories).config);
+
+		listeners(listenUsers.setModel(modelUsers).config);
 	}
 };

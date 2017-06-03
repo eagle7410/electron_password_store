@@ -6,7 +6,7 @@ const reqTypes = send.reqTypes;
 let model = null;
 
 module.exports = {
-	setModel: (dbModel) => model = dbModel,
+	setModel: (dbModel) => {model = dbModel; return module.exports},
 	config: [
 		{
 			type   : reqTypes.put,

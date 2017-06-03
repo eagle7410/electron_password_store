@@ -1,6 +1,7 @@
 /**
  * Created by igor on 23.04.17.
  */
+import { routerReducer } from 'react-router-redux';
 import {combineReducers} from 'redux';
 import {recordAdd} from './Storage/RecordAdd';
 import {storage} from './Storage/Storage';
@@ -12,7 +13,8 @@ import {login} from './Login';
 import {navMenu} from './NavMenu';
 import {alert} from './Alert'
 import {dataLoader} from './DataLoader'
-import { routerReducer } from 'react-router-redux';
+import {sdf} from './Settings/Sdf'
+import {sdfTools} from './Settings/SdfTools'
 
 const reducer = combineReducers({
 	routing: routerReducer,
@@ -25,7 +27,9 @@ const reducer = combineReducers({
 	alert,
 	dataConfirm,
 	dataLoader,
-	navMenu
+	navMenu,
+	sdf,
+	sdfTools
 });
 
 export {reducer};

@@ -1,4 +1,4 @@
-import {get, reqFull} from '../utils/Req'
+import {get} from '../utils/Req'
 import Routes from '../const/apiRoutes'
 
 const fullData = () => new Promise((ok, bad) => {

@@ -1,6 +1,7 @@
 const constants = {
 	valid : 'validation',
-	auth  : 'auth'
+	auth  : 'auth',
+	sdf   : 'sdf',
 };
 
 const valid = mess => ({
@@ -13,8 +14,14 @@ const auth = mess => ({
 	mess: mess || 'Bad password',
 });
 
+const sdf = mess => ({
+	type: constants.sdf,
+	mess: mess,
+});
+
 module.exports = {
 	constants : constants,
 	valid     : valid,
-	auth      : auth
+	auth      : auth,
+	sdf       : sdf
 };

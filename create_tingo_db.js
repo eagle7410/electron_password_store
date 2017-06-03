@@ -79,7 +79,6 @@ const showUsers = () => new Promise((ok, bad) => {
 				return bad();
 			}
 
-			// TODO: clear
 			console.log('User', users);
 			ok();
 		})
@@ -99,7 +98,6 @@ const showCategories = () => new Promise((ok, bad) => {
 				return bad();
 			}
 
-			// TODO: clear
 			console.log('categories', categories);
 			ok();
 		})

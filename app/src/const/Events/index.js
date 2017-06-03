@@ -8,6 +8,7 @@ import NavMenu from './NavMenu';
 import Login from './Login';
 import Alert from './Alert';
 import Users from './Users';
+import Sdf from './Sdf';
 
 export {
 	StorageCategory,
@@ -20,4 +21,5 @@ export {
 	Alert,
 	Login,
 	Users,
+	Sdf
 };

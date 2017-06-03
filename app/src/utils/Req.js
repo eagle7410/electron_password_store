@@ -81,19 +81,22 @@ const reqFull = (
 	method,
 	url,
 	data = null,
-	success = (r, ok, bad) => r.status === status.ok ? ok(r.data) : bad(r.data),
+	success,
 	fail = (e, bad) => bad(Alert.errorInner),
 	headers = {}
 ) => new Promise(
-	(ok, bad) => method(url, data, headers)
-		.then(
-			r => success(r, ok, bad),
-			e => {
-				console.log(`Response error in ${url} ${method.name}`, e);
-				fail(e, bad, ok)
-			}
-		)
-);
+	(ok, bad) => {
+		success = success || ((r, ok, bad) => r.status === status.ok ? ok(r.data) : bad(r.data));
+
+		method(url, data, headers)
+			.then(
+				r => success(r, ok, bad),
+				e => {
+					console.log(`Response error in ${url} ${method.name}`, e);
+					fail(e, bad, ok)
+				}
+			)
+	});
 
 
 export {save, get, move, update, status, reqFull};

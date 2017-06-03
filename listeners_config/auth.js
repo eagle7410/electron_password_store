@@ -13,6 +13,8 @@ module.exports = {
 		modelSettings   = storage;
 		modelStorage    = settings;
 		modelCategories = categories;
+
+		return module.exports;
 	},
 	config : [
 		{
@@ -82,7 +84,7 @@ module.exports = {
 
 					if (err) {
 						console.log('!ERR ' + Routes.appInit, err);
-						send.err(res, action, 'Error get ' + Routes.appInit);
+						return send.err(res, action, 'Error get ' + Routes.appInit);
 					}
 
 					send.ok(res, action, data);
