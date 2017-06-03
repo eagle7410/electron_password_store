@@ -1,5 +1,7 @@
+import {Alert} from '../const/Messages'
+
 const electron = window.require('electron');
-const ipcRenderer  = electron.ipcRenderer;
+const ipcRenderer = electron.ipcRenderer;
 
 /**
  * Send to server.
@@ -11,11 +13,11 @@ const ipcRenderer  = electron.ipcRenderer;
  * @return {Promise}
  */
 const send = (url, data, method, headers) => new Promise((resolve) => {
-	const action = `${method}-${url}`;
+	const action = `${method}->${url}`;
 
 	ipcRenderer.send(action, data);
 
-	ipcRenderer.on(action +'-response', (event, data) => {
+	ipcRenderer.on(action + '-response', (event, data) => {
 		resolve(data);
 	})
 });
@@ -28,7 +30,7 @@ const send = (url, data, method, headers) => new Promise((resolve) => {
  * @param  {*} headers
  * @return {Promise}
  */
-const save   = (url, data, headers) => send(url, data, 'POST', headers);
+const save = (url, data, headers) => send(url, data, 'post', headers);
 /**
  * Send for get.
  * @method save
@@ -37,7 +39,7 @@ const save   = (url, data, headers) => send(url, data, 'POST', headers);
  * @param  {*} headers
  * @return {Promise}
  */
-const get    = (url, data, headers) => send(url, data, 'GET', headers);
+const get = (url, data, headers) => send(url, data, 'get', headers);
 /**
  * Send for delete.
  * @method save
@@ -46,7 +48,7 @@ const get    = (url, data, headers) => send(url, data, 'GET', headers);
  * @param  {*} headers
  * @return {Promise}
  */
-const move = (url, data, headers) => send(url, data, 'DELETE', headers);
+const move = (url, data, headers) => send(url, data, 'delete', headers);
 /**
  * Send for update.
  * @method save
@@ -55,13 +57,43 @@ const move = (url, data, headers) => send(url, data, 'DELETE', headers);
  * @param  {*} headers
  * @return {Promise}
  */
-const update = (url, data, headers) => send(url, data, 'PUT', headers);
+const update = (url, data, headers) => send(url, data, 'put', headers);
 /**
  * Status response.
  * @type {{ok: string, err: string}}
  */
 const status = {
-	ok  : 'OK',
-	err : 'BAD'
+	ok: 'OK',
+	err: 'BAD'
 };
-export { save, get, move, update, status};
+
+/**
+ * This do it request to server.
+ * If response bad show standard message.
+ * @param {function} method
+ * @param {string} url
+ * @param {*} data
+ * @param {function} success
+ * @param {function} fail
+ * @param {object} headers
+ */
+const reqFull = (
+	method,
+	url,
+	data = null,
+	success = (r, ok, bad) => r.status === status.ok ? ok(r.data) : bad(r.data),
+	fail = (e, bad) => bad(Alert.errorInner),
+	headers = {}
+) => new Promise(
+	(ok, bad) => method(url, data, headers)
+		.then(
+			r => success(r, ok, bad),
+			e => {
+				console.log(`Response error in ${url} ${method.name}`, e);
+				fail(e, bad, ok)
+			}
+		)
+);
+
+
+export {save, get, move, update, status, reqFull};

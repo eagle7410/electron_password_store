@@ -65,12 +65,12 @@ module.exports.list = () => new Promise((ok, bad) => {
 	});
 });
 
-const isValid = data => new Promise((ok, bad) => {
+const isValid = (data, action = 'create') => new Promise((ok, bad) => {
 	if (!data.login) {
 		return bad(libErr.valid('Login empty'));
 	}
 
-	if (!data.pass) {
+	if (!data.pass && action === 'create') {
 		return bad(libErr.valid('Pass empty'));
 	}
 
@@ -95,6 +95,23 @@ module.exports.save = data => new Promise((ok, bad) => {
 					return bad(err);
 				}
 				ok(Number(data[0]._id));
+			})
+		}, bad);
+});
+
+module.exports.delete = id => new Promise((ok, bad) => {
+	model.remove({_id :id}, err => err ? bad(err) : ok());
+});
+
+module.exports.updateSafe = (data) => new Promise((ok, bad) => {
+	isValid(data, 'update')
+		.then(() => {
+			model.update({_id: data.id}, {login : data.login }, err => {
+				if (err) {
+					return bad(err);
+				}
+
+				ok();
 			})
 		}, bad);
 });

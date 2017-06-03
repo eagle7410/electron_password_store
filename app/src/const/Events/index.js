@@ -7,6 +7,7 @@ import Storage from './Storage';
 import NavMenu from './NavMenu';
 import Login from './Login';
 import Alert from './Alert';
+import Users from './Users';
 
 export {
 	StorageCategory,
@@ -18,4 +19,5 @@ export {
 	Confirm,
 	Alert,
 	Login,
+	Users,
 };

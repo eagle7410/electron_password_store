@@ -1,18 +1,9 @@
-import {save, status, move, update} from '../utils/Req'
+import {save, move, update, reqFull} from '../utils/Req'
 import Routes from '../const/apiRoutes'
-import {Alert} from '../const/Messages'
 
-const add = (data) => new Promise((ok , bad) => {
-	save(Routes.usr, data).then(
-		r => {
-			if (r.status === status.ok) {
-				return ok(r.data);
-			}
+const type = Routes.usr;
+const add  = data => reqFull(save, type, data);
+const edit = data => reqFull(update, type, data);
+const del  = id   => reqFull(move, type, id);
 
-			bad(r.data);
-		},
-		e => bad(Alert.errorInner)
-	)
-});
-
-export {add};
+export {add, edit, del};

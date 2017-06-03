@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ActionAdd from 'material-ui/svg-icons/content/add-circle';
 import {add} from '../../api/User'
 import AlertStatus from '../../const/AlertStatus'
+import {Users, Alert} from '../../const/Events'
 
 const UsersTools = (state) => {
 	let store = state.store;
@@ -32,9 +33,7 @@ const UsersTools = (state) => {
 				_id : id,
 			});
 			state.showAlert('User is saved.', AlertStatus.OK);
-		}, err => {
-			state.showAlert(err, AlertStatus.BAD);
-		});
+		}, err => state.showAlert(err, AlertStatus.BAD) );
 	};
 
 	return (
@@ -67,11 +66,17 @@ export default connect(
 		store: state.users
 	}),
 	dispatch => ({
-		onChangeAddName : ev => dispatch({type : 'storeOnChangeAddNameUser', data : ev.target.value}),
-		onChangeAddPass : ev => dispatch({type : 'storeOnChangeAddPassUser', data : ev.target.value}),
-		save : (data) => dispatch({type : 'storeAddUser', data : data}),
+		onChangeAddName : ev => dispatch({type : Users.createWrite, data : {
+			type : 'addName',
+			val  : ev.target.value,
+		}}),
+		onChangeAddPass : ev => dispatch({type : Users.createWrite, data : {
+			type : 'addPass',
+			val  : ev.target.value,
+		}}),
+		save : (data) => dispatch({type : Users.create, data : data}),
 		showAlert: (mess, type) => dispatch({
-			type: 'alertShow', data: {
+			type: Alert.show, data: {
 				message: mess,
 				status: type
 			}

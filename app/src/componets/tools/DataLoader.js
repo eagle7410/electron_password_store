@@ -4,7 +4,8 @@ import LoadAnime from './LoadAnime'
 import {fullData}  from '../../api/Loader'
 import AlertStatus from '../../const/AlertStatus'
 import {Redirect} from 'react-router-dom';
-import {StorageCategory, Storage, Alert, DataLoader as DataLoaderEvent} from '../../const/Events'
+import {StorageCategory, Storage, Alert, DataLoader as DataLoaderEvent, Users} from '../../const/Events'
+import {Alert as AlertMess} from '../../const/Messages'
 
 class DataLoader extends Component {
 
@@ -18,8 +19,8 @@ class DataLoader extends Component {
 			props.isLoadOk();
 
 		}, e => {
-			console.log(Alert.noGetData, e );
-			props.showAlert(Alert.noGetData, AlertStatus.BAD);
+			console.log(AlertMess.noGetData, e );
+			props.showAlert(AlertMess.noGetData, AlertStatus.BAD);
 			props.isLoadBad();
 		});
 	}
@@ -38,7 +39,7 @@ export default connect(
 	dispatch => ({
 		isLoadOk       : ()    => dispatch({type: DataLoaderEvent.ok}),
 		isLoadBad      : ()    => dispatch({type: DataLoaderEvent.bad}),
-		initUsers      : data  => dispatch({type: 'dataForUsers' , data:data}),
+		initUsers      : data  => dispatch({type: Users.init , data:data}),
 		initStorage    : data  => dispatch({type: Storage.init , data:data}),
 		initSettings   : data  => dispatch({type: 'dataForSettings' , data:data}),
 		initCategories : data  => dispatch({type: StorageCategory.init , data:data}),

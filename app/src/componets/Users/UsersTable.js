@@ -29,8 +29,8 @@ const UsersTable = (state) => {
 				{
 					rows.map(row =>
 						row._id === store.onEdit
-							? <RowEdit key={`store_cat_${row._id}`} id={row._id} row={row} />
-							: <RowShow key={`store_cat_${row._id}`} id={row._id} row={row} />
+							? <RowEdit key={`store_cat_${row._id}`} id={String(row._id)} row={row} />
+							: <RowShow key={`store_cat_${row._id}`} id={String(row._id)} row={row} />
 					)
 				}
 			</TableBody>

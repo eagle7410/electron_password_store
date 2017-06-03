@@ -20,8 +20,17 @@ let send = (res, action, status, data) => {
 
 module.exports = {
 	/**
+	 * Request types.
+	 */
+	reqTypes : {
+		post : 'post',
+		get  : 'get',
+		del  : 'delete',
+		put  : 'put'
+	},
+	/**
 	 * Constant for response
-	 * @type {ok:string, err: string}
+	 * @type {{ok:string, err: string}}
 	 */
 	constant : {
 		ok : ok,

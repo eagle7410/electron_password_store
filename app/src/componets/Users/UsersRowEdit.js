@@ -4,18 +4,21 @@ import { TableRowColumn, TableRow } from 'material-ui/Table';
 import ActionButtonSave from '../tools/ActionButtonSave'
 import ActionButtonCancel from '../tools/ActionButtonCancel'
 import TextField from 'material-ui/TextField';
-import {edit} from '../../api/Category'
+import {edit} from '../../api/User'
 import AlertStatus from '../../const/AlertStatus'
+import {Users, Alert} from '../../const/Events'
 
-const CategoriesRowEdit = (state) => {
+const UsersRowEdit = (state) => {
 	const store = state.store;
 
 	const saveEdit = () => {
-		edit(state.id, store.editName)
-			.then(
-				r => state.onSaveEdit(state.id),
-				e => state.showAlert(e, AlertStatus.BAD)
-			);
+		edit({
+			id :state.id,
+			login :store.editName
+		}).then(
+			r => state.onSaveEdit(state.id),
+			e => state.showAlert(e, AlertStatus.BAD)
+		);
 	};
 
 	return (
@@ -23,7 +26,7 @@ const CategoriesRowEdit = (state) => {
 			<TableRowColumn style={{overflow: 'visible'}}>
 				<ActionButtonCancel onTouch={state.onCancel}/>
 				<ActionButtonSave onTouch={saveEdit}/>
-				<TextField value={store.editName} id={state.id} onChange={state.onEditCategory}/>
+				<TextField value={store.editName} id={state.id} onChange={state.onEdit}/>
 			</TableRowColumn>
 		</TableRow>
 	);
@@ -31,17 +34,17 @@ const CategoriesRowEdit = (state) => {
 
 export default connect(
 	state => ({
-		store: state.storageCategories,
+		store: state.users,
 	}),
 	dispatch => ({
-		onCancel : () => dispatch({type : 'storeOnCancelEditCategory'}),
-		onSaveEdit : () => dispatch({type : 'storeOnSaveEditCategory'}),
-		onEditCategory: event => dispatch({type : 'storeChangeEditCategory', data: event.target.value}),
+		onCancel : () => dispatch({type : Users.editCancel}),
+		onSaveEdit : () => dispatch({type : Users.editSave}),
+		onEdit: event => dispatch({type : Users.edit, data: event.target.value}),
 		showAlert: (mess, type) => dispatch({
-			type: 'alertShow', data: {
+			type: Alert.show, data: {
 				message: mess,
 				status: type
 			}
 		}),
 	})
-)(CategoriesRowEdit);
+)(UsersRowEdit);
