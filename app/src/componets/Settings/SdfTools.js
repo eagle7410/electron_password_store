@@ -6,7 +6,8 @@ import ActionAdd from 'material-ui/svg-icons/content/add-circle';
 import ActionClear from 'material-ui/svg-icons/content/remove-circle';
 import ActionLoad from 'material-ui/svg-icons/file/file-download';
 import {path, load} from '../../api/Sdf'
-import {Sdf} from '../../const/Events'
+import {list} from '../../api/Storage'
+import {Sdf, Storage} from '../../const/Events'
 
 const SdfTools = (state) => {
 	let store = state.store;
@@ -16,30 +17,36 @@ const SdfTools = (state) => {
 
 		state.onLoad();
 
-		load(state.data.filePath).then(state.onLoadOk, state.onLoadBad);
+		load(state.data.filePath)
+			.then(list)
+			.then(data => {
+				state.storeInit(data);
+				state.onLoadOk();
+			})
+			.catch(state.onLoadBad);
 	};
 
 	return (
 		<Toolbar>
 			<ToolbarGroup >
-				<ToolbarTitle text="Tools"/>
+				<ToolbarTitle text='Tools'/>
 				<ToolbarSeparator />
 				<RaisedButton
-					label="Load Sdf"
+					label='Load Sdf'
 					secondary={true}
 					onTouchTap={loadSdf}
 					disabled={!store.buttonLoad}
 					icon={<ActionLoad />}
 				/>
 				<RaisedButton
-					label="Clear Sdf"
+					label='Clear Sdf'
 					primary={true}
 					disabled={!store.buttonClear}
 					onTouchTap={state.clear}
 					icon={<ActionClear />}
 				/>
 				<RaisedButton
-					label="Add Sdf"
+					label='Add Sdf'
 					primary={true}
 					disabled={!store.buttonAdd}
 					onTouchTap={add}
@@ -60,7 +67,8 @@ export default connect(
 		addPath   : path => dispatch({type : Sdf.add , data : path}),
 		onLoad    : ()   => dispatch({type : Sdf.loadRun}),
 		onLoadOk  : ()   => dispatch({type : Sdf.loadOk }),
+		storeInit : data => dispatch({type : Storage.init , data : data}),
 		onLoadBad : data => dispatch({type : Sdf.loadBad, data: data }),
-		clear     : ()   => dispatch({type : Sdf.clear}),
+		clear     : ()   => dispatch({type : Sdf.clear})
 	})
 )(SdfTools);

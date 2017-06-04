@@ -3,10 +3,21 @@ const send   = require('../libs/send');
 const libErr = require('../libs/errors');
 
 const reqTypes = send.reqTypes;
+const main = Routes.store;
 let model = null;
-let main  = Routes.store;
 
 let config = [
+	{
+		handel : (res, action) => {
+			model.list().then(
+				data => send.ok(res, action, data),
+				err  => {
+					 console.log('Error get list ' + main, err);
+					 send.err(res, action, 'Error get data list')
+					}
+			);
+		}
+	},
 	{
 		type   : reqTypes.post,
 		handel : (res, action, data) => {

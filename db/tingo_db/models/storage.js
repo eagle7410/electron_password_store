@@ -1,4 +1,5 @@
 const async = require('async');
+const libErr = require('../../../libs/errors');
 let model   = null;
 
 module.exports.init = db => {
@@ -26,7 +27,7 @@ const isValid = (data, action = 'create') => new Promise((ok, bad) => {
 			return bad(err);
 		}
 
-		if (count === 0) {
+		if (count === 0 || action === 'update') {
 			return ok();
 		}
 

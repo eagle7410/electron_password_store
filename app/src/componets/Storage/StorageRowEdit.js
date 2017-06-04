@@ -5,8 +5,9 @@ import ActionButtonCancel from '../tools/ActionButtonCancel'
 import { TableRowColumn, TableRow } from 'material-ui/Table';
 import StorageCategoriesList from './StorageCategoriesList'
 import TextField from 'material-ui/TextField';
-import {Storage} from '../../const/Events'
+import {Storage, Alert} from '../../const/Events'
 import {edit} from '../../api/Storage'
+import AlertStatus from '../../const/AlertStatus'
 
 const StorageRowEdit = (state) => {
 	const store = state.store;
@@ -21,7 +22,7 @@ const StorageRowEdit = (state) => {
 			answer   : row.answer,
 			desc     : row.desc,
 			category : row.category
-		}).then(state.onSaveEdit);
+		}).then(state.onSaveEdit, err => state.showAlert(err, AlertStatus.BAD));
 	};
 
 	return (
@@ -58,6 +59,12 @@ export default connect(
 		onEditText: (type,val) => dispatch({type : Storage.edit, data: {
 			type : type,
 			val  : val
-		}})
+		}}),
+		showAlert: (mess, type) => dispatch({
+			type: Alert.show, data: {
+				message: mess,
+				status: type
+			}
+		})
 	})
 )(StorageRowEdit);
