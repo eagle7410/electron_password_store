@@ -55,6 +55,6 @@ export default connect(
 				message: mess,
 				status: type
 			}
-		}),
+		})
 	})
 )(CategoriesRowShow);

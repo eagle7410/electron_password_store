@@ -1,10 +1,10 @@
-import {get, save , reqFull} from '../utils/Req'
-let startID = 4;
+import {get, update, save , move, reqFull} from '../utils/Req'
+import Routes from '../const/apiRoutes'
 
-const addRecord = data => new Promise((ok , bad) => {
-	startID++;
-	data.id = startID;
-	ok(data);
-});
+const type = Routes.store;
+const addRecord  = data => reqFull(save, type, data);
+const edit = data => reqFull(update, type, data);
 
-export {addRecord};
+const del  = id   => reqFull(move, type, id);
+
+export {addRecord, edit, del};

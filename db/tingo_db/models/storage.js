@@ -1,4 +1,5 @@
-let model = null;
+const async = require('async');
+let model   = null;
 
 module.exports.init = db => {
 	model = db.collection('storage');
@@ -6,6 +7,90 @@ module.exports.init = db => {
 };
 
 module.exports.model = null;
+
+const isValid = (data, action = 'create') => new Promise((ok, bad) => {
+	if (!data.category) {
+		return bad(libErr.valid('Record must have category'));
+	}
+
+	if (!data.title && !data.login) {
+		return bad(libErr.valid('Record must have title or login'));
+	}
+
+	model.count({
+		category : data.category,
+		title    : data.title,
+		login    : data.login
+	}, (err, count) => {
+		if (err) {
+			return bad(err);
+		}
+
+		if (count === 0) {
+			return ok();
+		}
+
+		bad(libErr.valid('Record no unique'));
+	});
+});
+
+module.exports.save = data => new Promise((ok, bad) => {
+	isValid(data)
+		.then(() => {
+			model.insert(data, (err, data) => {
+				if (err) {
+					return bad(err);
+				}
+
+				let rec = Object.assign({}, data[0]);
+				rec._id = Number(rec._id);
+				ok(rec);
+			})
+		}, bad);
+});
+
+module.exports.delete = id => new Promise((ok, bad) => {
+	model.remove({_id : id}, err => err ? bad(err) : ok());
+});
+
+module.exports.updateSafe = (data) => new Promise((ok, bad) => {
+	isValid(data, 'update')
+		.then(() => {
+			let setData = Object.assign({}, data);
+			delete setData._id;
+			model.update({_id: data._id}, setData, err => {
+				if (err) {
+					return bad(err);
+				}
+
+				ok();
+			})
+		}, bad);
+});
+
+module.exports.addMany = data => new Promise((ok, bad) => {
+	async.forEach(data, (rec, next) => {
+		model.findOne({
+				category : rec.category,
+				title    : rec.title,
+				login    : rec.login
+			}, (err, doc) => {
+				if (err) {
+					return next(err);
+				}
+
+				if (!doc) {
+					return model.insert(rec, e => next(e));
+				}
+
+				if (rec._id) {
+					delete rec._id;
+				}
+
+				model.update({_id: doc._id}, rec, next);
+			});
+	}, err => err ? bad(err) : ok());
+});
 
 module.exports.list = () => new Promise((ok, bad) => {
 	model.find({},  (err, cur) => {
@@ -22,7 +107,7 @@ module.exports.list = () => new Promise((ok, bad) => {
 
 			list.map(rec => {
 				let newRec = Object.assign({}, rec);
-				newRec.id = rec._id;
+				newRec.id = Number(rec._id);
 				delete newRec._id;
 				arStore.push(newRec);
 			});

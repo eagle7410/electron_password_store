@@ -5,7 +5,8 @@ const Routes = {
 	usr     : 'user',
 	usrList : 'users-list',
 	sdfPath : 'sdf-path',
-	sdfLoad : 'sdf-load'
+	sdfLoad : 'sdf-load',
+	store   : 'storage'
 };
 
 module.exports = Routes;

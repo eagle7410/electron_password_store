@@ -6,17 +6,29 @@ import { TableRowColumn, TableRow } from 'material-ui/Table';
 import StorageCategoriesList from './StorageCategoriesList'
 import TextField from 'material-ui/TextField';
 import {Storage} from '../../const/Events'
+import {edit} from '../../api/Storage'
 
 const StorageRowEdit = (state) => {
 	const store = state.store;
 	const row = store.editRowData;
 	const id = row.id;
+	const save = () => {
+		edit({
+			_id      : store.editRow,
+			title    : row.title,
+			login    : row.login,
+			pass     : row.pass,
+			answer   : row.answer,
+			desc     : row.desc,
+			category : row.category
+		}).then(state.onSaveEdit);
+	};
 
 	return (
 		<TableRow >
 			<TableRowColumn style={{overflow: 'visible'}}>
 				<ActionButtonCancel onTouch={state.onCancel}/>
-				<ActionButtonSave onTouch={state.onSaveEdit}/>
+				<ActionButtonSave onTouch={save}/>
 			</TableRowColumn>
 			<TableRowColumn children={<StorageCategoriesList onEdit={state.onEditCategory} keyPrev={'catEdit' + id} val={row.category} />}/>
 			<TableRowColumn children={<TextField id={`edtT_${id}`} value={row.title} onChange={ev => state.onEditText('title', ev.target.value)}/>} />
@@ -30,7 +42,7 @@ const StorageRowEdit = (state) => {
 
 export default connect(
 	state => ({
-		store: state.storage,
+		store: state.storage
 	}),
 	dispatch => ({
 		onCancel   : () => dispatch({type : Storage.editClear}),

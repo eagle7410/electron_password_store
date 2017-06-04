@@ -26,16 +26,8 @@ let config = [
 		type   : reqTypes.post,
 		route  : Routes.sdfLoad,
 		handel : (res, action, data) => {
-
 			sdf.content(data)
-				.then(data => new Promise((ok, bad) => {
-					modelStorage.model.insert(data, (err) => {
-						if (err) {
-							return bad(err);
-						}
-						ok();
-					})
-				}))
+				.then(modelStorage.addMany)
 				.then(() => send.ok(res, action))
 				.catch(err => {
 					let mess = 'Sorry inner error';
@@ -49,12 +41,18 @@ let config = [
 					send.err(res, action, mess);
 				});
 		}
-	},
+	}
 ];
 
 module.exports = {
-	setWindow: win => {mainWindow = win; return module.exports;},
-	setModelStorage: model => {modelStorage = model; return module.exports;},
-	setDialog: dialogComponent => { dialog = dialogComponent; return module.exports;},
+	setWindow: win => {
+		mainWindow = win; return module.exports;
+	},
+	setModelStorage: model => {
+		modelStorage = model; return module.exports;
+	},
+	setDialog: dialogComponent => {
+		dialog = dialogComponent; return module.exports;
+	},
 	config   : config
 };

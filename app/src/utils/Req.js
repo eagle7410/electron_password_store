@@ -14,7 +14,8 @@ const ipcRenderer = electron.ipcRenderer;
  */
 const send = (url, data, method, headers) => new Promise((resolve) => {
 	const action = `${method}->${url}`;
-
+	//TODO IGOR: clear
+	console.log('action', action, data);
 	ipcRenderer.send(action, data);
 
 	ipcRenderer.on(action + '-response', (event, data) => {
@@ -82,11 +83,12 @@ const reqFull = (
 	url,
 	data = null,
 	success,
-	fail = (e, bad) => bad(Alert.errorInner),
+	fail,
 	headers = {}
 ) => new Promise(
 	(ok, bad) => {
 		success = success || ((r, ok, bad) => r.status === status.ok ? ok(r.data) : bad(r.data));
+		fail = fail || ((e, bad) => bad(Alert.errorInner))
 
 		method(url, data, headers)
 			.then(

@@ -5,13 +5,27 @@ import ActionButtonDelete from '../tools/ActionButtonDelete'
 import ActionButtonEdit from '../tools/ActionButtonEdit'
 import {Storage, Confirm as ConfirmAction} from '../../const/Events'
 import {Confirm} from '../../const/Messages'
+import AlertStatus from '../../const/AlertStatus'
+import {del} from '../../api/Storage'
 
 const StorageRowShow = (state) => {
 	const row = state.row;
+	const onDelete = id => {
+
+		state.confirm(id, ()=> new Promise((ok, bad) => {
+			del(id).then(r => ok(true), e => {
+				console.log(Storage.move, e);
+				state.showAlert(Storage.move, AlertStatus.BAD);
+				bad();
+			});
+		}));
+
+	};
+
 	return (
 		<TableRow >
 			<TableRowColumn style={{overflow: 'visible'}}>
-				<ActionButtonDelete id={row.id} onTouch={state.onDelete}/>
+				<ActionButtonDelete id={row.id} onTouch={onDelete}/>
 				<ActionButtonEdit id={row.id} onTouch={state.onEdit}/>
 			</TableRowColumn>
 			<TableRowColumn>{state.categories.list[row.category]}</TableRowColumn>
@@ -33,15 +47,15 @@ export default connect(
 	}),
 	dispatch => ({
 		onEdit : id => dispatch({type : Storage.modeEdit, data : id}),
-		onDelete : id => dispatch({
+		confirm : (id, backPromise) => dispatch({
 			type : ConfirmAction.show,
 			data : {
-				actionCancel   : Storage.cancelMove,
-				actionConfirm  : Storage.move,
-				question       : Confirm.question,
-				dataConfirm    : id
-
+				actionCancel       : Storage.moveCancel,
+				actionConfirm      : Storage.move,
+				question           : Confirm.question,
+				dataConfirm        : id,
+				callPromiseConfirm : backPromise
 			}
-		}),
+		})
 	})
 )(StorageRowShow);

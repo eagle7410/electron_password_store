@@ -10,8 +10,8 @@ let modelCategories = null;
 module.exports = {
 	setModels: (user, storage, settings, categories) => {
 		modelUsers      = user;
-		modelSettings   = storage;
-		modelStorage    = settings;
+		modelSettings   = settings;
+		modelStorage    = storage;
 		modelCategories = categories;
 
 		return module.exports;
