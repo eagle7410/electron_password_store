@@ -11,6 +11,7 @@ const models = require('./db/tingo_db/models');
 const listenSdf        = require('./listeners_config/sdf');
 const listenAuth       = require('./listeners_config/auth');
 const listenUsers      = require('./listeners_config/users');
+const listenCould      = require('./listeners_config/drop-box');
 const listenStorage    = require('./listeners_config/storage');
 const listenCategories = require('./listeners_config/categories');
 const send             = require('./libs/send');
@@ -38,14 +39,12 @@ const modelCategories = models.get(db, 'categories');
 
 module.exports = {
 	run: (mainWindow) => {
+
+		listeners(listenCould.setModel(modelSettings).config);
 		listeners(listenStorage.setModel(modelStorage).config);
-
 		listeners(listenSdf.setDialog(dialog).setWindow(mainWindow).setModelStorage(modelStorage).config);
-
 		listeners(listenAuth.setModels(modelUsers, modelStorage, modelSettings, modelCategories).config);
-
 		listeners(listenCategories.setModel(modelCategories).config);
-
 		listeners(listenUsers.setModel(modelUsers).config);
 	}
 };

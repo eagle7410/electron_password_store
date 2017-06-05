@@ -15,6 +15,8 @@ import {alert} from './Alert'
 import {dataLoader} from './DataLoader'
 import {sdf} from './Settings/Sdf'
 import {sdfTools} from './Settings/SdfTools'
+import {dropBoxSettingsForm} from './Settings/DropBoxSettingsForm'
+import {dropBoxConnectSteps} from './Settings/DropBoxConnectSteps'
 
 const reducer = combineReducers({
 	routing: routerReducer,
@@ -29,7 +31,9 @@ const reducer = combineReducers({
 	dataLoader,
 	navMenu,
 	sdf,
-	sdfTools
+	sdfTools,
+	dropBoxSettingsForm,
+	dropBoxConnectSteps
 });
 
 export {reducer};

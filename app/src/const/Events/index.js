@@ -1,5 +1,7 @@
 import StorageCategory from './StorageCategory';
 import StorageFilters  from './StorageFilters';
+import StepsConnect from './StepsConnect'
+import DropBoxForm from './DropBoxForm';
 import DataLoader from './DataLoader';
 import RecordAdd  from './RecordAdd';
 import Confirm from './Confirm';
@@ -13,8 +15,10 @@ import Sdf from './Sdf';
 export {
 	StorageCategory,
 	StorageFilters,
-	RecordAdd,
+	StepsConnect,
+	DropBoxForm,
 	DataLoader,
+	RecordAdd,
 	Storage,
 	NavMenu,
 	Confirm,

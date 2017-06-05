@@ -79,7 +79,7 @@ module.exports = {
 								cb(null, dt)
 							})
 							.catch(cb);
-					},
+					}
 				], (err, data) => {
 
 					if (err) {
@@ -87,6 +87,22 @@ module.exports = {
 						return send.err(res, action, 'Error get ' + Routes.appInit);
 					}
 
+					let settings = {};
+
+					data.settings.map( sett => {
+
+						switch (sett.type) {
+							case modelSettings.typeDBox:
+								settings[modelSettings.typeDBox] = {
+									apiData : sett.apiData,
+									accessToken : sett.accessToken ? true : false
+								}
+						}
+					})
+
+					data.settings = settings;
+					// TODO: clear
+					console.log('data.settings', data.settings);
 					send.ok(res, action, data);
 
 				});

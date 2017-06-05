@@ -26,25 +26,13 @@ const StorageTable = (state) => {
 		)
 	));
 
-	let headColumns = [];
-
-	const headColumnsLabel =[
-		'Actions',
-		'Category',
-		'Title',
-		'Login',
-		'Pass',
-		'Answer',
-		'Description'
-	];
-
-	for (let i = 0; i<headColumnsLabel.length; ++i)
-		headColumns.push(<TableHeaderColumn key={'St_' + i}>{headColumnsLabel[i]}</TableHeaderColumn>);
-
 	return (
 		<Table fixedHeader={true} selectable={false}>
 			<TableHeader displaySelectAll={false}>
-				<TableRow>{headColumns}</TableRow>
+				<TableRow>
+					<TableHeaderColumn >Actions, Main data</TableHeaderColumn>
+					<TableHeaderColumn >Description</TableHeaderColumn>
+				</TableRow>
 			</TableHeader>
 			<TableBody
 				displayRowCheckbox={false}
@@ -68,4 +56,3 @@ export default connect(
 		filters : state.storageFilters
 	})
 )(StorageTable);
-
