@@ -19,18 +19,6 @@ module.exports = {
 	},
 	config: [
 		{
-			route: Routes.dropBoxConInit,
-			handel: (res, action) => {
-				modelSettings.getSettingsDBox()
-					.then(dropBox.connectInit)
-					.then(() => send.ok(res, action))
-					.catch(err => {
-						console.log('!ERR init dropBox connect', err);
-						send.err(res, action, 'Error get logins');
-					});
-			}
-		},
-		{
 			route: Routes.usrList,
 			handel: (res, action) => {
 				modelUsers.loginList()
