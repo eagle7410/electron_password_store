@@ -1,3 +1,4 @@
+const connect = 'drop-box-connect';
 const Routes = {
 	appInit   : 'app-init',
 	auth      : 'auth',
@@ -7,8 +8,10 @@ const Routes = {
 	sdfPath   : 'sdf-path',
 	sdfLoad   : 'sdf-load',
 	store     : 'storage',
-	dropBoxConLink : 'drop-box-connect-link',
-	dropBoxAccess  : 'drop-box-connect-access-token'
+	dropBoxConLink : connect + '-link',
+	dropBoxAccess  : connect + '-access-token',
+	dropBoxConInit : connect + '-init',
+	dropBoxConCheck : connect + '-check'
 };
 
 module.exports = Routes;

@@ -27,6 +27,16 @@ module.exports.list = () => new Promise((ok, bad) => {
 const typeDBox = 'dropBox';
 module.exports.typeDBox = typeDBox;
 
+module.exports.getSettingsDBox = () => new Promise((ok ,bad) => {
+	model.findOne({type : typeDBox}, (err, doc) => {
+
+		if (err || !doc) {
+			return bad(err || 'No setting collectoion');
+		}
+
+		ok(doc);
+	});
+});
 module.exports.setAccessToken = accessToken => new Promise((ok ,bad) => {
 	model.findOne({type : typeDBox},  (err, doc) => {
 		if (err || !doc) {

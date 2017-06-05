@@ -1,6 +1,7 @@
 const Routes = require('../routes/RoutesConstDev');
-const send   = require('../libs/send');
+const send = require('../libs/send');
 const libErr = require('../libs/errors');
+const dropBox = require('../libs/drop-box');
 
 let modelUsers = null;
 let modelSettings = null;
@@ -9,17 +10,29 @@ let modelCategories = null;
 
 module.exports = {
 	setModels: (user, storage, settings, categories) => {
-		modelUsers      = user;
-		modelSettings   = settings;
-		modelStorage    = storage;
+		modelUsers = user;
+		modelSettings = settings;
+		modelStorage = storage;
 		modelCategories = categories;
 
 		return module.exports;
 	},
-	config : [
+	config: [
 		{
-			route  : Routes.usrList,
-			handel : (res, action) => {
+			route: Routes.dropBoxConInit,
+			handel: (res, action) => {
+				modelSettings.getSettingsDBox()
+					.then(dropBox.connectInit)
+					.then(() => send.ok(res, action))
+					.catch(err => {
+						console.log('!ERR init dropBox connect', err);
+						send.err(res, action, 'Error get logins');
+					});
+			}
+		},
+		{
+			route: Routes.usrList,
+			handel: (res, action) => {
 				modelUsers.loginList()
 					.then(list => {
 						send.ok(res, action, list);
@@ -30,8 +43,8 @@ module.exports = {
 			}
 		},
 		{
-			route  : Routes.auth,
-			handel : (res, action, data) => {
+			route: Routes.auth,
+			handel: (res, action, data) => {
 				modelUsers.auth(data.login, data.pass)
 					.then((token) => {
 						send.ok(res, action, token)
@@ -46,8 +59,8 @@ module.exports = {
 			}
 		},
 		{
-			route  : Routes.appInit,
-			handel : (res, action) => {
+			route: Routes.appInit,
+			handel: (res, action) => {
 				const async = require('async');
 
 				async.waterfall([
@@ -89,20 +102,19 @@ module.exports = {
 
 					let settings = {};
 
-					data.settings.map( sett => {
+					data.settings.map(sett => {
 
 						switch (sett.type) {
 							case modelSettings.typeDBox:
 								settings[modelSettings.typeDBox] = {
-									apiData : sett.apiData,
-									accessToken : sett.accessToken ? true : false
+									apiData: sett.apiData,
+									accessToken: sett.accessToken ? true : false
 								}
 						}
-					})
+					});
 
 					data.settings = settings;
-					// TODO: clear
-					console.log('data.settings', data.settings);
+
 					send.ok(res, action, data);
 
 				});

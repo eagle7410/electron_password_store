@@ -42,6 +42,7 @@
     "async": "2.4.1",
     "dbox": "0.6.4",
     "electron-devtools-installer": "^2.2.0",
-    "tingodb": "^0.5.1"
+    "tingodb": "^0.5.1",
+    "unzip": "0.1.11"
   }
 }
