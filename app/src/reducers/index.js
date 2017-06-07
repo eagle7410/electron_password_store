@@ -17,6 +17,7 @@ import {sdf} from './Settings/Sdf'
 import {sdfTools} from './Settings/SdfTools'
 import {dropBoxSettingsForm} from './Settings/DropBoxSettingsForm'
 import {dropBoxConnectSteps} from './Settings/DropBoxConnectSteps'
+import {dropBoxStepsUpload} from './Settings/DropBoxStepsUpload'
 
 const reducer = combineReducers({
 	routing: routerReducer,
@@ -33,7 +34,8 @@ const reducer = combineReducers({
 	sdf,
 	sdfTools,
 	dropBoxSettingsForm,
-	dropBoxConnectSteps
+	dropBoxConnectSteps,
+	dropBoxStepsUpload
 });
 
 export {reducer};

@@ -2,6 +2,7 @@ import StorageCategory from './StorageCategory';
 import StorageFilters  from './StorageFilters';
 import StepsConnect from './StepsConnect'
 import DropBoxForm from './DropBoxForm';
+import StepsUpload from './StepsUpload';
 import DataLoader from './DataLoader';
 import RecordAdd  from './RecordAdd';
 import Confirm from './Confirm';
@@ -17,6 +18,7 @@ export {
 	StorageFilters,
 	StepsConnect,
 	DropBoxForm,
+	StepsUpload,
 	DataLoader,
 	RecordAdd,
 	Storage,

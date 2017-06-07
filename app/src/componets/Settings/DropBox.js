@@ -7,19 +7,21 @@ import {list} from '../../api/Storage'
 import {dropBoxTools, Storage} from '../../const/Events'
 import {Tabs, Tab} from 'material-ui/Tabs';
 import SettingsForm from './DropBoxComponent/SettingsForm'
+import StepsDownload from './DropBoxComponent/StepsDownload'
+import StepsUpload from './DropBoxComponent/StepsUpload'
 
 const DropBox = () => {
 
 	return (
 		<Tabs >
-			<Tab label='Connect' icon={<ActionBuild />} >
-					<SettingsForm />
-			</Tab>
 			<Tab label='Upload to DropBox' icon={<ActionUp />} >
-				<h1> Upload to DropBox </h1>
+				<StepsUpload />
+			</Tab>
+			<Tab label='Connect' icon={<ActionBuild />} >
+				<SettingsForm />
 			</Tab>
 			<Tab label='Download from DropBox' icon={<ActionDown />} >
-				<h1> Download from DropBox </h1>
+				<StepsDownload/>
 			</Tab>
 		</Tabs>
 	)

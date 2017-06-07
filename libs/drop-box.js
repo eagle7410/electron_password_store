@@ -1,18 +1,37 @@
 const dbox = require('dbox');
+const fs   = require('fs');
 
 let app = null;
 let client = null;
 
+/**
+ * Init app drop-box
+ * @method appInit
+ * @param  {string} key
+ * @param  {string} secret
+ * @return {module.exports}
+ */
 const appInit = (key, secret) => {
 	app = dbox.app({'app_key': key, 'app_secret': secret});
 	return module.exports;
 };
 
+/**
+ * Init client in drop-box app.
+ * @method clientInit
+ * @param  {object}   access_token [description]
+ * @return {module.exports}                [description]
+ */
 const clientInit = access_token => {
 	client = app.client(access_token);
 	return module.exports;
 };
 
+/**
+ * Check connect client drop-box app.
+ * @method checkConnect
+ * @param  {function}     call [description]
+ */
 const checkConnect = call => client.account(status => call(status === 200));
 
 const getConfirmLink = () => new Promise((ok, bad) => {
@@ -57,11 +76,23 @@ const connectInit = data => new Promise((ok, bad) => {
 	checkConnect(okey => okey ? ok() : bad());
 });
 
+const moveToCould = (fileZip, fileName) => new Promise((ok, bad) => {
+	fs.readFile(fileZip, (err, content) => {
+		if (err) {
+			return bad(err);
+		}
+
+		client.put(fileName, content, status => status === 200 ? ok() : bad(`Request return status ${status}`));
+	});
+
+});
+
 module.exports = {
 	appInit : appInit,
 	clientInit : clientInit,
 	connectInit : connectInit,
 	checkConnect : checkConnect,
 	getConfirmLink : getConfirmLink,
-	getAccessToken : getAccessToken
+	getAccessToken : getAccessToken,
+	moveToCould : moveToCould
 };

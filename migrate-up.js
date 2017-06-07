@@ -1,6 +1,6 @@
 const fileName = 'data.zip'
 const fs = require('fs');
-const path = __dirname + '/archives';
+const pathArchive = __dirname + '/archives';
 const pathFrom = __dirname + '/db_test/tingo_db/data';
 const zipper  = require('zip-folder');
 const async   = require('async');
@@ -19,15 +19,15 @@ const getStringDate = () => {
 }
 
 const createArhive = (folder, date) => new Promise(
-	(ok, bad) => zipper(folder, `${path}/${date}/${fileName}`, err => err ? bad(err) : ok()
+	(ok, bad) => zipper(folder, `${pathArchive}/${date}/${fileName}`, err => err ? bad(err) : ok()
 ));
 
 const checkFolder = date => new Promise((ok, bad) => {
-	let pathToday =  `${path}/${date}`;
-	let pathZip = `${path}/${date}/${fileName}`;
+	let pathToday =  `${pathArchive}/${date}`;
+	let pathZip = `${pathArchive}/${date}/${fileName}`;
 
 	async.waterfall([
-		cb => fs.exists(path, exists => exists ? cb(null) : fs.mkdir(path, e => cb(e))),
+		cb => fs.exists(pathArchive, exists => exists ? cb(null) : fs.mkdir(pathArchive, e => cb(e))),
 		cb => fs.exists(pathToday, exists => exists ? cb(null) : fs.mkdir(pathToday, e => cb(e))),
 		cb => fs.exists(pathZip, exists => exists ? fs.unlink(pathZip, e => cb(e)) : cb(null))
 	], err => err ? bad(err) : ok());
@@ -35,7 +35,7 @@ const checkFolder = date => new Promise((ok, bad) => {
 });
 
 const moveToCould = date => new Promise((ok, bad) => {
-	let fileZip = `${path}/${date}/${fileName}`;
+	let fileZip = `${pathArchive}/${date}/${fileName}`;
 	fs.readFile(fileZip, (err, content) => {
 		if (err) {
 			return bad(err);

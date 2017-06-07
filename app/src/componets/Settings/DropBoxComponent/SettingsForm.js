@@ -28,15 +28,15 @@ const SettingsForm = (state) => {
 	if (store.accessToken) {
 		action = (<div style={styleCenter}>
 			<RaisedButton
-			  label={'Init'}
-			  primary={true}
-			  disabled={store.init}
-			  onTouchTap={InitConnect}
+				label={'Init'}
+				primary={true}
+				disabled={store.init}
+				onTouchTap={InitConnect}
 			/>
 			<RaisedButton
-			  label={'Reconnect'}
-			  secondary={true}
-			  onTouchTap={Reconnect}
+				label={'Reconnect'}
+				secondary={true}
+				onTouchTap={Reconnect}
 			/>
 			</div>)
 	} else {

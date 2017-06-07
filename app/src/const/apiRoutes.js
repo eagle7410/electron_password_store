@@ -1,4 +1,6 @@
-const connect = 'drop-box-connect';
+const dBox = 'drop-box';
+const connect = dBox + '-connect';
+const upload = dBox + '-upload';
 const Routes = {
 	appInit   : 'app-init',
 	auth      : 'auth',
@@ -11,7 +13,9 @@ const Routes = {
 	dropBoxConLink : connect + '-link',
 	dropBoxAccess  : connect + '-access-token',
 	dropBoxConInit : connect + '-init',
-	dropBoxConCheck : connect + '-check'
+	dropBoxConCheck : connect + '-check',
+	dropBoxUploadAcrhive : upload + '-create-archive',
+	dropBoxUpload        : upload
 };
 
 module.exports = Routes;
