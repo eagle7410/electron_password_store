@@ -14,14 +14,14 @@ const DropBox = () => {
 
 	return (
 		<Tabs >
-			<Tab label='Upload to DropBox' icon={<ActionUp />} >
-				<StepsUpload />
+			<Tab label='Download from DropBox' icon={<ActionDown />} >
+				<StepsDownload/>
 			</Tab>
 			<Tab label='Connect' icon={<ActionBuild />} >
 				<SettingsForm />
 			</Tab>
-			<Tab label='Download from DropBox' icon={<ActionDown />} >
-				<StepsDownload/>
+			<Tab label='Upload to DropBox' icon={<ActionUp />} >
+				<StepsUpload />
 			</Tab>
 		</Tabs>
 	)

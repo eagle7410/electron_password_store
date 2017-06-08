@@ -1,5 +1,6 @@
 import StorageCategory from './StorageCategory';
 import StorageFilters  from './StorageFilters';
+import StepsDownload from './StepsDownload';
 import StepsConnect from './StepsConnect'
 import DropBoxForm from './DropBoxForm';
 import StepsUpload from './StepsUpload';
@@ -16,6 +17,7 @@ import Sdf from './Sdf';
 export {
 	StorageCategory,
 	StorageFilters,
+	StepsDownload,
 	StepsConnect,
 	DropBoxForm,
 	StepsUpload,

@@ -1,8 +1,21 @@
 const fileName = 'data.zip'
 const fs = require('fs');
 const pathArchive = __dirname + '/../archives';
+const pathUpload = `${pathArchive}/upload`;
 const async   = require('async');
 const pathDb = __dirname + '/../db_test/tingo_db/data';
+
+const getUploadPath = date => `${pathUpload}/${date}/`;
+
+const checkDownloadFolder = date => new Promise((ok, bad) => {
+	let pathToday =  `${pathUpload}/${date}`;
+
+	async.waterfall([
+		cb => fs.exists(pathArchive, exists => exists ? cb(null) : fs.mkdir(pathArchive, e => cb(e))),
+		cb => fs.exists(pathUpload, exists => exists ? cb(null) : fs.mkdir(pathUpload, e => cb(e))),
+		cb => fs.exists(pathToday, exists => exists ? cb(null) : fs.mkdir(pathToday, e => cb(e)))
+	], err => err ? bad(err) : ok(pathToday));
+});
 
 /**
  * Get acrhive file name.
@@ -45,9 +58,29 @@ const checkFolderNewArchive = date => new Promise((ok, bad) => {
 
 });
 
+const deleteFolderRecursive = path => {
+	if ( fs.existsSync(path) ) {
+
+		fs.readdirSync(path).forEach( file => {
+			let curPath = path + '/' + file;
+
+			if (fs.lstatSync(curPath).isDirectory()) { // recurse
+				deleteFolderRecursive(curPath);
+			} else { // delete file
+				fs.unlinkSync(curPath);
+			}
+		});
+
+		fs.rmdirSync(path);
+	}
+}
+
 module.exports = {
 	checkFolderNewArchive : checkFolderNewArchive,
 	getNewArchivePath : getNewArchivePath,
 	getPathDb : getPathDb,
-	getArchiveName : getArchiveName
+	getArchiveName : getArchiveName,
+	checkDownloadFolder : checkDownloadFolder,
+	getUploadPath : getUploadPath,
+	deleteFolderRecursive : deleteFolderRecursive
 }

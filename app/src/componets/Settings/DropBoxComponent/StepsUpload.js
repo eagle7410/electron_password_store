@@ -96,7 +96,6 @@ const StepsUpload = (state) => {
 		);
 }
 
-//dropBoxConnectSteps
 export default connect(
 	state => ({
 		store: state.dropBoxStepsUpload,

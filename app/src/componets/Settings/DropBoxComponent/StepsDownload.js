@@ -5,12 +5,23 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import ExpandTransition from 'material-ui/internal/ExpandTransition';
 import TextField from 'material-ui/TextField';
-import {StepsConnect as Events, Alert} from '../../../const/Events'
+import {
+	StepsDownload as Events,
+	Alert,
+	StorageCategory,
+	Users,
+	Storage
+} from '../../../const/Events'
 import {DropBox} from '../../../const/Messages'
 import AlertStatus from '../../../const/AlertStatus'
-import {getLink, getAccess} from '../../../api/DropBox'
 import LoadAnime from '../../tools/LoadAnime'
-import {postArchive, putDropBoxArchive} from '../../../api/DropBox'
+import {getArchive,
+	putDropBoxArchive,
+	extractArhive,
+	mergeArhive,
+	clearArhive
+} from '../../../api/DropBox'
+import {fullData} from '../../../api/Loader'
 
 const styleBlock       = {width: '100%', maxWidth: 700, margin: 'auto'};
 const styleContent     = {margin: '0 16px', overflow: 'hidden'};
@@ -56,16 +67,35 @@ const StepsDownload = (state) => {
 
 	const handelRun = () => {
 		state.run();
-		postArchive()
+
+		getArchive()
 			.then(date => {
 				state.next();
-				return putDropBoxArchive(date);
+				return extractArhive(date);
 			})
-			.then(state.next)
+			.then(date => {
+				state.next();
+				return mergeArhive(date);
+			})
+			.then(date => {
+				state.next();
+				return clearArhive(date);
+			})
+			.then(fullData)
+			.then(res => new Promise(ok => {
+				['Categories', 'Users', 'Storage'].forEach(
+					p => state['init' + p](res[p.toLowerCase()])
+				);
+				state.next();
+				ok();
+			}))
+			.then(() => {
+				state.next();
+			})
 			.catch(err => {
 				state.stop();
-				console.log('Error create archive', err);
-				state.showAlert(DropBox.badTryUpload, AlertStatus.BAD)
+				console.log('Error download archive', err);
+				state.showAlert(DropBox.badTryUpload, AlertStatus.BAD);
 			});
 	}
 
@@ -93,6 +123,7 @@ const StepsDownload = (state) => {
 				<Step><StepLabel>Extract archive</StepLabel></Step>
 				<Step><StepLabel>Merge data</StepLabel></Step>
 				<Step><StepLabel>Clear</StepLabel></Step>
+				<Step><StepLabel>Update App</StepLabel></Step>
 			</Stepper>
 
 		  </div>
@@ -101,7 +132,7 @@ const StepsDownload = (state) => {
 
 export default connect(
 	state => ({
-		store: state.dropBoxStepsUpload,
+		store: state.dropBoxStepsDownload,
 		connect : state.dropBoxSettingsForm
 	}),
 	dispatch => ({
@@ -109,6 +140,9 @@ export default connect(
 		stop      : () => dispatch({type : Events.stop}),
 		next      : () => dispatch({type : Events.next}),
 		reset     : () => dispatch({type : Events.reset}),
+		initUsers      : data  => dispatch({type: Users.init , data: data}),
+		initStorage    : data  => dispatch({type: Storage.init , data: data}),
+		initCategories : data  => dispatch({type: StorageCategory.init , data: data}),
 		showAlert : (mess, type) => dispatch({
 			type: Alert.show, data: {
 				message: mess,

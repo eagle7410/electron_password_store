@@ -5,14 +5,77 @@ const pathManager = require('../libs/path-manager');
 const zipper = require('../libs/zipper');
 
 const reqTypes = send.reqTypes;
-let model = null;
+
+let modelUsers = null;
+let modelStorage = null;
+let modelSettings = null;
+let modelCategories = null;
+
 let config = [
+	{
+		type : reqTypes.del,
+		route: Routes.dropBoxDownloadAcrhiveClear,
+		handel: (res, action, dateStr) => {
+			let pathUpload = pathManager.getUploadPath(dateStr);
+			pathManager.deleteFolderRecursive(pathUpload);
+			send.ok(res, action, dateStr);
+		}
+	},
+	{
+		type : reqTypes.post,
+		route: Routes.dropBoxDownloadAcrhiveMerge,
+		handel: (res, action, dateStr) => {
+
+			let pathUpload = pathManager.getUploadPath(dateStr);
+			let pathExract = `${pathUpload}/unzip`;
+
+			require('../libs/migrate-tingo').up(modelUsers, modelStorage, modelCategories, pathExract)
+				.then(
+					() => send.ok(res, action, dateStr)
+				).catch(err => {
+					console.log('!ERR merge archive', err);
+					send.err(res, action, 'ERR merge archive');
+				});
+
+		}
+	},
+	{
+		type : reqTypes.put,
+		route: Routes.dropBoxDownloadAcrhiveExtract,
+		handel: (res, action, dateStr) => {
+
+			let pathUpload = pathManager.getUploadPath(dateStr);
+			let pathZip = `${pathUpload}/${pathManager.getArchiveName()}`
+			let pathExract = `${pathUpload}/unzip`;
+			zipper.unzipArchive(pathZip, pathExract)
+				.then(r => send.ok(res, action, dateStr))
+				.catch(err => {
+					console.log('!ERR extract archive', err);
+					send.err(res, action, 'ERR extract archive');
+				});
+		}
+	},
+	{
+		route: Routes.dropBoxDownloadAcrhive,
+		handel: (res, action) => {
+			let date = new Date();
+			let dateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+			pathManager.checkDownloadFolder(dateStr)
+				.then(pathDowload => could.moveFromCould(pathDowload, pathManager.getArchiveName()))
+				.then(r => send.ok(res, action, dateStr))
+				.catch(err => {
+					console.log('!ERR download archive', err);
+					send.err(res, action, 'ERR download archive');
+				});
+		}
+	},
 	{
 		route: Routes.dropBoxUploadAcrhive,
 		type : reqTypes.post,
 		handel: (res, action) => {
 			let date = new Date();
-			dateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+			let dateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
 			const zipPath  = pathManager.getNewArchivePath(dateStr);
 
@@ -43,7 +106,7 @@ let config = [
 	{
 		route: Routes.dropBoxConInit,
 		handel: (res, action) => {
-			model.getSettingsDBox()
+			modelSettings.getSettingsDBox()
 				.then(could.connectInit)
 				.then(() => send.ok(res, action))
 				.catch(err => {
@@ -57,7 +120,7 @@ let config = [
 		handel : (res, action, data) => {
 			could.appInit(data.apiKey, data.apiSecret)
 				.getConfirmLink()
-					.then(requesttoken => model.setRequestToken(data, requesttoken))
+					.then(requesttoken => modelSettings.setRequestToken(data, requesttoken))
 					.then(requesttoken => send.ok(res, action, requesttoken.authorize_url))
 					.catch(err => {
 						console.log('!ERR drop-box get confirm link ', err);
@@ -68,9 +131,9 @@ let config = [
 	{
 		route  : Routes.dropBoxAccess,
 		handel : (res, action) => {
-			model.getRequestToken()
+			modelSettings.getRequestToken()
 				.then(could.getAccessToken)
-				.then(model.setAccessToken)
+				.then(modelSettings.setAccessToken)
 				.then(() => send.ok(res, action))
 				.catch(err => {
 					console.log('!ERR drop-box get access', err);
@@ -81,8 +144,17 @@ let config = [
 ];
 
 module.exports = {
-	setModel : (dbModel) => {
-			model = dbModel; return module.exports
+	setModels : (
+		mdUsers,
+		mdStorage,
+		mdSettings,
+		mdCategories
+	) => {
+			modelUsers = mdUsers;
+			modelStorage = mdStorage;
+			modelSettings = mdSettings;
+			modelCategories = mdCategories;
+			return module.exports
  	},
 	config   : config
 };

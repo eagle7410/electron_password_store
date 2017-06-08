@@ -1,6 +1,7 @@
 const dBox = 'drop-box';
 const connect = dBox + '-connect';
 const upload = dBox + '-upload';
+const download = dBox + '-download-archive';
 const Routes = {
 	appInit   : 'app-init',
 	auth      : 'auth',
@@ -15,10 +16,11 @@ const Routes = {
 	dropBoxConInit : connect + '-init',
 	dropBoxConCheck : connect + '-check',
 	dropBoxUploadAcrhive : upload + '-create-archive',
-	dropBoxUpload        : upload
+	dropBoxUpload        : upload,
+	dropBoxDownloadAcrhive : download,
+	dropBoxDownloadAcrhiveExtract : download + '-extract',
+	dropBoxDownloadAcrhiveMerge   : download + '-merge',
+	dropBoxDownloadAcrhiveClear : download + '-clear'
 };
 
 module.exports = Routes;
-/**
- * Created by igor on 01.06.17.
- */

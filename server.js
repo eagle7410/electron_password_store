@@ -39,8 +39,7 @@ const modelCategories = models.get(db, 'categories');
 
 module.exports = {
 	run: (mainWindow) => {
-
-		listeners(listenCould.setModel(modelSettings).config);
+		listeners(listenCould.setModels(modelUsers, modelStorage, modelSettings, modelCategories).config);
 		listeners(listenStorage.setModel(modelStorage).config);
 		listeners(listenSdf.setDialog(dialog).setWindow(mainWindow).setModelStorage(modelStorage).config);
 		listeners(listenAuth.setModels(modelUsers, modelStorage, modelSettings, modelCategories).config);

@@ -87,6 +87,24 @@ const moveToCould = (fileZip, fileName) => new Promise((ok, bad) => {
 
 });
 
+/**
+ * Get archive from drop-box.
+ *
+ * @method moveFromCould
+ * @param  {string}      folder   [description]
+ * @param  {string}      fileName [description]
+ * @return {Propmise}               [description]
+ */
+const moveFromCould = (folder, fileName) => new Promise((ok, bad) => {
+	client.get(fileName, (status, reply) => {
+		if (status !== 200) {
+			return bad(`Bad get archive status is ${status}`);
+		}
+
+		fs.writeFile(`${folder}/${fileName}`, reply, err => err ? bad(err) : ok());
+	});
+});
+
 module.exports = {
 	appInit : appInit,
 	clientInit : clientInit,
@@ -94,5 +112,6 @@ module.exports = {
 	checkConnect : checkConnect,
 	getConfirmLink : getConfirmLink,
 	getAccessToken : getAccessToken,
-	moveToCould : moveToCould
+	moveToCould : moveToCould,
+	moveFromCould : moveFromCould
 };

@@ -1,3 +1,4 @@
+const async = require('async');
 const libErr = require('../../../libs/errors');
 let model = null;
 module.exports.init = db => {
@@ -60,7 +61,7 @@ module.exports.save = name => new Promise((ok, bad) => {
 });
 
 module.exports.delete = id => new Promise((ok, bad) => {
-	model.remove({_id :id}, err => err ? bad(err) : ok());
+	model.remove({_id : id}, err => err ? bad(err) : ok());
 });
 
 module.exports.updateSafe = (id, name) => new Promise((ok, bad) => {
@@ -74,4 +75,24 @@ module.exports.updateSafe = (id, name) => new Promise((ok, bad) => {
 				ok();
 			})
 		}, bad);
+});
+
+module.exports.addMany = data => new Promise((ok, bad) => {
+	async.forEach(data, (rec, next) => {
+		model.findOne({ _id : rec._id	}, (err, doc) => {
+				if (err) {
+					return next(err);
+				}
+
+				if (!doc) {
+					return model.insert(rec, e => next(e));
+				}
+
+				if (rec._id) {
+					delete rec._id;
+				}
+
+				model.update({_id: doc._id}, rec, next);
+			});
+	}, err => err ? bad(err) : ok());
 });

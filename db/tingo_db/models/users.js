@@ -1,5 +1,7 @@
+const async = require('async');
 let model = null;
 let libErr = require('../../../libs/errors');
+
 module.exports.init = db => {
 	model = db.collection('users');
 	module.exports.model = model;
@@ -8,7 +10,7 @@ module.exports.init = db => {
 module.exports.model = null;
 
 module.exports.loginList = () => new Promise((ok, bad) => {
-	model.find({},  {fields : {login:1}}, (err, cur) => {
+	model.find({},  {fields : {login: 1}}, (err, cur) => {
 		if (err) {
 			return bad(err);
 		}
@@ -53,9 +55,10 @@ module.exports.list = () => new Promise((ok, bad) => {
 			if (err) {
 				return bad(err);
 			}
+
 			let objList = [];
 			list.map(user => {
-				let newUser =Object.assign({}, user);
+				let newUser = Object.assign({}, user);
 				newUser._id = Number(user._id);
 				objList.push(newUser);
 			});
@@ -94,13 +97,14 @@ module.exports.save = data => new Promise((ok, bad) => {
 				if (err) {
 					return bad(err);
 				}
+
 				ok(Number(data[0]._id));
 			})
 		}, bad);
 });
 
 module.exports.delete = id => new Promise((ok, bad) => {
-	model.remove({_id :id}, err => err ? bad(err) : ok());
+	model.remove({_id : id}, err => err ? bad(err) : ok());
 });
 
 module.exports.updateSafe = (data) => new Promise((ok, bad) => {
@@ -114,4 +118,27 @@ module.exports.updateSafe = (data) => new Promise((ok, bad) => {
 				ok();
 			})
 		}, bad);
+});
+
+module.exports.addMany = data => new Promise((ok, bad) => {
+	async.forEach(data, (rec, next) => {
+		model.findOne({ _id : rec._id	}, (err, doc) => {
+				if (err) {
+					return next(err);
+				}
+
+				if (!doc) {
+					return model.insert(rec, e => next(e));
+				}
+
+				if (rec._id) {
+					delete rec._id;
+				}
+
+				model.update({_id: doc._id}, {
+					login : rec.login,
+					pass : doc.pass
+				}, next);
+			});
+	}, err => err ? bad(err) : ok());
 });

@@ -19,7 +19,6 @@ const isValid = (data, action = 'create') => new Promise((ok, bad) => {
 	}
 
 	model.count({
-		category : data.category,
 		title    : data.title,
 		login    : data.login
 	}, (err, count) => {
@@ -72,7 +71,6 @@ module.exports.updateSafe = (data) => new Promise((ok, bad) => {
 module.exports.addMany = data => new Promise((ok, bad) => {
 	async.forEach(data, (rec, next) => {
 		model.findOne({
-				category : rec.category,
 				title    : rec.title,
 				login    : rec.login
 			}, (err, doc) => {
@@ -80,14 +78,14 @@ module.exports.addMany = data => new Promise((ok, bad) => {
 					return next(err);
 				}
 
-				if (!doc) {
-					return model.insert(rec, e => next(e));
-				}
-
 				if (rec._id) {
 					delete rec._id;
 				}
 
+				if (!doc) {
+					return model.insert(rec, e => next(e));
+				}
+				
 				model.update({_id: doc._id}, rec, next);
 			});
 	}, err => err ? bad(err) : ok());
