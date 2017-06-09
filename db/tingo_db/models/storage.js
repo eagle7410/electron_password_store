@@ -2,6 +2,10 @@ const async = require('async');
 const libErr = require('../../../libs/errors');
 let model   = null;
 
+/**
+ * Init model.
+ * @param {object} db
+ */
 module.exports.init = db => {
 	model = db.collection('storage');
 	module.exports.model = model;
@@ -9,6 +13,14 @@ module.exports.init = db => {
 
 module.exports.model = null;
 
+/**
+ * Validate record.
+ *
+ * @param {object} data
+ * @param {String} action
+ *
+ * @return {Promise}
+ */
 const isValid = (data, action = 'create') => new Promise((ok, bad) => {
 	if (!data.category) {
 		return bad(libErr.valid('Record must have category'));
@@ -34,6 +46,13 @@ const isValid = (data, action = 'create') => new Promise((ok, bad) => {
 	});
 });
 
+/**
+ * Add record.
+ *
+ * @param data
+ *
+ * @return {Promise}
+ */
 module.exports.save = data => new Promise((ok, bad) => {
 	isValid(data)
 		.then(() => {
@@ -49,10 +68,24 @@ module.exports.save = data => new Promise((ok, bad) => {
 		}, bad);
 });
 
+/**
+ * Delete record from storage.
+ *
+ * @param {number} id
+ *
+ * @return {Promise}
+ */
 module.exports.delete = id => new Promise((ok, bad) => {
 	model.remove({_id : id}, err => err ? bad(err) : ok());
 });
 
+/**
+ * Update record with validation.
+ *
+ * @param {object} data
+ *
+ * @return {Promise}
+ */
 module.exports.updateSafe = (data) => new Promise((ok, bad) => {
 	isValid(data, 'update')
 		.then(() => {
@@ -68,6 +101,13 @@ module.exports.updateSafe = (data) => new Promise((ok, bad) => {
 		}, bad);
 });
 
+/**
+ * Add many record.
+ *
+ * @param {[{object}]}data
+ *
+ * @return {Promise}
+ */
 module.exports.addMany = data => new Promise((ok, bad) => {
 	async.forEach(data, (rec, next) => {
 		model.findOne({
@@ -91,6 +131,11 @@ module.exports.addMany = data => new Promise((ok, bad) => {
 	}, err => err ? bad(err) : ok());
 });
 
+/**
+ *  Get all record.
+ *
+ *  @return {Promise}
+ */
 module.exports.list = () => new Promise((ok, bad) => {
 	model.find({},  (err, cur) => {
 		if (err) {

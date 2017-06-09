@@ -15,6 +15,7 @@ const listenCould      = require('./listeners_config/drop-box');
 const listenStorage    = require('./listeners_config/storage');
 const listenCategories = require('./listeners_config/categories');
 const send             = require('./libs/send');
+
 const listen = (action, handel) => {
 	ipcRenderer.on(action, (event, arg) => {
 		// TODO: clear
@@ -23,27 +24,27 @@ const listen = (action, handel) => {
 	});
 };
 
-const listeners = config => {
-	config.map(conf => {
+const listeners = arConfig => {
+	arConfig.map(config => config.map(conf => {
 		const type = conf.type || send.reqTypes.get;
 		listen(`${type.toLowerCase()}->${conf.route}`, conf.handel);
-	})
-
+	}));
 };
 
 // Models
-const modelUsers      = models.get(db, 'users');
-const modelSettings   = models.get(db, 'settings');
-const modelStorage    = models.get(db, 'storage');
-const modelCategories = models.get(db, 'categories');
+const modelConstant   = require('./modelConst');
+const modelUsers      = models.get(db, modelConstant.usr);
+const modelSettings   = models.get(db, modelConstant.sett);
+const modelStorage    = models.get(db, modelConstant.store);
+const modelCategories = models.get(db, modelConstant.cat);
 
 module.exports = {
-	run: (mainWindow) => {
-		listeners(listenCould.setModels(modelUsers, modelStorage, modelSettings, modelCategories).config);
-		listeners(listenStorage.setModel(modelStorage).config);
-		listeners(listenSdf.setDialog(dialog).setWindow(mainWindow).setModelStorage(modelStorage).config);
-		listeners(listenAuth.setModels(modelUsers, modelStorage, modelSettings, modelCategories).config);
-		listeners(listenCategories.setModel(modelCategories).config);
-		listeners(listenUsers.setModel(modelUsers).config);
-	}
+	run: (mainWindow) => listeners([
+		listenCould.setModels(modelUsers, modelStorage, modelSettings, modelCategories).config,
+		listenStorage.setModel(modelStorage).config,
+		listenSdf.setDialog(dialog).setWindow(mainWindow).setModelStorage(modelStorage).config,
+		listenAuth.setModels(modelUsers, modelStorage, modelSettings, modelCategories).config,
+		listenCategories.setModel(modelCategories).config,
+		listenUsers.setModel(modelUsers).config
+	])
 };

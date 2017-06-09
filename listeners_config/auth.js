@@ -1,42 +1,30 @@
 const Routes = require('../routes/RoutesConstDev');
-const send = require('../libs/send');
+const send   = require('../libs/send');
 const libErr = require('../libs/errors');
-const dropBox = require('../libs/drop-box');
 
-let modelUsers = null;
-let modelSettings = null;
-let modelStorage = null;
+let modelUsers      = null;
+let modelSettings   = null;
+let modelStorage    = null;
 let modelCategories = null;
 
-module.exports = {
-	setModels: (user, storage, settings, categories) => {
-		modelUsers = user;
-		modelSettings = settings;
-		modelStorage = storage;
-		modelCategories = categories;
-
-		return module.exports;
-	},
-	config: [
-		{
-			route: Routes.usrList,
-			handel: (res, action) => {
-				modelUsers.loginList()
-					.then(list => {
-						send.ok(res, action, list);
-					}).catch(err => {
+const config = [
+	{
+		route: Routes.usrList,
+		handel: (res, action) => {
+			modelUsers.loginList()
+				.then(list => send.ok(res, action, list))
+				.catch(err => {
 					console.log('!ERR get logins', err);
 					send.err(res, action, 'Error get logins');
 				});
-			}
-		},
-		{
-			route: Routes.auth,
-			handel: (res, action, data) => {
-				modelUsers.auth(data.login, data.pass)
-					.then((token) => {
-						send.ok(res, action, token)
-					}).catch(err => {
+		}
+	},
+	{
+		route: Routes.auth,
+		handel: (res, action, data) => {
+			modelUsers.auth(data.login, data.pass)
+				.then(token => send.ok(res, action, token))
+				.catch(err => {
 
 					if (err.type !== libErr.constants.auth) {
 						console.log('!ERR auth', err);
@@ -44,59 +32,35 @@ module.exports = {
 
 					send.err(res, action, 'Error get logins');
 				});
-			}
-		},
-		{
-			route: Routes.appInit,
-			handel: (res, action) => {
-				const async = require('async');
+		}
+	},
+	{
+		route: Routes.appInit,
+		handel: (res, action) => {
+			let data = {};
 
-				async.waterfall([
-					cb => {
-						modelUsers.list()
-							.then(list => cb(null, {users: list}))
-							.catch(cb);
-					},
-					(dt, cb) => {
-						modelCategories.list()
-							.then(list => {
-								dt.categories = list;
-								cb(null, dt)
-							})
-							.catch(cb);
-					},
-					(dt, cb) => {
-						modelSettings.list()
-							.then(list => {
-								dt.settings = list;
-								cb(null, dt)
-							})
-							.catch(cb);
-					},
-					(dt, cb) => {
-						modelStorage.list()
-							.then(list => {
-								dt.storage = list;
-								cb(null, dt)
-							})
-							.catch(cb);
-					}
-				], (err, data) => {
-
-					if (err) {
-						console.log('!ERR ' + Routes.appInit, err);
-						return send.err(res, action, 'Error get ' + Routes.appInit);
-					}
-
+			modelUsers.list()
+				.then(list => {
+					data.users = list;
+					return modelCategories.list();
+				})
+				.then(list => {
+					data.categories = list;
+					return modelStorage.list();
+				})
+				.then(list => {
+					data.storage = list;
+					return modelSettings.list();
+				})
+				.then(list => {
 					let settings = {};
 
-					data.settings.map(sett => {
-
+					list.map(sett => {
 						switch (sett.type) {
 							case modelSettings.typeDBox:
 								settings[modelSettings.typeDBox] = {
 									apiData: sett.apiData,
-									accessToken: sett.accessToken ? true : false
+									accessToken: Boolean(sett.accessToken)
 								}
 						}
 					});
@@ -104,9 +68,23 @@ module.exports = {
 					data.settings = settings;
 
 					send.ok(res, action, data);
-
+				})
+				.catch(err => {
+					console.log('!ERR ' + Routes.appInit, err);
+					send.err(res, action, 'Error get ' + Routes.appInit);
 				});
-			}
 		}
-	]
+	}
+];
+
+module.exports = {
+	setModels: (user, storage, settings, categories) => {
+		modelUsers      = user;
+		modelSettings   = settings;
+		modelStorage    = storage;
+		modelCategories = categories;
+
+		return module.exports;
+	},
+	config: config
 };

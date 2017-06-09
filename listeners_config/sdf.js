@@ -1,4 +1,3 @@
-
 const Routes = require('../routes/RoutesConstDev');
 const send   = require('../libs/send');
 const sdf    = require('../libs/sdf');
@@ -13,8 +12,8 @@ let config = [
 		handel : (res, action, data) => {
 			let folder = dialog.showOpenDialog(mainWindow, {
 				filters : [
-					{name: 'All Files', extensions: ['*']},
-					{name: 'Sdf Files', extensions: ['sdf']}
+					{name: 'Sdf Files', extensions: ['sdf']},
+					{name: 'All Files', extensions: ['*']}
 				],
 				defaultPath : '/home/igor/desk',
 				properties: ['openFile']}
@@ -46,13 +45,16 @@ let config = [
 
 module.exports = {
 	setWindow: win => {
-		mainWindow = win; return module.exports;
+		mainWindow = win;
+		return module.exports;
 	},
 	setModelStorage: model => {
-		modelStorage = model; return module.exports;
+		modelStorage = model;
+		return module.exports;
 	},
 	setDialog: dialogComponent => {
-		dialog = dialogComponent; return module.exports;
+		dialog = dialogComponent;
+		return module.exports;
 	},
 	config   : config
 };

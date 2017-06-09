@@ -38,36 +38,37 @@ let config = [
 		type   : reqTypes.put,
 		handel : (res, action, data) => {
 			model.updateSafe(data)
-				.then(() => {
-					send.ok(res, action);
-				}).catch(err => {
-				switch (err.type) {
-					case libErr.constants.valid :
-						send.err(res, action, err.mess);
-						break;
-					default :
-						console.log('!ERR update ' + main, err);
-						send.err(res, action, `No update ${main}.`);
-				}
-			});
+				.then(() => send.ok(res, action))
+				.catch(err => {
+					switch (err.type) {
+						case libErr.constants.valid :
+							send.err(res, action, err.mess);
+							break;
+						default :
+							console.log('!ERR update ' + main, err);
+							send.err(res, action, `No update ${main}.`);
+					}
+				});
 		}
 	},
 	{
 		type   : reqTypes.del,
 		handel : (res, action, id) => {
 			model.delete(id)
-				.then(() => send.ok(res, action)).catch(err => {
-				console.log('!ERR delete ' + main, err);
-				send.err(res, action);
-			});
+				.then(() => send.ok(res, action))
+				.catch(err => {
+					console.log('!ERR delete ' + main, err);
+					send.err(res, action);
+				});
 		}
 	}
 ];
 
 module.exports = {
 	setModel : (dbModel) => {
-		model = dbModel; return module.exports
- },
+		model = dbModel;
+		return module.exports;
+    },
 	config   : config.map(conf => {
 		conf.route = conf.route || main;
 		return conf;

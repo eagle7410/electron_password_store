@@ -1,5 +1,9 @@
 let model = null;
 
+/**
+ * Init model.
+ * @param {object} db
+ */
 module.exports.init = db => {
 	model = db.collection('settings');
 	module.exports.model = model;
@@ -7,6 +11,11 @@ module.exports.init = db => {
 
 module.exports.model = null;
 
+/**
+ *  Get all record.
+ *
+ *  @return {Promise}
+ */
 module.exports.list = () => new Promise((ok, bad) => {
 	model.find({},  (err, cur) => {
 		if (err) {
@@ -23,10 +32,14 @@ module.exports.list = () => new Promise((ok, bad) => {
 	});
 });
 
-// const typeDBox = 'dropBox';
 const typeDBox = 'dropBox';
 module.exports.typeDBox = typeDBox;
 
+/**
+ * Get settings for drop-box.
+ *
+ * @return {Promise}
+ */
 module.exports.getSettingsDBox = () => new Promise((ok ,bad) => {
 	model.findOne({type : typeDBox}, (err, doc) => {
 
@@ -37,6 +50,14 @@ module.exports.getSettingsDBox = () => new Promise((ok ,bad) => {
 		ok(doc);
 	});
 });
+
+/**
+ * Set access token for drop-box.
+ *
+ * @param {object} accessToken
+ *
+ * @return {Promise}
+ */
 module.exports.setAccessToken = accessToken => new Promise((ok ,bad) => {
 	model.findOne({type : typeDBox},  (err, doc) => {
 		if (err || !doc) {
@@ -56,6 +77,11 @@ module.exports.setAccessToken = accessToken => new Promise((ok ,bad) => {
 
 });
 
+/**
+ * Get request token for drop-box.
+ *
+ * @return {Promise}
+ */
 module.exports.getRequestToken = () => new Promise((ok ,bad) => {
 	model.findOne({type : typeDBox}, (err, doc) => {
 
@@ -67,6 +93,14 @@ module.exports.getRequestToken = () => new Promise((ok ,bad) => {
 	});
 });
 
+/**
+ * Set request token.
+ *
+ * @param {object} apiData
+ * @param {object} requestToken
+ *
+ * @return {Promise}
+ */
 module.exports.setRequestToken = (apiData, requestToken) => new Promise((ok, bad) => {
 
 	model.findOne({type : typeDBox},  (err, doc) => {

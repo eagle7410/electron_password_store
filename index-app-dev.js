@@ -7,7 +7,6 @@ const app           = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const server        = require('./server');
 
-
 app.on('ready', () => {
 	const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 	installExtension(REACT_DEVELOPER_TOOLS)
@@ -18,7 +17,7 @@ app.on('ready', () => {
 		.catch((err) => console.log('An error occurred: ', err));
 
 	let mainWindow = new BrowserWindow({
-		width: 800,
+		width  : 800,
 		height : 800,
 	});
 

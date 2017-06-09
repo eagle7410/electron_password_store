@@ -45,7 +45,7 @@ let config = [
 		handel: (res, action, dateStr) => {
 
 			let pathUpload = pathManager.getUploadPath(dateStr);
-			let pathZip = `${pathUpload}/${pathManager.getArchiveName()}`
+			let pathZip = `${pathUpload}/${pathManager.getArchiveName()}`;
 			let pathExract = `${pathUpload}/unzip`;
 			zipper.unzipArchive(pathZip, pathExract)
 				.then(r => send.ok(res, action, dateStr))
@@ -150,11 +150,12 @@ module.exports = {
 		mdSettings,
 		mdCategories
 	) => {
-			modelUsers = mdUsers;
-			modelStorage = mdStorage;
-			modelSettings = mdSettings;
-			modelCategories = mdCategories;
-			return module.exports
+		modelUsers = mdUsers;
+		modelStorage = mdStorage;
+		modelSettings = mdSettings;
+		modelCategories = mdCategories;
+
+		return module.exports
  	},
 	config   : config
 };
