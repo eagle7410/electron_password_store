@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {loginList, auth} from '../../api/Login'
 import Form from './Form'
-import LoadAnime from '../tools/LoadAnime'
+import LoadAnime from '../tools/LoadAnimation'
 import DataLoader from '../tools/DataLoader'
 //Const
 import {afterAuth} from '../../const/Routes';
@@ -62,7 +62,7 @@ class Login extends Component {
 		let that = this;
 
 		if (that.props.store.isLoad === true) {
-			return (<LoadAnime/>);
+			return (<LoadAnimation/>);
 		}
 
 		if (that.props.store.token && that.props.store.isAuth) {

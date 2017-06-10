@@ -9,15 +9,6 @@ import {StorageFilters} from '../../const/Events'
 
 const StoreTools = (state) => {
 	let filters = state.filters;
-	let fieldSearch = '';
-
-	if (filters.showSearchText) {
-		fieldSearch = <TextField
-			id="inputSearch"
-			hintText='Enter for search'
-			onChange ={state.changeSearchText}
-		/>
-	}
 
 	return (
 		<Toolbar>
@@ -34,7 +25,11 @@ const StoreTools = (state) => {
 						onTouchTap={state.changeShowSearchText}
 					/>
 				</IconButton>
-				{fieldSearch}
+				{
+					filters.showSearchText
+						? <TextField id="inputSearch" hintText='Enter for search' onChange ={state.changeSearchText}/>
+						: <span/>
+				}
 				<ToolbarSeparator />
 
 				<StorageCategoriesList onEdit={state.changeCategory} showAll={true} val={filters.categorySelect} />
@@ -49,8 +44,8 @@ export default connect(
 		filters : state.storageFilters
 	}),
 	dispatch => ({
-		changeCategory : (event, index, value) => dispatch({type: StorageFilters.chCat, data: value}),
-		changeSearchText : (ev, val) => dispatch({type: StorageFilters.chText, data: val.toLowerCase()}),
+		changeCategory       : (event, index, value) => dispatch({type: StorageFilters.chCat, data: value}),
+		changeSearchText     : (ev, val) => dispatch({type: StorageFilters.chText, data: val.toLowerCase()}),
 		changeShowSearchText : ev => dispatch({type: StorageFilters.toggleText, data: ev.target.value}),
 	})
 )(StoreTools);

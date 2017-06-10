@@ -2,14 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import RowShow from './StorageRowShow';
 import RowEdit from './StorageRowEdit';
-
-import {
-	Table,
-	TableBody,
-	TableHeader,
-	TableHeaderColumn,
-	TableRow
-} from 'material-ui/Table';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow} from 'material-ui/Table';
 
 const StorageTable = (state) => {
 	let store = state.store;

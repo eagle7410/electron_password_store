@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import LoadAnime from '../tools/LoadAnime'
+import LoadAnime from '../tools/LoadAnimation'
 import TextField from 'material-ui/TextField';
 
 const SdfPanel = (state) => {
@@ -10,7 +10,7 @@ const SdfPanel = (state) => {
 	if (!store.isTryLoad) {
 		cont = '';
 	} else if (store.isLoad) {
-		cont = <LoadAnime/>;
+		cont = <LoadAnimation/>;
 	} else if (store.isLoadOk) {
 		cont = <div>{'Success'}</div>;
 	} else if (!store.isLoadOk){

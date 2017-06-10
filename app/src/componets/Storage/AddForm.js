@@ -9,15 +9,8 @@ import AlertStatus from '../../const/AlertStatus';
 import {addRecord} from '../../api/Storage'
 import {RecordAdd, Alert} from '../../const/Events'
 import {CategoryError, Alert as AlertMessages} from '../../const/Messages'
+import {textField, getRecord} from '../../utils/GetRecord'
 
-
-const textField = ['title', 'login', 'pass', 'answer'];
-const getRecord = store => {
-	let record = {};
-	['desc', 'category'].concat(textField).map(field => record[field] = store[field]);
-
-	return record;
-};
 const AddForm = (state) => {
 	let store = state.store;
 
@@ -32,7 +25,7 @@ const AddForm = (state) => {
 			return state.showAlert(AlertMessages.empty, AlertStatus.BAD);
 		}
 
-		addRecord(getRecord(store))
+		addRecord(getRecord(null, store))
 			.then(data => {
 				state.save(data);
 				state.clear();

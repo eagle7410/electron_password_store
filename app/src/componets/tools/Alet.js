@@ -11,29 +11,23 @@ import {icoBad,icoOk,paper} from './AlertStyles'
 
 const Alert = (state) => {
 	let alert = state.store;
-	const actions = [
-		<RaisedButton
-			label="Is read"
-			onTouchTap={state.onRead}
-			primary={true}
-		/>,
-	];
-
-	let icon = <SocialMood style={icoOk}/>;
-	
-	if (alert.status === AlertStatus.BAD) {
-		icon = <SocialMoodBad style={icoBad}/>;
-	}
 
 	return (
-		<Dialog
-			actions={actions}
-			modal={false}
-			open={alert.open}
-		>
+		<Dialog actions={[<RaisedButton label="Is read" onTouchTap={state.onRead} primary={true}/>]} modal={false} open={alert.open}>
 			<Paper style={paper}>
 				<table>
-					<tbody><tr><td>{icon}</td><td>{alert.message}</td></tr></tbody>
+					<tbody>
+						<tr>
+							<td>
+							{
+								alert.status === AlertStatus.OK
+									? <SocialMood    style={icoOk}  />
+									: <SocialMoodBad style={icoBad} />
+							}
+							</td>
+							<td>{alert.message}</td>
+						</tr>
+					</tbody>
 				</table>
 			</Paper>
 		</Dialog>
@@ -41,10 +35,6 @@ const Alert = (state) => {
 };
 
 export default connect(
-	state => ({
-		store: state.alert
-	}),
-	dispatch => ({
-		onRead : () => dispatch({type : Event.close}),
-	})
+	state => ({store: state.alert}),
+	dispatch => ({onRead : () => dispatch({type : Event.close})})
 )(Alert);

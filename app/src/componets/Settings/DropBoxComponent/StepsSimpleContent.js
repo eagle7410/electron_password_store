@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadAnime from '../../tools/LoadAnime'
+import LoadAnime from '../../tools/LoadAnimation'
 
 const styleContent = {margin: '0 16px', overflow: 'hidden'};
 const objOk  = {color : '#00E676', mess  : 'Success'};
@@ -18,7 +18,7 @@ const StepsSimpleContent = (state) => {
 
 	return (
 		<div style={styleContent}>
-			<div>{state.loading ? <LoadAnime key={'anima'} /> : <div/>}</div>
+			<div>{state.loading ? <LoadAnimation key={'anima'} /> : <div/>}</div>
 		</div>
 	);
 };

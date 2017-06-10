@@ -10,25 +10,30 @@ import {del} from '../../api/Storage'
 
 const styleDataLabel = {
 	color : '#ccc'
-}
+};
 const styleRow = {
 	overflow: 'visible',
 	fontSize : '18px'
-}
+};
 const styleBlockInCell = {
 	display : 'inline-block'
-}
+};
+const styleArea = {
+	width : '100%',
+	fontSize : '18px'
+};
 
 const StorageRowShow = (state) => {
 	const row = state.row;
 	const onDelete = id => {
 
 		state.confirm(id, ()=> new Promise((ok, bad) => {
-			del(id).then(r => ok(true), e => {
-				console.log(Storage.move, e);
-				state.showAlert(Storage.move, AlertStatus.BAD);
-				bad();
-			});
+			del(id)
+				.then(r => ok(true))
+				.catch(e => {
+					state.showAlert(Storage.move, AlertStatus.BAD);
+					bad();
+				});
 		}));
 
 	};
@@ -51,7 +56,7 @@ const StorageRowShow = (state) => {
 				</div>
 			 </TableRowColumn>
 			<TableRowColumn
-				children={<textarea  rows='6' style={{width : '100%', fontSize : '18px'}}readOnly={true} defaultValue={row.desc}/>} onChange={state.onEditDesc}
+				children={<textarea  rows='6' style={styleArea} readOnly={true} defaultValue={row.desc}/>} onChange={state.onEditDesc}
 			/>
 		</TableRow>
 	);

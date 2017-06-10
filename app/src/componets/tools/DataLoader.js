@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import LoadAnime from './LoadAnime'
+import LoadAnime from './LoadAnimation'
 import {fullData}  from '../../api/Loader'
 import AlertStatus from '../../const/AlertStatus'
 import {Redirect} from 'react-router-dom';
@@ -14,12 +14,11 @@ class DataLoader extends Component {
 
 		fullData().then(res => {
 			['Categories', 'Users', 'Storage', 'Settings'].forEach(
-				p => props['init' + p](res[p.toLowerCase()])
+				p => props[`init${p}`](res[p.toLowerCase()])
 			);
 			props.isLoadOk();
 
 		}, e => {
-			console.log(AlertMess.noGetData, e );
 			props.showAlert(AlertMess.noGetData, AlertStatus.BAD);
 			props.isLoadBad();
 		});
@@ -28,7 +27,7 @@ class DataLoader extends Component {
 	render() {
 		let content = this.props.store.isOk ? <Redirect to={this.props.pathAfter} /> : <div>Not work</div>;
 
-		return this.props.store.isLoad ? <LoadAnime /> : content ;
+		return this.props.store.isLoad ? <LoadAnimation /> : content ;
 	}
 
 }
