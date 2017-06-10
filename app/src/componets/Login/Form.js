@@ -6,6 +6,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import PasswordField from 'material-ui-password-field'
 import IconUnLock from 'material-ui/svg-icons/action/lock-open';
+
 const Form = (state) => (
 	<div>
 		<SelectField
@@ -19,15 +20,8 @@ const Form = (state) => (
 
 		<PasswordField
 			floatingLabelText="Password?"
-			onChange={ev => {
-				let val = (ev.target|| {}).value;
-
-				if (val) {
-					state.handelChangePass(val);
-				}
-			}}
+			onChange={ev => {let val = (ev.target|| {}).value; if (val){state.handelChangePass(val);} }}
 			errorText={state.store.errorPass}
-
 		/><br/>
 
 		<RaisedButton

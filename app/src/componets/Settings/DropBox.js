@@ -7,21 +7,18 @@ import SettingsForm from './DropBoxComponent/SettingsForm'
 import StepsDownload from './DropBoxComponent/StepsDownload'
 import StepsUpload from './DropBoxComponent/StepsUpload'
 
-const DropBox = () => {
-
-	return (
-		<Tabs >
-			<Tab label='Connect' icon={<ActionBuild />} >
-				<SettingsForm />
-			</Tab>
-			<Tab label='Upload to DropBox' icon={<ActionUp />} >
-				<StepsUpload />
-			</Tab>
-			<Tab label='Download from DropBox' icon={<ActionDown />} >
-				<StepsDownload/>
-			</Tab>
-		</Tabs>
-	)
-};
+const DropBox = () => (
+	<Tabs >
+		<Tab label='Connect' icon={<ActionBuild />} >
+			<SettingsForm />
+		</Tab>
+		<Tab label='Upload to DropBox' icon={<ActionUp />} >
+			<StepsUpload />
+		</Tab>
+		<Tab label='Download from DropBox' icon={<ActionDown />} >
+			<StepsDownload/>
+		</Tab>
+	</Tabs>
+);
 
 export default DropBox;

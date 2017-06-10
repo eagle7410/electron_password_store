@@ -62,6 +62,7 @@ const login = (state = initialState, action) => {
 		case Login.dataChange:
 			let data = {};
 			data[action.data.type] = action.data.val;
+
 			return {
 				...state,
 				...data

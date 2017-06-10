@@ -2,20 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import RowShow from './CategoriesRowShow';
 import RowEdit from './CategoriesRowEdit';
-
-import {
-	Table,
-	TableBody,
-	TableHeader,
-	TableHeaderColumn,
-	TableRow
-} from 'material-ui/Table';
+import {Table,TableBody,TableHeader,TableHeaderColumn,TableRow} from 'material-ui/Table';
 
 const CategoriesTable = (state) => {
 	let store = state.store;
 	let rows = store.list;
 	let ids =  Object.keys(rows).filter(id => !~store.noChoice.indexOf(Number(id)));
-
 
 	return (
 		<Table fixedHeader={true} selectable={false} >

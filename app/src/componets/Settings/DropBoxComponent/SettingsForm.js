@@ -75,22 +75,26 @@ const SettingsForm = (state) => {
 
 export default connect(
 	state => ({
-		store: state.dropBoxSettingsForm,
+		store   : state.dropBoxSettingsForm,
 		connect : state.dropBoxConnectSteps
 	}),
 	dispatch => ({
-		firstStep          : () => dispatch({type : EventStep.stepFirst}),
-		reconnect          : () => dispatch({type : DropBoxForm.reconnect}),
-		handelEnterApiData : (type, val) => dispatch({type : DropBoxForm.apiEnter, data : {
-			type : type,
-			val  : val
-		}}),
+		firstStep   : () => dispatch({type : EventStep.stepFirst}),
+		reconnect   : () => dispatch({type : DropBoxForm.reconnect}),
 		connectInit : () => dispatch({type : DropBoxForm.connectInit}),
-		showAlert: (mess, type) => dispatch({
-			type: Alert.show, data: {
+		showAlert   : (mess, type) => dispatch({
+			type: Alert.show,
+			data: {
 				message: mess,
 				status: type
 			}
-		})
+		}),
+		handelEnterApiData : (type, val) => dispatch({
+			type : DropBoxForm.apiEnter,
+			data : {
+				type : type,
+				val  : val
+			}
+		}),
 	})
 )(SettingsForm);

@@ -11,15 +11,14 @@ import {Confirm, CategoryError} from '../../const/Messages'
 const CategoriesRowShow = (state) => {
 
 	const onDelete = id => {
-
 		state.confirm(id, ()=> new Promise((ok, bad) => {
-			del(id).then(r => ok(true), e => {
-				console.log(CategoryError.move, e);
-				state.showAlert(CategoryError.move, AlertStatus.BAD);
-				bad();
-			});
+			del(id)
+				.then(() => ok(true))
+				.catch(e => {
+					state.showAlert(CategoryError.move, AlertStatus.BAD);
+					bad();
+				});
 		}));
-
 	};
 
 	return (
@@ -35,11 +34,11 @@ const CategoriesRowShow = (state) => {
 
 export default connect(
 	state => ({
-		store: state.storage,
+		store      : state.storage,
 		categories : state.storageCategories
 	}),
 	dispatch => ({
-		onEdit : id => dispatch({type : StorageCategory.editMode , data : id}),
+		onEdit  : id => dispatch({type : StorageCategory.editMode , data : id}),
 		confirm : (id, backPromise) => dispatch({
 			type : ConfirmAction.show,
 			data : {
@@ -50,8 +49,9 @@ export default connect(
 				callPromiseConfirm : backPromise
 			}
 		}),
-		showAlert: (mess, type) => dispatch({
-			type: Alert.show, data: {
+		showAlert : (mess, type) => dispatch({
+			type : Alert.show,
+			data : {
 				message: mess,
 				status: type
 			}

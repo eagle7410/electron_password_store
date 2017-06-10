@@ -19,12 +19,12 @@ const CategoriesTools = (state) => {
 			return state.showAlert(Alert.empty, AlertStatus.BAD);
 		}
 
-		add(val).then(data => {
-			state.save(data);
-			state.showAlert(Alert.save, AlertStatus.OK);
-		}, err => {
-			state.showAlert(err, AlertStatus.BAD);
-		});
+		add(val)
+			.then(data => {
+				state.save(data);
+				state.showAlert(Alert.save, AlertStatus.OK);
+			})
+			.catch(err => state.showAlert(err, AlertStatus.BAD));
 	};
 
 	return (
@@ -56,10 +56,11 @@ export default connect(
 	dispatch => ({
 		onChangeAddName : ev => dispatch({type : StorageCategory.createMode, data : ev.target.value}),
 		save : data => dispatch({type : StorageCategory.create, data : data}),
-		showAlert: (mess, type) => dispatch({
-			type: AlertAction.show , data: {
-				message: mess,
-				status: type
+		showAlert : (mess, type) => dispatch({
+			type : AlertAction.show ,
+			data : {
+				message : mess,
+				status  : type
 			}
 		}),
 	})

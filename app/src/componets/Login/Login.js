@@ -17,9 +17,9 @@ class Login extends Component {
 		let that = this;
 
 		if (that.props.store.isLoaded !== true) {
-			loginList().then(that.props.onLoadedOk, e => {
-				that.props.showAlert(Messages.noUserList, AlertStatus.BAD);
-			});
+			loginList()
+				.then(that.props.onLoadedOk)
+				.catch(() => that.props.showAlert(Messages.noUserList, AlertStatus.BAD));
 		}
 	}
 
@@ -54,7 +54,8 @@ class Login extends Component {
 		}
 
 		auth(that.props.store.login, that.props.store.pass)
-			.then(that.props.onAuthOk, that.props.onAuthBad);
+			.then(that.props.onAuthOk)
+			.catch(that.props.onAuthBad);
 	}
 
 	render () {
@@ -87,24 +88,33 @@ export default connect(
 		navMenu: state.navMenu
 	}),
 	dispatch => ({
-		validateErrors    : errs  => dispatch({type: LoginEvent.validBad, data : errs}),
-		onLoadedOk        : data  => dispatch({type: LoginEvent.initOk, data: data}),
-		onSubmit          : ()    => dispatch({type: LoginEvent.authTry}),
-		onAuthOk          : token => dispatch({type: LoginEvent.authOK, data: token}),
-		onAuthBad         : err   => dispatch({type: LoginEvent.authBad, data: err}),
-		handelChangeLogin : login => dispatch({type: LoginEvent.dataChange, data: {
-			type : 'login',
-			val  : login
-		}}),
-		handelChangePass  : pass  => dispatch({type:  LoginEvent.dataChange, data: {
-			type : 'pass',
-			val  : pass
-		}}),
-		logout            : ()           => dispatch({type : LoginEvent.logout}),
-		showAlert         : (mess, type) => dispatch({type : AlertAction.show, data: {
-			message : mess,
-			status  : type
-		}})
+		logout            : ()    => dispatch({type : LoginEvent.logout}),
+		validateErrors    : errs  => dispatch({type : LoginEvent.validBad, data : errs}),
+		onLoadedOk        : data  => dispatch({type : LoginEvent.initOk, data: data}),
+		onSubmit          : ()    => dispatch({type : LoginEvent.authTry}),
+		onAuthOk          : token => dispatch({type : LoginEvent.authOK, data: token}),
+		onAuthBad         : err   => dispatch({type : LoginEvent.authBad, data: err}),
+		handelChangeLogin : login => dispatch({
+			type : LoginEvent.dataChange,
+			data : {
+				type : 'login',
+				val  : login
+			}
+		}),
+		handelChangePass  : pass  => dispatch({
+			type : LoginEvent.dataChange,
+			data : {
+				type : 'pass',
+				val  : pass
+			}
+		}),
+		showAlert         : (mess, type) => dispatch({
+			type : AlertAction.show,
+			data : {
+				message : mess,
+				status  : type
+			}
+		})
 	})
 )(Login);
 

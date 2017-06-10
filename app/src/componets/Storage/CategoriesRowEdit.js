@@ -35,11 +35,12 @@ export default connect(
 		store: state.storageCategories,
 	}),
 	dispatch => ({
-		onCancel : () => dispatch({type : StorageCategory.editCancel}),
-		onSaveEdit : () => dispatch({type : StorageCategory.editSave}),
-		onEditCategory: event => dispatch({type : StorageCategory.edit, data: event.target.value}),
-		showAlert: (mess, type) => dispatch({
-			type: Alert.show, data: {
+		onCancel       : ()    => dispatch({type : StorageCategory.editCancel}),
+		onSaveEdit     : ()    => dispatch({type : StorageCategory.editSave}),
+		onEditCategory : event => dispatch({type : StorageCategory.edit, data: event.target.value}),
+		showAlert      : (mess, type) => dispatch({
+			type : Alert.show,
+			data : {
 				message: mess,
 				status: type
 			}

@@ -1,14 +1,11 @@
 import React from 'react';
 import AddForm from './AddForm'
 
-const Add = (state) => {
+const Add = (state) => (
+	<div style={ {textAlign : 'center'} }>
+		<AddForm />
+	</div>
 
-	return (
-		<div style={ {textAlign : 'center'} }>
-			<AddForm />
-		</div>
-
-	);
-};
+);
 
 export default Add;
