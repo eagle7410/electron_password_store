@@ -1,4 +1,5 @@
 const Routes = require('../routes/RoutesConstDev');
+const libErr = require('../libs/errors');
 const send   = require('../libs/send');
 const sdf    = require('../libs/sdf');
 
@@ -9,7 +10,7 @@ let dialog = null;
 let config = [
 	{
 		route  : Routes.sdfPath,
-		handel : (res, action, data) => {
+		handel : (res, action) => {
 			let folder = dialog.showOpenDialog(mainWindow, {
 				filters : [
 					{name: 'Sdf Files', extensions: ['sdf']},
@@ -18,7 +19,7 @@ let config = [
 				defaultPath : '/home/igor/desk',
 				properties: ['openFile']}
 			);
-			send.ok(res, action, {folder : !Array.isArray(folder) ? '' : folder.shift()});
+ 			send.ok(res, action, {folder : Array.isArray(folder) ? folder.shift() : ''});
 		}
 	},
 	{
@@ -27,12 +28,12 @@ let config = [
 		handel : (res, action, data) => {
 			sdf.content(data)
 				.then(modelStorage.addMany)
-				.then(() => send.ok(res, action))
+				.then(() => send.ok(res, action, null))
 				.catch(err => {
 					let mess = 'Sorry inner error';
 
 					if (err.type !== libErr.constants.sdf) {
-						console.log('!ERR ' + Routes.sdfLoad, err);
+						console.log(`!ERR ${Routes.sdfLoad}`, err);
 					} else {
 						mess = err.mess;
 					}

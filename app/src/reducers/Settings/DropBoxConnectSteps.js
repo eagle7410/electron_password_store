@@ -8,6 +8,7 @@ const initialState = {
 
 const dropBoxConnectSteps = (state = initialState, action) => {
 	let next;
+
 	// eslint-disable-next-line
 	switch (action.type) {
 		

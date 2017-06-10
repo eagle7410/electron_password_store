@@ -3,7 +3,7 @@ const ipcRenderer = electron.ipcMain;
 const dialog      = electron.dialog;
 // Db
 const Engine = require('tingodb')();
-const dbPath = __dirname + '/db_test/tingo_db/data';
+const dbPath = `${__dirname}/db_test/tingo_db/data`;
 const db     = new Engine.Db(dbPath, {});
 const models = require('./db/tingo_db/models');
 
@@ -20,7 +20,7 @@ const listen = (action, handel) => {
 	ipcRenderer.on(action, (event, arg) => {
 		// TODO: clear
 		console.log(`:: ${action} `, arg);
-		handel(event.sender, action + '-response', arg);
+		handel(event.sender, `${action}-response`, arg);
 	});
 };
 

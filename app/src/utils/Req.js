@@ -10,7 +10,7 @@ const ipcRenderer = electron.ipcRenderer;
  * @param  {*} data
  * @param  {*} method
  * @param  {*} headers
- * @return {Promise}
+ * @return {{Promise}}
  */
 const send = (url, data, method, headers) => new Promise((resolve) => {
 	const action = `${method}->${url}`;
@@ -29,7 +29,7 @@ const send = (url, data, method, headers) => new Promise((resolve) => {
  * @param  {string} url
  * @param  {*} data
  * @param  {*} headers
- * @return {Promise}
+ * @return {{Promise}}
  */
 const save = (url, data, headers) => send(url, data, 'post', headers);
 /**
@@ -38,7 +38,7 @@ const save = (url, data, headers) => send(url, data, 'post', headers);
  * @param  {string} url
  * @param  {*} data
  * @param  {*} headers
- * @return {Promise}
+ * @return {{Promise}}
  */
 const get = (url, data, headers) => send(url, data, 'get', headers);
 /**
@@ -47,7 +47,7 @@ const get = (url, data, headers) => send(url, data, 'get', headers);
  * @param  {string} url
  * @param  {*} data
  * @param  {*} headers
- * @return {Promise}
+ * @return {{Promise}}
  */
 const move = (url, data, headers) => send(url, data, 'delete', headers);
 /**
@@ -56,7 +56,7 @@ const move = (url, data, headers) => send(url, data, 'delete', headers);
  * @param  {string} url
  * @param  {*} data
  * @param  {*} headers
- * @return {Promise}
+ * @return {{Promise}}
  */
 const update = (url, data, headers) => send(url, data, 'put', headers);
 /**

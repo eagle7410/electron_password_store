@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import StepsConnect from './StepsConnect'
-import {DropBoxForm, Alert} from '../../../const/Events'
+import {DropBoxForm, Alert, StepsConnect as EventStep} from '../../../const/Events'
 import {getConnect} from '../../../api/DropBox'
 import AlertStatus from '../../../const/AlertStatus'
 import {DropBox} from '../../../const/Messages'
@@ -23,6 +23,8 @@ const SettingsForm = (state) => {
 	};
 
 	const Reconnect = () => {
+		state.reconnect();
+		state.firstStep();
 	};
 
 	if (store.accessToken) {
@@ -77,6 +79,8 @@ export default connect(
 		connect : state.dropBoxConnectSteps
 	}),
 	dispatch => ({
+		firstStep          : () => dispatch({type : EventStep.stepFirst}),
+		reconnect          : () => dispatch({type : DropBoxForm.reconnect}),
 		handelEnterApiData : (type, val) => dispatch({type : DropBoxForm.apiEnter, data : {
 			type : type,
 			val  : val

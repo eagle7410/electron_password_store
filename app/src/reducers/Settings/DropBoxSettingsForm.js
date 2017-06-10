@@ -1,10 +1,10 @@
 import {DropBoxForm, StepsConnect} from '../../const/Events'
 const initialState = {
-	apiKey : '',
-	apiSecret : '',
+	init        : false,
+	apiKey      : '',
+	apiSecret   : '',
 	confirmLink : '',
-	accessToken : false,
-	init        : false
+	accessToken : false
 };
 
 const dropBoxSettingsForm = (state = initialState, action) => {
@@ -12,24 +12,31 @@ const dropBoxSettingsForm = (state = initialState, action) => {
 
 	// eslint-disable-next-line
 	switch (action.type) {
+		case DropBoxForm.reconnect:
+			return {
+				...state,
+				...initialState
+			};
 		case DropBoxForm.connectInit:
 			return {
 				...state,
-				init : true
+				init: true
 			};
 
 		case StepsConnect.init:
 
 			newState = {};
 
+			//noinspection JSUnresolvedVariable
 			if (action.data.dropBox) {
 
-				let  dropBox = action.data.dropBox;
+				//noinspection JSUnresolvedVariable
+				let dropBox = action.data.dropBox;
 
 				newState = {
-					apiKey : dropBox.apiData.apiKey,
-					apiSecret : dropBox.apiData.apiSecret,
-					accessToken : dropBox.accessToken
+					apiKey: dropBox.apiData.apiKey,
+					apiSecret: dropBox.apiData.apiSecret,
+					accessToken: dropBox.accessToken
 				}
 			}
 
@@ -39,21 +46,22 @@ const dropBoxSettingsForm = (state = initialState, action) => {
 			};
 
 		case DropBoxForm.apiEnter:
-			newState = {...state };
+			newState = {...state};
 			newState[action.data.type] = action.data.val;
+
 			return newState;
 
 		case StepsConnect.linkConfirm:
 			return {
 				...state,
-				confirmLink : action.data
+				confirmLink: action.data
 			};
 
 		case StepsConnect.haveAccess :
 			return {
 				...state,
-				accessToken : true,
-				init        : true
+				accessToken: true,
+				init: true
 			};
 	}
 

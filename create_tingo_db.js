@@ -1,6 +1,6 @@
 const Engine = require('tingodb')();
 const fs = require('fs');
-const dbPath = __dirname + '/db/tingo_db';
+const dbPath = `${__dirname}/db/tingo_db`;
 
 const db = new Engine.Db(dbPath, {});
 const users      = db.collection('users');
@@ -14,7 +14,7 @@ const removeFiles = files => new Promise((ok, bad) => {
 
 	files.map(file => {
 		arrCall.push(new Promise((ok, bad) => {
-			fs.unlink(dbPath + '/' + file, err => {
+			fs.unlink(`${dbPath}/${file}`, err => {
 				if (err) return bad(err);
 				ok();
 			});

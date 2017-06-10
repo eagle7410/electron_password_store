@@ -16,7 +16,7 @@ module.exports.model = null;
 /**
  * Get login list.
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.loginList = () => new Promise((ok, bad) => {
 	model.find({}, {fields: {login: 1}}, (err, cur) => {
@@ -42,7 +42,7 @@ module.exports.loginList = () => new Promise((ok, bad) => {
  * @param {string} login
  * @param {string} pass
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.auth = (login, pass) => new Promise((ok, bad) => {
 	model.findOne({login: login}, (err, user) => {
@@ -62,7 +62,7 @@ module.exports.auth = (login, pass) => new Promise((ok, bad) => {
 /**
  *  Get users
  *
- *  @return {Promise}
+ *  @return {{Promise}}
  */
 module.exports.list = () => new Promise((ok, bad) => {
 	model.find({}, (err, cur) => {
@@ -93,7 +93,7 @@ module.exports.list = () => new Promise((ok, bad) => {
  * @param {object} data
  * @param {string} action
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 const isValid = (data, action = 'create') => new Promise((ok, bad) => {
 	if (!data.login) {
@@ -137,7 +137,7 @@ const hash = (pass, secret = 'IgorStcherbina') => {
  * Create new user.
  * @param {object} data
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.save = data => new Promise((ok, bad) => {
 	isValid(data)
@@ -159,7 +159,7 @@ module.exports.save = data => new Promise((ok, bad) => {
  *
  * @param {number} id
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.delete = id => new Promise((ok, bad) => {
 	model.remove({_id: id}, err => err ? bad(err) : ok());
@@ -170,7 +170,7 @@ module.exports.delete = id => new Promise((ok, bad) => {
  *
  * @param {object} data
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.updateSafe = (data) => new Promise((ok, bad) => {
 	isValid(data, 'update')
@@ -190,9 +190,10 @@ module.exports.updateSafe = (data) => new Promise((ok, bad) => {
  *
  * @param {[{object}]}data
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.addMany = data => new Promise((ok, bad) => {
+	//noinspection JSUnresolvedFunction
 	async.forEach(data, (rec, next) => {
 		model.findOne({_id: rec._id}, (err, doc) => {
 			if (err) {

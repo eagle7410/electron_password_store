@@ -1,8 +1,9 @@
-const Routes = require('../routes/RoutesConstDev');
-const could  = require('../libs/drop-box');
-const send   = require('../libs/send');
-const pathManager = require('../libs/path-manager');
-const zipper = require('../libs/zipper');
+const Routes       = require('../routes/RoutesConstDev');
+const could        = require('../libs/drop-box');
+const send         = require('../libs/send');
+const zipper       = require('../libs/zipper');
+const pathManager  = require('../libs/path-manager');
+const migrateTingo = require('../libs/migrate-tingo');
 
 const reqTypes = send.reqTypes;
 
@@ -27,12 +28,11 @@ let config = [
 		handel: (res, action, dateStr) => {
 
 			let pathUpload = pathManager.getUploadPath(dateStr);
-			let pathExract = `${pathUpload}/unzip`;
+			let pathExtract = `${pathUpload}/unzip`;
 
-			require('../libs/migrate-tingo').up(modelUsers, modelStorage, modelCategories, pathExract)
-				.then(
-					() => send.ok(res, action, dateStr)
-				).catch(err => {
+			migrateTingo.up(modelUsers, modelStorage, modelCategories, pathExtract)
+				.then(() => send.ok(res, action, dateStr))
+				.catch(err => {
 					console.log('!ERR merge archive', err);
 					send.err(res, action, 'ERR merge archive');
 				});
@@ -96,7 +96,7 @@ let config = [
 			const fileName = pathManager.getArchiveName();
 
 			could.moveToCould(zipPath, fileName)
-				.then(() => send.ok(res, action))
+				.then(() => send.ok(res, action, null))
 				.catch(err => {
 					console.log('!ERR move to could', err);
 					send.err(res, action, 'ERR move to could');
@@ -108,7 +108,7 @@ let config = [
 		handel: (res, action) => {
 			modelSettings.getSettingsDBox()
 				.then(could.connectInit)
-				.then(() => send.ok(res, action))
+				.then(() => send.ok(res, action, null))
 				.catch(err => {
 					console.log('!ERR init dropBox connect', err);
 					send.err(res, action, 'Error get dropBox connect');
@@ -124,7 +124,7 @@ let config = [
 					.then(requesttoken => send.ok(res, action, requesttoken.authorize_url))
 					.catch(err => {
 						console.log('!ERR drop-box get confirm link ', err);
-						send.err(res, action);
+						send.err(res, action, null);
 					})
 		}
 	},
@@ -134,10 +134,10 @@ let config = [
 			modelSettings.getRequestToken()
 				.then(could.getAccessToken)
 				.then(modelSettings.setAccessToken)
-				.then(() => send.ok(res, action))
+				.then(() => send.ok(res, action, null))
 				.catch(err => {
 					console.log('!ERR drop-box get access', err);
-					send.err(res, action);
+					send.err(res, action, null);
 				})
 		}
 	}
@@ -155,7 +155,7 @@ module.exports = {
 		modelSettings = mdSettings;
 		modelCategories = mdCategories;
 
-		return module.exports
+		return module.exports;
  	},
 	config   : config
 };

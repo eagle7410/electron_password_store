@@ -1,17 +1,18 @@
-const async = require('async');
 const modelConst = require('../modelConst');
+const Engine = require('tingodb')();
 
 /**
  * Merge data in collection different databases.
  * @method mergeCollection
  *
- * @param  {Function}   cb
  * @param  {object}     db
  * @param  {string}     name
  * @param  {Collection} modelSet
- * @param  {array}      props
+ * @param  {[string]}   props
+ *
+ * @return {{Promise}}
  */
-const mergeCollection = (cb, db, name , modelSet, props) => {
+const mergeCollection = (db, name, modelSet, props) => new Promise((ok, bad) => {
 	db.collection(name).find({}, (err, cur) => {
 		if (err) {
 			return cb(err);
@@ -30,10 +31,11 @@ const mergeCollection = (cb, db, name , modelSet, props) => {
 				objList.push(setRecord);
 			});
 
-			modelSet.addMany(objList).then(() => cb(null), err => cb(err));
+			modelSet.addMany(objList).then(() => ok(), err => bad(err));
 		})
 	})
-};
+});
+
 
 /**
  * Merge data.
@@ -44,38 +46,22 @@ const mergeCollection = (cb, db, name , modelSet, props) => {
  * @param  {Collection} modelCategories
  * @param  {string} pathExtract
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
-module.exports.up = (
-	modelUsers, modelStorage, modelCategories, pathExtract
-) => new Promise((ok, bad) => {
-	const Engine = require('tingodb')();
-	const db     = new Engine.Db(pathExtaract, {});
+module.exports.up = (modelUsers, modelStorage, modelCategories, pathExtract) => new Promise((ok, bad) => {
+	const db = new Engine.Db(pathExtract, {});
+	const propsStore = [
+		'title',
+		'login',
+		'category',
+		'pass',
+		'desc',
+		'answer'
+	];
 
-	async.waterfall([
-
-		cb => mergeCollection(cb, db, modelConst.store, modelStorage, [
-			'title',
-			'login',
-			'category',
-			'pass',
-			'desc',
-			'answer'
-		]),
-		cb => mergeCollection(cb, db, modelConst.cat, modelCategories, [
-			'name',
-			'_id'
-		]),
-		cb => mergeCollection(cb, db, modelConst.usr, modelUsers, [
-			'login',
-			'pass',
-			'_id'
-		])
-	], e => {
-		if (e) {
-			return bad(e);
-		}
-
-		ok();
-	});
+	mergeCollection(db, modelConst.store, modelStorage, propsStore)
+		.then(() => mergeCollection(db, modelConst.cat, modelCategories, ['name','_id']))
+		.then(() => mergeCollection(db, modelConst.usr, modelUsers, ['login','pass','_id']))
+		.then(() => ok())
+		.catch(e => bad(e));
 });

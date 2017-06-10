@@ -18,16 +18,16 @@ const Users = () => {
 		<div>
 			<NavMenu />
 			<h1>Settings</h1>
-			<Tabs initialSelectedIndex={1}>
+			<Tabs initialSelectedIndex={0}>
+				<Tab label='DropBox' icon={<IconDropBox />}  style={styleTab}>
+					<Paper zDepth={2}>
+						<DropBox/>
+					</Paper>
+				</Tab>
 				<Tab label='Load SDF' icon={<IconSDF />}  style={styleTab}>
 					<Paper zDepth={2}>
 						<SdfTools/>
 						<SdfPanel/>
-					</Paper>
-				</Tab>
-				<Tab label='DropBox' icon={<IconDropBox />}  style={styleTab}>
-					<Paper zDepth={2}>
-						<DropBox/>
 					</Paper>
 				</Tab>
 			</Tabs>

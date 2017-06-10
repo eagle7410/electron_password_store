@@ -1,26 +1,36 @@
-const folderZip  = require('zip-folder');
-const unzip  = require('unzip');
-const fs = require('fs');
-/**
- * Create acrhive for folder.
- * @method createArhive
- * @param  {string}  folder
- * @param  {string}  zipPath
- * @return {Promise}
- */
-const createArhive = (folder, zipPath) => new Promise(
-	(ok, bad) => folderZip(folder, zipPath, err => err ? bad(err) : ok()
-));
+const zipFolder = require('zip-folder');
+const unzip     = require('unzip');
+const fs        = require('fs');
 
-const unzipArchive = (pathZip, pathExract) => new Promise((ok, bad) => {
+/**
+ * Create archive.
+ *
+ * @param {string} folder
+ * @param {string} zipPath
+ *
+ * @return {{Promise}}
+ */
+const createArchive = (folder, zipPath) => new Promise(
+	(ok, bad) => zipFolder(folder, zipPath, err => err ? bad(err) : ok())
+	);
+
+/**
+ * Unzip folder.
+ *
+ * @param pathZip
+ * @param pathExtract
+ *
+ * @return {{Promise}}
+ */
+const unzipArchive = (pathZip, pathExtract) => new Promise((ok, bad) => {
 	fs.createReadStream(pathZip)
-		.pipe(unzip.Extract({ path: pathExract }))
+		.pipe(unzip.Extract({ path: pathExtract }))
 		.on('error', bad)
 		.on('close', ok);
 
 });
 
 module.exports = {
-	createArhive : createArhive,
+	createArhive : createArchive,
 	unzipArchive : unzipArchive
-}
+};

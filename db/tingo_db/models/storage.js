@@ -19,7 +19,7 @@ module.exports.model = null;
  * @param {object} data
  * @param {String} action
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 const isValid = (data, action = 'create') => new Promise((ok, bad) => {
 	if (!data.category) {
@@ -51,7 +51,7 @@ const isValid = (data, action = 'create') => new Promise((ok, bad) => {
  *
  * @param data
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.save = data => new Promise((ok, bad) => {
 	isValid(data)
@@ -73,7 +73,7 @@ module.exports.save = data => new Promise((ok, bad) => {
  *
  * @param {number} id
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.delete = id => new Promise((ok, bad) => {
 	model.remove({_id : id}, err => err ? bad(err) : ok());
@@ -84,7 +84,7 @@ module.exports.delete = id => new Promise((ok, bad) => {
  *
  * @param {object} data
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.updateSafe = (data) => new Promise((ok, bad) => {
 	isValid(data, 'update')
@@ -106,7 +106,7 @@ module.exports.updateSafe = (data) => new Promise((ok, bad) => {
  *
  * @param {[{object}]}data
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.addMany = data => new Promise((ok, bad) => {
 	async.forEach(data, (rec, next) => {
@@ -134,7 +134,7 @@ module.exports.addMany = data => new Promise((ok, bad) => {
 /**
  *  Get all record.
  *
- *  @return {Promise}
+ *  @return {{Promise}}
  */
 module.exports.list = () => new Promise((ok, bad) => {
 	model.find({},  (err, cur) => {

@@ -12,7 +12,7 @@ let config = [
 			model.list().then(
 				data => send.ok(res, action, data),
 				err  => {
-					 console.log('Error get list ' + main, err);
+					 console.log(`Error get list ${main}`, err);
 					 send.err(res, action, 'Error get data list')
 					}
 			);
@@ -28,8 +28,8 @@ let config = [
 							send.err(res, action, err.mess);
 							break;
 						default :
-							console.log('!ERR save ' + main, err);
-							send.err(res, action, 'Server error no save.');
+							console.log(`!ERR save ${main}`, err);
+							send.err(res, action, `Server error no save.`);
 					}
 				});
 		}
@@ -38,14 +38,15 @@ let config = [
 		type   : reqTypes.put,
 		handel : (res, action, data) => {
 			model.updateSafe(data)
-				.then(() => send.ok(res, action))
+				.then(() => send.ok(res, action, null))
+				.then(() => send.ok(res, action, null))
 				.catch(err => {
 					switch (err.type) {
 						case libErr.constants.valid :
 							send.err(res, action, err.mess);
 							break;
 						default :
-							console.log('!ERR update ' + main, err);
+							console.log(`!ERR update ${main}`, err);
 							send.err(res, action, `No update ${main}.`);
 					}
 				});
@@ -55,10 +56,10 @@ let config = [
 		type   : reqTypes.del,
 		handel : (res, action, id) => {
 			model.delete(id)
-				.then(() => send.ok(res, action))
+				.then(() => send.ok(res, action, null))
 				.catch(err => {
-					console.log('!ERR delete ' + main, err);
-					send.err(res, action);
+					console.log(`!ERR delete ${main}`, err);
+					send.err(res, action, null);
 				});
 		}
 	}

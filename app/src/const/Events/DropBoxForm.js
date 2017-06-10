@@ -1,8 +1,9 @@
 const prefix = 'DropBoxForm';
 
 const DropBoxForm = {
-	apiEnter    : prefix + 'EnterData',
-	connectInit : prefix + 'ConncetInit'
+	apiEnter    : `${prefix}EnterData`,
+	reconnect   : `${prefix}ConncetReinit`,
+	connectInit : `${prefix}ConncetInit`
 };
 
 export default DropBoxForm;

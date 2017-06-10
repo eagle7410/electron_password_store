@@ -1,16 +1,18 @@
+/* global module */
 const ok = 'OK';
 const err = 'BAD';
 
 /**
  * Wrap for response send.
  * @method send
- * @param  {event.sender} res
+ * @param  {object} res
  * @param  {string} action
- * @param  {constant} status
+ * @param  {string} status
  * @param  {*} data
+ *
  * @return {response}
  */
-let send = (res, action, status, data) => {
+let send = (res, action, status, data = null) => {
 
 	res.send(action, {
 		status : status,
@@ -37,18 +39,18 @@ module.exports = {
 		err : err
 	},
 	/**
-	 * Response Sucess.
+	 * Response Success.
 	 * @method ok
-	 * @param  {event.sender} res
+	 * @param  {object} res
 	 * @param  {string} action
 	 * @param  {*} data
 	 * @return {response}
 	 */
 	ok : (res, action, data) => send(res, action, ok, data),
 	/**
-	 * Responce fail.
+	 * Response fail.
 	 * @method err
-	 * @param  {event.sender} res
+	 * @param  {object} res
 	 * @param  {string} action
 	 * @param  {*} data
 	 * @return {response}

@@ -70,8 +70,8 @@ const config = [
 					send.ok(res, action, data);
 				})
 				.catch(err => {
-					console.log('!ERR ' + Routes.appInit, err);
-					send.err(res, action, 'Error get ' + Routes.appInit);
+					console.log(`!ERR ${Routes.appInit}`, err);
+					send.err(res, action, `Error get ${Routes.appInit}`);
 				});
 		}
 	}

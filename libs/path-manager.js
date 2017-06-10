@@ -1,20 +1,34 @@
-const fileName = 'data.zip'
 const fs = require('fs');
-const pathArchive = __dirname + '/../archives';
-const pathUpload = `${pathArchive}/upload`;
-const async   = require('async');
-const pathDb = __dirname + '/../db_test/tingo_db/data';
+const fileName    = 'data.zip';
+const pathArchive = `${__dirname}/../archives`;
+const pathUpload  = `${pathArchive}/upload`;
+const pathDb      = `${__dirname}/../db_test/tingo_db/data`;
 
+/**
+ * Return upload dir.
+ * @param {string} date
+ */
 const getUploadPath = date => `${pathUpload}/${date}/`;
+
+/**
+ * Check exist path.
+ * if path not exists try create him.
+ *
+ * @param {string} path
+ *
+ * @return {{Promise}}
+ */
+const checkPath = path => new Promise((ok,bad) => fs.exists(path, exists => exists ? ok() : fs.mkdir(path, e => e ? bad(e) : ok())));
 
 const checkDownloadFolder = date => new Promise((ok, bad) => {
 	let pathToday =  `${pathUpload}/${date}`;
 
-	async.waterfall([
-		cb => fs.exists(pathArchive, exists => exists ? cb(null) : fs.mkdir(pathArchive, e => cb(e))),
-		cb => fs.exists(pathUpload, exists => exists ? cb(null) : fs.mkdir(pathUpload, e => cb(e))),
-		cb => fs.exists(pathToday, exists => exists ? cb(null) : fs.mkdir(pathToday, e => cb(e)))
-	], err => err ? bad(err) : ok(pathToday));
+	checkPath(pathArchive)
+		.then(() => checkPath(pathUpload))
+		.then(() => checkPath(pathToday))
+		.then(ok(pathToday))
+		.catch(e => bad(e));
+
 });
 
 /**
@@ -43,26 +57,31 @@ const getNewArchivePath = date => `${pathArchive}/${date}/${fileName}`;
  * Check exist path to new archive.
  * if no exist create him.
  * @method checkFolderNewArchive
- * @param  {string}  date [description]
- * @return {Promise}
+ * @param  {string}  date
+ * @return {{Promise}}
  */
 const checkFolderNewArchive = date => new Promise((ok, bad) => {
-	let pathToday = `${pathArchive}/${date}`;
+	let pathToday = pathArchive+ '/' + date;
 	let pathZip = getNewArchivePath(date);
 
-	async.waterfall([
-		cb => fs.exists(pathArchive, exists => exists ? cb(null) : fs.mkdir(pathArchive, e => cb(e))),
-		cb => fs.exists(pathToday, exists => exists ? cb(null) : fs.mkdir(pathToday, e => cb(e))),
-		cb => fs.exists(pathZip, exists => exists ? fs.unlink(pathZip, e => cb(e)) : cb(null))
-	], err => err ? bad(err) : ok());
+	checkPath(pathArchive)
+		.then(() => checkPath(pathToday))
+		.then(
+			() => fs.exists(pathZip, exists => exists ? fs.unlink(pathZip, e => e ? bad(e) : ok() ) : ok())
+		)
+		.catch(e => bad(e));
 
 });
 
+/**
+ * Delete path.
+ * @param {string} path
+ */
 const deleteFolderRecursive = path => {
 	if ( fs.existsSync(path) ) {
 
 		fs.readdirSync(path).forEach( file => {
-			let curPath = path + '/' + file;
+			let curPath = `${path}/${file}`;
 
 			if (fs.lstatSync(curPath).isDirectory()) { // recurse
 				deleteFolderRecursive(curPath);
@@ -73,7 +92,7 @@ const deleteFolderRecursive = path => {
 
 		fs.rmdirSync(path);
 	}
-}
+};
 
 module.exports = {
 	checkFolderNewArchive : checkFolderNewArchive,
@@ -83,4 +102,4 @@ module.exports = {
 	checkDownloadFolder : checkDownloadFolder,
 	getUploadPath : getUploadPath,
 	deleteFolderRecursive : deleteFolderRecursive
-}
+};

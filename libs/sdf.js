@@ -1,11 +1,18 @@
 const libError = require('./errors');
-const fs = require('fs');
+const fs       = require('fs');
 
+/**
+ * Get file content.
+ *
+ * @param {string} path
+ *
+ * @return {{Promise}}
+ */
 const fileContent = path => new Promise((ok, bad) => {
 	fs.readFile(path, (err, data) => {
 
 		if (err) {
-			console.log('Error read file ' + path, e);
+			console.log(`Error read file ${path}`, e);
 			return bad(libError.sdf('Error read file.'));
 		}
 
@@ -14,10 +21,19 @@ const fileContent = path => new Promise((ok, bad) => {
 	})
 });
 
+/**
+ * Decode string use password.
+ *
+ * @param {string} pass
+ * @param {string} code
+ *
+ * @return {string}
+ */
 const toWord = (pass, code) => {
 	let buf = '';
 	let res = '';
-	let k = z = 0;
+	let k   = 0;
+	let z   = 0;
 
 	for (let i = 0; i < code.length; i++) {
 		if (code.charAt(i) === '#') {
@@ -32,9 +48,15 @@ const toWord = (pass, code) => {
 	return res;
 };
 
-const decodeData = data => new Promise((ok, bad) => {
-	data = data.replace(/\r/g, '').split("\n");
-	let pass = (data.shift()).split('#').map(char => {
+/**
+ * Decode data
+ * @param {string} data
+ *
+ * @return {{Promise}}
+ */
+const decodeData = data => new Promise(ok => {
+	let buff = data.replace(/\r/g, '').split("\n");
+	let pass = (buff.shift()).split('#').map(char => {
 		char = Number(char) / 2;
 		return String.fromCharCode(char);
 	}).slice(0, -1).join('');
@@ -43,11 +65,11 @@ const decodeData = data => new Promise((ok, bad) => {
 
 	while (data.length) {
 		decodeData.push({
-			title    : toWord(pass, data.shift()),
-			login    : toWord(pass, data.shift()),
-			pass     : toWord(pass, data.shift()),
-			answer   : toWord(pass, data.shift()),
-			desc     : toWord(pass, data.shift()),
+			title    : toWord(pass, buff.shift()),
+			login    : toWord(pass, buff.shift()),
+			pass     : toWord(pass, buff.shift()),
+			answer   : toWord(pass, buff.shift()),
+			desc     : toWord(pass, buff.shift()),
 			category : 3
 		});
 	}
@@ -56,6 +78,13 @@ const decodeData = data => new Promise((ok, bad) => {
 
 });
 
+/**
+ * Decode file.
+ *
+ * @param path
+ *
+ * @return {{Promise}}
+ */
 module.exports.content = path => new Promise((ok, bad) => {
 	fileContent(path)
 		.then(decodeData)

@@ -16,7 +16,7 @@ module.exports.model = null;
 /**
  *  Get all record.
  *
- *  @return {Promise}
+ *  @return {{Promise}}
  */
 module.exports.list = () => new Promise((ok, bad) => {
 	model.find({}, (err, cur) => {
@@ -42,10 +42,9 @@ module.exports.list = () => new Promise((ok, bad) => {
 /**
  * Validate record.
  *
- * @param {object} data
- * @param {String} action
+ * @param {string} name
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 const isValid = name => new Promise((ok, bad) => {
 	if (!name) {
@@ -68,9 +67,9 @@ const isValid = name => new Promise((ok, bad) => {
 /**
  * Add record.
  *
- * @param data
+ * @param {string} name
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.save = name => new Promise((ok, bad) => {
 	isValid(name)
@@ -90,7 +89,7 @@ module.exports.save = name => new Promise((ok, bad) => {
  *
  * @param {number} id
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.delete = id => new Promise((ok, bad) => {
 	model.remove({_id: id}, err => err ? bad(err) : ok());
@@ -99,9 +98,10 @@ module.exports.delete = id => new Promise((ok, bad) => {
 /**
  * Update record with validation.
  *
- * @param {object} data
+ * @param {string} name
+ * @param {number} id
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.updateSafe = (id, name) => new Promise((ok, bad) => {
 	isValid(name)
@@ -121,9 +121,11 @@ module.exports.updateSafe = (id, name) => new Promise((ok, bad) => {
  *
  * @param {[{object}]}data
  *
- * @return {Promise}
+ * @return {{Promise}}
  */
 module.exports.addMany = data => new Promise((ok, bad) => {
+
+	//noinspection JSUnresolvedFunction
 	async.forEach(data, (rec, next) => {
 		model.findOne({_id: rec._id}, (err, doc) => {
 			if (err) {
