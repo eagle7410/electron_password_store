@@ -15,25 +15,21 @@ const UsersTools = (state) => {
 		const login = store.addName;
 		const pass  = store.addPass;
 
-		if (!login) {
-			return state.showAlert('Enter user login', AlertStatus.BAD);
+		if (!login || !pass) {
+			return state.showAlert(`Enter user ${!login ? 'login' : 'pass'}`, AlertStatus.BAD);
 		}
 
-		if (!pass) {
-			return state.showAlert('Enter user pass', AlertStatus.BAD);
-		}
 		const data = {
 			login : login,
 			pass  : pass
 		};
 
-		add(data).then(id => {
-			state.save({
-				...data,
-				_id : id,
-			});
-			state.showAlert('User is saved.', AlertStatus.OK);
-		}, err => state.showAlert(err, AlertStatus.BAD) );
+		add(data)
+			.then(id => {
+				state.save({...data,_id : id});
+				state.showAlert('User is saved.', AlertStatus.OK);
+			})
+			.catch(err => state.showAlert(err, AlertStatus.BAD));
 	};
 
 	return (
@@ -76,7 +72,8 @@ export default connect(
 		}}),
 		save : (data) => dispatch({type : Users.create, data : data}),
 		showAlert: (mess, type) => dispatch({
-			type: Alert.show, data: {
+			type: Alert.show,
+			data: {
 				message: mess,
 				status: type
 			}

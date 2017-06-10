@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {loginList, auth} from '../../api/Login'
 import Form from './Form'
-import LoadAnime from '../tools/LoadAnimation'
+import LoadAnimation from '../tools/LoadAnimation'
 import DataLoader from '../tools/DataLoader'
 //Const
 import {afterAuth} from '../../const/Routes';

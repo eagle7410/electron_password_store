@@ -14,9 +14,9 @@ const sdf = (state = initialState, action) => {
 		case Sdf.loadBad:
 			return {
 				...state,
-				isLoad : true,
+				isLoad : false,
 				isLoadOk : false,
-				errorMeess: action.data
+				errorMess: action.data
 			};
 		case Sdf.loadOk:
 			return {

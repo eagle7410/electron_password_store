@@ -9,7 +9,7 @@ import SdfPanel from './SdfPanel'
 import DropBox from './DropBox'
 
 const styleTab = {
-	background: '#424242'
+	background:
 };
 
 const Settings = () => (

@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import LoadAnime from '../tools/LoadAnimation'
+import LoadAnimation from '../tools/LoadAnimation'
+import {objOk, objBad} from '../../const/Objects'
 import TextField from 'material-ui/TextField';
 
 const SdfPanel = (state) => {
@@ -12,9 +13,9 @@ const SdfPanel = (state) => {
 	} else if (store.isLoad) {
 		cont = <LoadAnimation/>;
 	} else if (store.isLoadOk) {
-		cont = <div>{'Success'}</div>;
+		cont = <h3 style={{color: objOk.color}}>{objOk.mess}</h3>;
 	} else if (!store.isLoadOk){
-		cont = <div><div>{'Fail'}</div><div>{`Message : ${store.errorMeess}`}</div></div>;
+		cont = <div style={{padding:'10px'}}><h3 style={{color: objBad.color}}>{objBad.mess}</h3><div>{`Message : ${store.errorMess}`}</div></div>;
 	}
 
 	return (

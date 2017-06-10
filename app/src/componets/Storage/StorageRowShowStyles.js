@@ -1,5 +1,5 @@
 const styleDataLabel = {
-	color : '#ccc'
+	color :
 };
 const styleRow = {
 	overflow: 'visible',

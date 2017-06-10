@@ -1,10 +1,11 @@
 import React from 'react';
 import IconButton from 'material-ui/IconButton';
 import ActionSave from 'material-ui/svg-icons/content/save';
+import {actionSave} from '../../const/Colors'
 
 const ActionButtonSave = (state) => (
-	<IconButton tooltip="Edit" touch={true} onTouchTap={state.onTouch}>
-		<ActionSave color="#43A047"/>
+	<IconButton tooltip="Save" touch={true} onTouchTap={state.onTouch}>
+		<ActionSave color={actionSave}/>
 	</IconButton>
 );
 

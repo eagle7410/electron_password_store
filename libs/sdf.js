@@ -56,14 +56,15 @@ const toWord = (pass, code) => {
  */
 const decodeData = data => new Promise(ok => {
 	let buff = data.replace(/\r/g, '').split("\n");
-	let pass = (buff.shift()).split('#').map(char => {
-		char = Number(char) / 2;
-		return String.fromCharCode(char);
-	}).slice(0, -1).join('');
+	let pass = (buff.shift())
+		.split('#')
+		.map(char => String.fromCharCode(Number(char) / 2))
+		.slice(0, -1)
+		.join('');
 
 	let decodeData = [];
 
-	while (data.length) {
+	while (buff.length) {
 		decodeData.push({
 			title    : toWord(pass, buff.shift()),
 			login    : toWord(pass, buff.shift()),

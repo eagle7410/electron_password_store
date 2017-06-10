@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import LoadAnime from './LoadAnimation'
+import LoadAnimation from './LoadAnimation'
 import {fullData}  from '../../api/Loader'
 import AlertStatus from '../../const/AlertStatus'
 import {Redirect} from 'react-router-dom';

@@ -1,3 +1,4 @@
+import {ok, bad} from '../../const/Colors'
 const shareIcons = {
 	marginLeft : '15px',
 };
@@ -8,7 +9,7 @@ const size = {
 const icoOk = {
 	...shareIcons,
 	...size,
-	color : '#4CAF50'
+	color : ok
 };
 const paper = {
 	padding: '5px',
@@ -16,7 +17,7 @@ const paper = {
 
 const icoBad = {
 	...icoOk,
-	color : '#FF1744'
+	color : bad
 };
 
 export {

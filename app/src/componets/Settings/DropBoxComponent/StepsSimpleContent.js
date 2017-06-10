@@ -1,9 +1,8 @@
 import React from 'react';
-import LoadAnime from '../../tools/LoadAnimation'
+import LoadAnimation from '../../tools/LoadAnimation'
+import {objBad, objOk} from '../../../const/Objects'
 
 const styleContent = {margin: '0 16px', overflow: 'hidden'};
-const objOk  = {color : '#00E676', mess  : 'Success'};
-const objBad = {color : '#E64A19', mess  : 'Fail'};
 
 const StepsSimpleContent = (state) => {
 	if (state.finished) {
