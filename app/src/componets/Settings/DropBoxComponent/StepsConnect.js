@@ -5,12 +5,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ExpandTransition from 'material-ui/internal/ExpandTransition';
 import {StepsConnect as Events, Alert} from '../../../const/Events'
 import {DropBox} from '../../../const/Messages'
+import {styleContent, styleButtonBlock, styleBlock} from '../../../const/Styles'
 import AlertStatus from '../../../const/AlertStatus'
 import {getLink, getAccess} from '../../../api/DropBox'
-
-const styleBlock       = {width: '100%', maxWidth: 700, margin: 'auto'};
-const styleContent     = {margin: '0 16px', overflow: 'hidden'};
-const styleButtonBlock = {marginTop: 24, marginBottom: 12};
 
 const StepsConnect = (state) => {
 	const store     = state.store;

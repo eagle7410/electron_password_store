@@ -6,9 +6,7 @@ import Paper from 'material-ui/Paper';
 import IconUsers from 'material-ui/svg-icons/action/supervisor-account'
 import UsersTools from './UsersTools'
 import UsersTable from './UsersTable';
-const styleTab = {
-	background: '#FF9800'
-};
+import {tabUsers} from '../../const/Styles'
 
 const Users = () => {
 	return (
@@ -16,7 +14,7 @@ const Users = () => {
 			<NavMenu />
 			<h1>Users</h1>
 			<Tabs >
-				<Tab label="Users" icon={<IconUsers />}  style={styleTab}>
+				<Tab label="Users" icon={<IconUsers />}  style={tabUsers}>
 					<Paper zDepth={2}>
 						<UsersTools/>
 						<UsersTable/>

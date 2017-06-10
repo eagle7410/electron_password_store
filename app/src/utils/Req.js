@@ -14,8 +14,7 @@ const ipcRenderer = electron.ipcRenderer;
  */
 const send = (url, data, method, headers) => new Promise((resolve) => {
 	const action = `${method}->${url}`;
-	//TODO IGOR: clear
-	console.log('action', action, data);
+
 	ipcRenderer.send(action, data);
 
 	ipcRenderer.on(action + '-response', (event, data) => {

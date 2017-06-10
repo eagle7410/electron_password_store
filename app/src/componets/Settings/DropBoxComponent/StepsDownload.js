@@ -5,11 +5,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {StepsDownload as Events,Alert, StorageCategory, Users, Storage} from '../../../const/Events'
 import {DropBox} from '../../../const/Messages'
 import AlertStatus from '../../../const/AlertStatus'
+import {styleBlock, styleButtonBlock} from '../../../const/Styles'
 import {getArchive, extractArchive, mergeArchive, clearArchive} from '../../../api/DropBox'
 import {fullData} from '../../../api/Loader'
 import StepsSimpleContent from './StepsSimpleContent'
-const styleBlock       = {width: '100%', maxWidth: 700, margin: 'auto'};
-const styleButtonBlock = {marginTop: 24, marginBottom: 12};
+
 
 const StepsDownload = (state) => {
 	const store    = state.store;
