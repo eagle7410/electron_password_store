@@ -14,6 +14,7 @@ const StorageRowEdit = (state) => {
 	const store = state.store;
 	const row = store.editRowData;
 	const id = row.id;
+	const styleLabel = {color : '#ccc'};
 	const save = () => {
 		edit(getRecord(store.editRow, row))
 			.then(state.onSaveEdit)
@@ -30,11 +31,11 @@ const StorageRowEdit = (state) => {
 					</div>
 				</div>
 				<div style={{display : 'inline-block'}}>
-					<span style={{color : '#ccc'}}>Category :</span> <StorageCategoriesList onEdit={state.onEditCategory} keyPrev={'catEdit' + id} val={row.category} /> <br/>
-					<span style={{color : '#ccc'}}>Title    :</span> <TextField id={`edtT_${id}`} value={row.title} onChange={ev => state.onEditText('title', ev.target.value)}/> <br/>
-					<span style={{color : '#ccc'}}>Login    :</span> <TextField id={`edtL_${id}`} value={row.login} onChange={ev => state.onEditText('login', ev.target.value)}/> <br/>
-					<span style={{color : '#ccc'}}>Pass     :</span> <TextField id={`edtP_${id}`} value={row.pass} onChange={ev => state.onEditText('pass', ev.target.value)}/> <br/>
-					<span style={{color : '#ccc'}}>Answer   :</span> <TextField id={`edtA_${id}`} value={row.answer} onChange={ev => state.onEditText('answer', ev.target.value)}/>
+					<span style={styleLabel}>Category :</span> <StorageCategoriesList onEdit={state.onEditCategory} keyPrev={'catEdit' + id} val={row.category} /> <br/>
+					<span style={styleLabel}>Title    :</span> <TextField id={`edtT_${id}`} value={row.title} onChange={ev => state.onEditText('title', ev.target.value)}/> <br/>
+					<span style={styleLabel}>Login    :</span> <TextField id={`edtL_${id}`} value={row.login} onChange={ev => state.onEditText('login', ev.target.value)}/> <br/>
+					<span style={styleLabel}>Pass     :</span> <TextField id={`edtP_${id}`} value={row.pass} onChange={ev => state.onEditText('pass', ev.target.value)}/> <br/>
+					<span style={styleLabel}>Answer   :</span> <TextField id={`edtA_${id}`} value={row.answer} onChange={ev => state.onEditText('answer', ev.target.value)}/>
 				</div>
 			 </TableRowColumn>
 			<TableRowColumn children={<textarea  style={{width : '100%', fontSize : '18px'}} rows='10' defaultValue={row.desc} />} onChange={state.onEditDesc}/>

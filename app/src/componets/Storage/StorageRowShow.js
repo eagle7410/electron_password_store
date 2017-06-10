@@ -7,35 +7,19 @@ import {Storage, Confirm as ConfirmAction} from '../../const/Events'
 import {Confirm} from '../../const/Messages'
 import AlertStatus from '../../const/AlertStatus'
 import {del} from '../../api/Storage'
-
-const styleDataLabel = {
-	color : '#ccc'
-};
-const styleRow = {
-	overflow: 'visible',
-	fontSize : '18px'
-};
-const styleBlockInCell = {
-	display : 'inline-block'
-};
-const styleArea = {
-	width : '100%',
-	fontSize : '18px'
-};
+import {styleDataLabel, styleRow, styleBlockInCell, styleArea} from './StorageRowShowStyles'
 
 const StorageRowShow = (state) => {
 	const row = state.row;
 	const onDelete = id => {
-
-		state.confirm(id, ()=> new Promise((ok, bad) => {
+		state.confirm(id, ()=> new Promise((ok, bad) =>
 			del(id)
 				.then(r => ok(true))
 				.catch(e => {
 					state.showAlert(Storage.move, AlertStatus.BAD);
 					bad();
-				});
-		}));
-
+				})
+		));
 	};
 
 	return (
