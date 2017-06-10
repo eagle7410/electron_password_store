@@ -4,6 +4,7 @@ import {recordAdd} from './Storage/RecordAdd';
 import {storage} from './Storage/Storage';
 import {storageFilters} from './Storage/Filters';
 import {storageCategories} from './Storage/Categories';
+import {storagePagination} from './Storage/Pagination'
 import {dataConfirm} from './Confirm';
 import {users} from './Users/Users';
 import {login} from './Login';
@@ -17,6 +18,7 @@ import {dropBoxConnectSteps} from './Settings/DropBoxConnectSteps'
 import {dropBoxStepsUpload} from './Settings/DropBoxStepsUpload'
 import {dropBoxStepsDownload} from './Settings/DropBoxStepsDownload'
 
+
 const reducer = combineReducers({
 	routing: routerReducer,
 	recordAdd,
@@ -25,6 +27,7 @@ const reducer = combineReducers({
 	storage,
 	storageFilters,
 	storageCategories,
+	storagePagination,
 	alert,
 	dataConfirm,
 	dataLoader,

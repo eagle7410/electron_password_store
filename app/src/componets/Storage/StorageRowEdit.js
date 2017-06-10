@@ -8,6 +8,7 @@ import TextField from 'material-ui/TextField';
 import {Storage, Alert} from '../../const/Events'
 import {edit} from '../../api/Storage'
 import AlertStatus from '../../const/AlertStatus'
+import {styleBlockInCell, styleRow, styleArea} from '../../const/Styles'
 import {getRecord} from '../../utils/GetRecord'
 
 const StorageRowEdit = (state) => {
@@ -23,14 +24,14 @@ const StorageRowEdit = (state) => {
 
 	return (
 		<TableRow >
-			<TableRowColumn style={{overflow: 'visible', fontSize : '18px'}}>
-				<div style={{display : 'inline-block'}}>
+			<TableRowColumn style={styleRow}>
+				<div style={styleBlockInCell}>
 					<div>
 						<ActionButtonCancel onTouch={state.onCancel}/>
 						<ActionButtonSave onTouch={save}/>
 					</div>
 				</div>
-				<div style={{display : 'inline-block'}}>
+				<div style={styleBlockInCell}>
 					<span style={styleLabel}>Category :</span> <StorageCategoriesList onEdit={state.onEditCategory} keyPrev={'catEdit' + id} val={row.category} /> <br/>
 					<span style={styleLabel}>Title    :</span> <TextField id={`edtT_${id}`} value={row.title} onChange={ev => state.onEditText('title', ev.target.value)}/> <br/>
 					<span style={styleLabel}>Login    :</span> <TextField id={`edtL_${id}`} value={row.login} onChange={ev => state.onEditText('login', ev.target.value)}/> <br/>
@@ -38,7 +39,7 @@ const StorageRowEdit = (state) => {
 					<span style={styleLabel}>Answer   :</span> <TextField id={`edtA_${id}`} value={row.answer} onChange={ev => state.onEditText('answer', ev.target.value)}/>
 				</div>
 			 </TableRowColumn>
-			<TableRowColumn children={<textarea  style={{width : '100%', fontSize : '18px'}} rows='10' defaultValue={row.desc} />} onChange={state.onEditDesc}/>
+			<TableRowColumn children={<textarea  style={styleArea} rows='10' defaultValue={row.desc} />} onChange={state.onEditDesc}/>
 		</TableRow>
 	);
 };

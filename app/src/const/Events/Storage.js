@@ -8,7 +8,8 @@ const Storage = {
 	editClear  : `${prefix}OnEditClear`,
 	edit       : `${prefix}OnEdit`,
 	saved      : `${prefix}OnSaveEdit`,
-	change     : `${prefix}OnEdit`
+	change     : `${prefix}OnEdit`,
+	changePage : `${prefix}OnChangePage`,
 };
 
 export default Storage;
