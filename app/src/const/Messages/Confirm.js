@@ -1,6 +1,5 @@
-
 const Messages = {
-	question : 'Are you sure?',
+	question : 'Are you sure?'
 };
 
 export default Messages;

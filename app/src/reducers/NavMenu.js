@@ -1,9 +1,9 @@
 import {Login, NavMenu} from '../const/Events'
 
 const initialState = {
-	routeTo: '/',
-	routeForm: '/',
-	select : 0
+	routeTo   : '/',
+	routeForm : '/',
+	select    : 0
 };
 
 const navMenu = (state = initialState, action) => {

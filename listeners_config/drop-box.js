@@ -15,7 +15,7 @@ let modelCategories = null;
 let config = [
 	{
 		type : reqTypes.del,
-		route: Routes.dropBoxDownloadAcrhiveClear,
+		route: Routes.dropBoxDownloadArchiveClear,
 		handel: (res, action, dateStr) => {
 			let pathUpload = pathManager.getUploadPath(dateStr);
 			pathManager.deleteFolderRecursive(pathUpload);
@@ -24,7 +24,7 @@ let config = [
 	},
 	{
 		type : reqTypes.post,
-		route: Routes.dropBoxDownloadAcrhiveMerge,
+		route: Routes.dropBoxDownloadArchiveMerge,
 		handel: (res, action, dateStr) => {
 
 			let pathUpload = pathManager.getUploadPath(dateStr);
@@ -41,7 +41,7 @@ let config = [
 	},
 	{
 		type : reqTypes.put,
-		route: Routes.dropBoxDownloadAcrhiveExtract,
+		route: Routes.dropBoxDownloadArchiveExtract,
 		handel: (res, action, dateStr) => {
 
 			let pathUpload = pathManager.getUploadPath(dateStr);
@@ -56,7 +56,7 @@ let config = [
 		}
 	},
 	{
-		route: Routes.dropBoxDownloadAcrhive,
+		route: Routes.dropBoxDownloadArchive,
 		handel: (res, action) => {
 			let date = new Date();
 			let dateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
@@ -71,7 +71,7 @@ let config = [
 		}
 	},
 	{
-		route: Routes.dropBoxUploadAcrhive,
+		route: Routes.dropBoxUploadArchive,
 		type : reqTypes.post,
 		handel: (res, action) => {
 			let date = new Date();

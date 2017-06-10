@@ -8,6 +8,7 @@ const initialState = {
 
 const sdfTools = (state = initialState, action) => {
 
+	// eslint-disable-next-line
 	switch (action.type) {
 		case Sdf.loadRun :
 			return {

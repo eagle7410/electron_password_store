@@ -17,9 +17,9 @@ import AlertStatus from '../../../const/AlertStatus'
 import LoadAnime from '../../tools/LoadAnime'
 import {getArchive,
 	putDropBoxArchive,
-	extractArhive,
-	mergeArhive,
-	clearArhive
+	extractArchive,
+	mergeArchive,
+	clearArchive
 } from '../../../api/DropBox'
 import {fullData} from '../../../api/Loader'
 
@@ -71,15 +71,15 @@ const StepsDownload = (state) => {
 		getArchive()
 			.then(date => {
 				state.next();
-				return extractArhive(date);
+				return extractArchive(date);
 			})
 			.then(date => {
 				state.next();
-				return mergeArhive(date);
+				return mergeArchive(date);
 			})
 			.then(date => {
 				state.next();
-				return clearArhive(date);
+				return clearArchive(date);
 			})
 			.then(fullData)
 			.then(res => new Promise(ok => {

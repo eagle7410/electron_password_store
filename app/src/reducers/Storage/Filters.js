@@ -1,13 +1,13 @@
 import {StorageFilters} from '../../const/Events'
 
 const initialState = {
-	categorySelect: 2,
-	categoryAll   : 2,
-	searchText: '',
-	showSearchText: false,
-	searchIcoActive: '#F44336',
-	searchIcoInactive: '#FFA726',
-	searchIcoNow: '#FFA726',
+	categorySelect    : 2,
+	categoryAll       : 2,
+	searchText        : '',
+	showSearchText    : false,
+	searchIcoActive   : '#F44336',
+	searchIcoInactive : '#FFA726',
+	searchIcoNow      : '#FFA726',
 };
 
 const storageFilters = (state = initialState, action) => {
@@ -25,15 +25,21 @@ const storageFilters = (state = initialState, action) => {
 				searchText: action.data
 			};
 		case StorageFilters.toggleText:
-			const show = !state.showSearchText;
+			let show = !state.showSearchText;
+			let text = '';
+
+			if (show) {
+				text = state.searchText;
+			}
 
 			return {
 				...state,
-				showSearchText: show,
-				searchText: show ? state.searchText : '',
-				searchIcoNow: show ? state.searchIcoActive : state.searchIcoInactive
+				showSearchText : show,
+				searchText     : text,
+				searchIcoNow   : show ? state.searchIcoActive : state.searchIcoInactive
 			};
 	}
+
 	return state;
 };
 

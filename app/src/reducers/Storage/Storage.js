@@ -1,9 +1,9 @@
 import {RecordAdd, Storage} from '../../const/Events'
 
 const initialState = {
-	data: [],
-	editRow: -1,
-	editRowData: false,
+	data        : [],
+	editRow     : -1,
+	editRowData : false,
 };
 
 const storage = (state = initialState, action) => {

@@ -1,6 +1,3 @@
-/**
- * Created by igor on 23.04.17.
- */
 import { routerReducer } from 'react-router-redux';
 import {combineReducers} from 'redux';
 import {recordAdd} from './Storage/RecordAdd';

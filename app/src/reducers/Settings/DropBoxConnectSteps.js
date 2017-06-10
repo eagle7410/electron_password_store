@@ -1,9 +1,9 @@
 import {StepsConnect} from '../../const/Events'
 
 const initialState = {
-	loading: false,
-	finished: false,
-	stepIndex: 0
+	loading   : false,
+	finished  : false,
+	stepIndex : 0
 };
 
 const dropBoxConnectSteps = (state = initialState, action) => {

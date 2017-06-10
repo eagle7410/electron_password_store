@@ -1,12 +1,12 @@
 import {RecordAdd} from '../../const/Events'
 
 const initialState = {
-	category: false,
-	title: '',
-	login: '',
-	pass: '',
-	desc: '',
-	answer: '',
+	category      : false,
+	title         : '',
+	login         : '',
+	pass          : '',
+	desc          : '',
+	answer        : '',
 	errorCategory : ''
 };
 

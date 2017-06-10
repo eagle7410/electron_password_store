@@ -1,15 +1,15 @@
 import {save, move, update, reqFull, get} from '../utils/Req'
 import Routes from '../const/apiRoutes'
 
-const getLink   = data => reqFull(get, Routes.dropBoxConLink, data);
-const getAccess = data => reqFull(get, Routes.dropBoxAccess);
-const getConnect = data => reqFull(get, Routes.dropBoxConInit);
-const postArchive = data => reqFull(save, Routes.dropBoxUploadAcrhive);
-const getArchive = () => reqFull(get, Routes.dropBoxDownloadAcrhive);
+const getLink           = data => reqFull(get, Routes.dropBoxConLink, data);
+const getAccess         = data => reqFull(get, Routes.dropBoxAccess);
+const getConnect        = data => reqFull(get, Routes.dropBoxConInit);
+const postArchive       = data => reqFull(save, Routes.dropBoxUploadArchive);
+const getArchive        = ()   => reqFull(get, Routes.dropBoxDownloadArchive);
 const putDropBoxArchive = date => reqFull(update, Routes.dropBoxUpload, date);
-const extractArhive = date => reqFull(update, Routes.dropBoxDownloadAcrhiveExtract, date);
-const mergeArhive = date => reqFull(save, Routes.dropBoxDownloadAcrhiveMerge, date);
-const clearArhive = date => reqFull(move, Routes.dropBoxDownloadAcrhiveClear, date);
+const extractArchive    = date => reqFull(update, Routes.dropBoxDownloadArchiveExtract, date);
+const mergeArchive      = date => reqFull(save, Routes.dropBoxDownloadArchiveMerge, date);
+const clearArchive      = date => reqFull(move, Routes.dropBoxDownloadArchiveClear, date);
 
 export {
 	getLink,
@@ -18,7 +18,7 @@ export {
 	postArchive,
 	putDropBoxArchive,
 	getArchive,
-	extractArhive,
-	mergeArhive,
-	clearArhive
+	extractArchive,
+	mergeArchive,
+	clearArchive
 };

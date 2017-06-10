@@ -1,14 +1,15 @@
 import {StorageCategory} from '../../const/Events'
 const initialState = {
-	list: {},
+	list     : {},
 	noChoice : [2],
 	onEdit   : false,
 	editName : '',
-	addName : ''
+	addName  : ''
 };
 
 const storageCategories = (state = initialState, action) => {
 	let list;
+
 	// eslint-disable-next-line
 	switch (action.type) {
 		case StorageCategory.init:

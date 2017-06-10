@@ -1,13 +1,14 @@
 import {StepsUpload} from '../../const/Events'
 
 const initialState = {
-	loading: false,
-	finished: false,
-	stepIndex: 0,
-	stop : false
+	loading   : false,
+	finished  : false,
+	stepIndex : 0,
+	stop      : false
 };
 
 const dropBoxStepsUpload  = (state = initialState, action) => {
+
 	// eslint-disable-next-line
 	switch (action.type) {
 		case StepsUpload.reset:

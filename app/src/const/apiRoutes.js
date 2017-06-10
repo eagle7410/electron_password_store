@@ -1,7 +1,7 @@
 const dBox = 'drop-box';
-const connect = dBox + '-connect';
-const upload = dBox + '-upload';
-const download = dBox + '-download-archive';
+const connect = `${dBox}-connect`;
+const upload = `${dBox}-upload`;
+const download = `${dBox}-download-archive`;
 const Routes = {
 	appInit   : 'app-init',
 	auth      : 'auth',
@@ -11,16 +11,16 @@ const Routes = {
 	sdfPath   : 'sdf-path',
 	sdfLoad   : 'sdf-load',
 	store     : 'storage',
-	dropBoxConLink : connect + '-link',
-	dropBoxAccess  : connect + '-access-token',
-	dropBoxConInit : connect + '-init',
-	dropBoxConCheck : connect + '-check',
-	dropBoxUploadAcrhive : upload + '-create-archive',
+	dropBoxConLink  : `${connect}-link`,
+	dropBoxAccess   : `${connect}-access-token`,
+	dropBoxConInit  : `${connect}-init`,
+	dropBoxConCheck : `${connect}-check`,
 	dropBoxUpload        : upload,
-	dropBoxDownloadAcrhive : download,
-	dropBoxDownloadAcrhiveExtract : download + '-extract',
-	dropBoxDownloadAcrhiveMerge   : download + '-merge',
-	dropBoxDownloadAcrhiveClear : download + '-clear'
+	dropBoxUploadArchive : `${upload}-create-archive`,
+	dropBoxDownloadArchive : download,
+	dropBoxDownloadArchiveExtract : `${download}-extract`,
+	dropBoxDownloadArchiveMerge   : `${download}-merge`,
+	dropBoxDownloadArchiveClear   : `${download}-clear`
 };
 
 module.exports = Routes;

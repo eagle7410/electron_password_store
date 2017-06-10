@@ -9,6 +9,7 @@ const initialState = {
 
 const sdf = (state = initialState, action) => {
 
+	// eslint-disable-next-line
 	switch (action.type) {
 		case Sdf.loadBad:
 			return {

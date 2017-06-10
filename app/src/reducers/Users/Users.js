@@ -1,10 +1,10 @@
 import {Users} from '../../const/Events';
 const initialState = {
-	users: [],
-	editName: '',
-	addName: '',
-	addPass: '',
-	onEdit: false,
+	users    : [],
+	editName : '',
+	addName  : '',
+	addPass  : '',
+	onEdit   : false,
 };
 
 const users = (state = initialState, action) => {
