@@ -2,8 +2,8 @@ const fs = require('fs');
 const fileName    = 'data.zip';
 const pathArchive = `${__dirname}/../archives`;
 const pathUpload  = `${pathArchive}/upload`;
-const pathDb      = `${__dirname}/../db_test/tingo_db/data`;
 
+const pathDb      = `${__dirname}/../db/tingo_db/data`;
 /**
  * Return upload dir.
  * @param {string} date
@@ -61,7 +61,7 @@ const getNewArchivePath = date => `${pathArchive}/${date}/${fileName}`;
  * @return {{Promise}}
  */
 const checkFolderNewArchive = date => new Promise((ok, bad) => {
-	let pathToday = pathArchive+ '/' + date;
+	let pathToday = pathArchive + '/' + date;
 	let pathZip = getNewArchivePath(date);
 
 	checkPath(pathArchive)
