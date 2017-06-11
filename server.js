@@ -3,7 +3,7 @@ const ipcRenderer = electron.ipcMain;
 const dialog      = electron.dialog;
 // Db
 const Engine = require('tingodb')();
-const dbPath = `${__dirname}/db_test/tingo_db/data`;
+const dbPath = `${__dirname}/db/tingo_db/data`;
 const db     = new Engine.Db(dbPath, {});
 const models = require('./db/tingo_db/models');
 
@@ -15,17 +15,14 @@ const listenCould      = require('./listeners_config/drop-box');
 const listenStorage    = require('./listeners_config/storage');
 const listenCategories = require('./listeners_config/categories');
 const send             = require('./libs/send');
+const Routes = require('./routes/RoutesConst');
 
 const listen = (action, handel) => {
-	ipcRenderer.on(action, (event, arg) => {
-		// TODO: clear
-		console.log(`:: ${action} `, arg);
-		handel(event.sender, `${action}-response`, arg);
-	});
+	ipcRenderer.on(action, (event, arg) => handel(event.sender, `${action}-response`, arg));
 };
 
 const listeners = arConfig => {
-	arConfig.map(config => config.map(conf => {
+	arConfig.map(group => group.setRoutes(Routes).config().map(conf => {
 		const type = conf.type || send.reqTypes.get;
 		listen(`${type.toLowerCase()}->${conf.route}`, conf.handel);
 	}));
@@ -40,11 +37,11 @@ const modelCategories = models.get(db, modelConstant.cat);
 
 module.exports = {
 	run: (mainWindow) => listeners([
-		listenCould.setModels(modelUsers, modelStorage, modelSettings, modelCategories).config,
-		listenStorage.setModel(modelStorage).config,
-		listenSdf.setDialog(dialog).setWindow(mainWindow).setModelStorage(modelStorage).config,
-		listenAuth.setModels(modelUsers, modelStorage, modelSettings, modelCategories).config,
-		listenCategories.setModel(modelCategories).config,
-		listenUsers.setModel(modelUsers).config
+		listenCould.setModels(modelUsers, modelStorage, modelSettings, modelCategories),
+		listenStorage.setModel(modelStorage),
+		listenSdf.setDialog(dialog).setWindow(mainWindow).setModelStorage(modelStorage),
+		listenAuth.setModels(modelUsers, modelStorage, modelSettings, modelCategories),
+		listenCategories.setModel(modelCategories),
+		listenUsers.setModel(modelUsers)
 	])
 };

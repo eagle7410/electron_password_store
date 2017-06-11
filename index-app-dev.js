@@ -1,7 +1,7 @@
 const electron      = require('electron');
 const app           = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-const server        = require('./server');
+const server        = require('./server-dev');
 
 app.on('ready', () => {
 	const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
