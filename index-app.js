@@ -9,13 +9,13 @@ app.on('ready', () => {
 		height : 800,
 	});
 
-	server.run(mainWindow);
+	server.run(mainWindow)
+		.then(() => {
+			mainWindow.loadURL(`file://${__dirname}/html/index.html`);
 
-	mainWindow.loadURL(`file://${__dirname}/html/index.html`);
-
-	mainWindow.on('closed', () => {
-		mainWindow = null;
-		app.quit();
-	});
-
+			mainWindow.on('closed', () => {
+				mainWindow = null;
+				app.quit();
+			});
+		});
 });

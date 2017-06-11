@@ -19,15 +19,15 @@ app.on('ready', () => {
 		height : 800,
 	});
 
-	server.run(mainWindow);
+	server.run(mainWindow)
+		.then(() => {
+			mainWindow.maximize();
+			mainWindow.loadURL('http://localhost:3000/');
+			mainWindow.toggleDevTools();
 
-	mainWindow.maximize();
-	mainWindow.loadURL('http://localhost:3000/');
-	mainWindow.toggleDevTools();
-
-	mainWindow.on('closed', () => {
-		mainWindow = null;
-		app.quit();
-	});
-
+			mainWindow.on('closed', () => {
+				mainWindow = null;
+				app.quit();
+			});
+		});
 });
