@@ -22,8 +22,8 @@ app.on('ready', () => {
 	server.run(mainWindow)
 		.then(() => {
 			mainWindow.maximize();
-			mainWindow.loadURL('http://localhost:3000/');
 			mainWindow.toggleDevTools();
+			mainWindow.loadURL('http://localhost:3000/');
 
 			mainWindow.on('closed', () => {
 				mainWindow = null;

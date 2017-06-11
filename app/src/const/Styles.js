@@ -16,14 +16,15 @@ const styleDataLabel = {
 };
 const styleRow = {
 	overflow: 'visible',
-	fontSize : '18px'
+	fontSize : '16px'
 };
 const styleBlockInCell = {
 	display : 'inline-block'
 };
 const styleArea = {
-	width : '100%',
-	fontSize : '18px'
+	width : '80%',
+	marginLeft: '15px',
+	fontSize : '16px'
 };
 const styleBlock = {
 	width: '100%',
@@ -38,11 +39,15 @@ const styleContent = {
 	margin: '0 16px',
 	overflow: 'hidden'
 };
+const styleCategoryEdit = {
+	top: '23px'
+};
 
 export {
 	tabUsers,
 	tabSettings,
 	styleDataLabel, styleRow, styleBlockInCell, styleArea,
 	styleBlock, styleButtonBlock,
-	styleContent
+	styleContent,
+	styleCategoryEdit
 }

@@ -40,7 +40,7 @@ const StorageRowShow = (state) => {
 				</div>
 			 </TableRowColumn>
 			<TableRowColumn
-				children={<textarea  rows='6' style={styleArea} readOnly={true} defaultValue={row.desc}/>} onChange={state.onEditDesc}
+				children={<textarea  rows='4' style={styleArea} readOnly={true} defaultValue={row.desc}/>} onChange={state.onEditDesc}
 			/>
 		</TableRow>
 	);

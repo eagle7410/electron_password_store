@@ -14,7 +14,7 @@ const StorageCategoriesList = (state) => {
 
 	return state.label
 		? <SelectField errorText={state.error} floatingLabelText={state.label} value={state.val} onChange={state.onEdit} >{menu}</SelectField>
-		: <DropDownMenu value={state.val} onChange={state.onEdit} >{menu}</DropDownMenu>;
+		: <DropDownMenu style={state.style} value={state.val} onChange={state.onEdit} >{menu}</DropDownMenu>;
 };
 
 export default connect(
