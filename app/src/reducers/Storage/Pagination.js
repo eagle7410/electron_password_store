@@ -3,7 +3,7 @@ import {Storage, StorageFilters} from '../../const/Events'
 const initialState = {
 	split   : 4,
 	display : 5,
-	number  : 1,
+	number  : 1
 };
 
 const storagePagination = (state = initialState, action) => {
@@ -14,6 +14,13 @@ const storagePagination = (state = initialState, action) => {
 				...state,
 				number: action.data
 			};
+
+		case Storage.changeCountInPage:
+			return {
+				...state,
+				split : action.data
+			};
+
 		case StorageFilters.chCat:
 		case StorageFilters.chText:
 			return {
@@ -26,4 +33,3 @@ const storagePagination = (state = initialState, action) => {
 };
 
 export {storagePagination};
-

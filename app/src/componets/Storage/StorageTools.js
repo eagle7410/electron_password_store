@@ -5,19 +5,28 @@ import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import StorageCategoriesList from './StorageCategoriesList'
-import {StorageFilters} from '../../const/Events'
+import {StorageFilters, Storage} from '../../const/Events'
 
 const StoreTools = (state) => {
 	let filters = state.filters;
+	const changeCountInPage = (ev, val) => {
+		val = Number(val);
+
+		if (isNaN(val) || val === 0) {
+			return;
+		}
+
+		state.changeCountInPage(val);
+	}
 
 	return (
 		<Toolbar>
 			<ToolbarGroup >
-				<ToolbarTitle text="Tools" />
+				<ToolbarTitle text='Tools' />
 				<IconButton
-					tooltip="Search"
+					tooltip='Search'
 					touch={true}
-					tooltipPosition="bottom-right"
+					tooltipPosition='bottom-right'
 				>
 					<ActionSearch
 						hoverColor={filters.searchIcoActive}
@@ -27,13 +36,14 @@ const StoreTools = (state) => {
 				</IconButton>
 				{
 					filters.showSearchText
-						? <TextField id="inputSearch" hintText='Enter for search' onChange ={state.changeSearchText}/>
+						? <TextField id='inputSearch' hintText='Enter for search' onChange ={state.changeSearchText}/>
 						: <span/>
 				}
 				<ToolbarSeparator />
 
 				<StorageCategoriesList onEdit={state.changeCategory} showAll={true} val={filters.categorySelect} />
-
+				<ToolbarSeparator />
+				&nbsp;Count in page&nbsp;<TextField onChange={changeCountInPage} value={state.pagination.split} id='inputPagi' hintText='Enter count record in page' />
 			</ToolbarGroup>
 		</Toolbar>
 	);
@@ -41,11 +51,13 @@ const StoreTools = (state) => {
 
 export default connect(
 	state => ({
-		filters : state.storageFilters
+		filters : state.storageFilters,
+		pagination : state.storagePagination
 	}),
 	dispatch => ({
+		changeCountInPage : val => dispatch({type : Storage.changeCountInPage, data : val}),
 		changeCategory       : (event, index, value) => dispatch({type: StorageFilters.chCat, data: value}),
 		changeSearchText     : (ev, val) => dispatch({type: StorageFilters.chText, data: val.toLowerCase()}),
-		changeShowSearchText : ev => dispatch({type: StorageFilters.toggleText, data: ev.target.value}),
+		changeShowSearchText : ev => dispatch({type: StorageFilters.toggleText, data: ev.target.value})
 	})
 )(StoreTools);

@@ -10,6 +10,7 @@ const Storage = {
 	saved      : `${prefix}OnSaveEdit`,
 	change     : `${prefix}OnEdit`,
 	changePage : `${prefix}OnChangePage`,
+	changeCountInPage : `${prefix}OnChangeCountInPage`
 };
 
 export default Storage;
