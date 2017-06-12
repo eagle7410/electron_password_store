@@ -44,7 +44,7 @@ module.exports.getSettingsDBox = () => new Promise((ok ,bad) => {
 	model.findOne({type : typeDBox}, (err, doc) => {
 
 		if (err || !doc) {
-			return bad(err || 'No setting collectoion');
+			return bad(err || 'No setting collection');
 		}
 
 		ok(doc);
@@ -120,6 +120,32 @@ module.exports.setRequestToken = (apiData, requestToken) => new Promise((ok, bad
 		doc.requestToken = requestToken;
 
 		model.update({_id: doc._id}, doc, err => err ? bad(err) : ok(requestToken));
+
+	});
+});
+
+/**
+ * Set api data.
+ * @param {object} data
+ *
+ * @return {{Promise}}
+ */
+module.exports.setApiData = data => new Promise((ok, bad) => {
+	model.findOne({type : typeDBox},  (err, doc) => {
+		if (err) {
+			return bad(err);
+		}
+
+		if (!doc) {
+			return model.insert({
+				type : typeDBox,
+				apiData : data,
+			}, err => err ? bad(err) : ok());
+		}
+
+		doc.apiData = data;
+
+		model.update({_id: doc._id}, doc, err => err ? bad(err) : ok());
 
 	});
 });

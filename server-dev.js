@@ -2,11 +2,15 @@ const electron    = require('electron');
 const ipcRenderer = electron.ipcMain;
 const dialog      = electron.dialog;
 // Db
-const Engine = require('tingodb')();
-const dbPath = `${__dirname}/db_test/tingo_db/data`;
-const db     = new Engine.Db(dbPath, {});
-const models = require('./db/tingo_db/models');
-const Routes = require('./routes/RoutesConstDev');
+const dbFolder = 'db_test';
+const Engine   = require('tingodb')();
+const dbPath   = `${__dirname}/${dbFolder}/tingo_db/data`;
+const db       = new Engine.Db(dbPath, {});
+const models   = require('./db/tingo_db/models');
+const Routes   = require('./routes/RoutesConstDev');
+//Paths
+const pathManager   = require('./libs/path-manager');
+pathManager.setDbFolder(dbFolder);
 // Messages
 const listenSdf        = require('./listeners_config/sdf');
 const listenAuth       = require('./listeners_config/auth');

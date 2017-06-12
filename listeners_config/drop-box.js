@@ -32,6 +32,27 @@ module.exports = {
 	},
 	config : () => [
 		{
+			type : reqTypes.post,
+			route: Routes.dropBoxSetToken,
+			handel: (res, action, data) => {
+				const apiData = {
+					apiKey : data.apiKey,
+					apiSecret : data.apiSecret
+				};
+				const token = {
+					oauth_token_secret : data.oauth_token_secret,
+					oauth_token : data.oauth_token,
+					uid : data.uid
+				};
+
+				modelSettings.setApiData(apiData)
+					.then(() => modelSettings.setAccessToken(token))
+					.then(() => send.ok(res, action))
+					.catch(err => send.err(res, action))
+
+			}
+		},
+		{
 			type : reqTypes.del,
 			route: Routes.dropBoxDownloadArchiveClear,
 			handel: (res, action, dateStr) => {

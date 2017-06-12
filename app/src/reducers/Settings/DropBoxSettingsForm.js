@@ -4,7 +4,10 @@ const initialState = {
 	apiKey      : '',
 	apiSecret   : '',
 	confirmLink : '',
-	accessToken : false
+	accessToken : false,
+	oauth_token : '',
+	oauth_token_secret : '',
+	uid : '',
 };
 
 const dropBoxSettingsForm = (state = initialState, action) => {
@@ -23,6 +26,12 @@ const dropBoxSettingsForm = (state = initialState, action) => {
 				init: true
 			};
 
+		case DropBoxForm.setToken:
+			return {
+				...state,
+				accessToken : true
+			};
+
 		case StepsConnect.init:
 
 			newState = {};
@@ -36,7 +45,8 @@ const dropBoxSettingsForm = (state = initialState, action) => {
 				newState = {
 					apiKey: dropBox.apiData.apiKey,
 					apiSecret: dropBox.apiData.apiSecret,
-					accessToken: dropBox.accessToken
+					accessToken: dropBox.accessToken,
+					...dropBox.token
 				}
 			}
 

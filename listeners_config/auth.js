@@ -74,7 +74,8 @@ module.exports = {
 								case modelSettings.typeDBox:
 									settings[modelSettings.typeDBox] = {
 										apiData: sett.apiData,
-										accessToken: Boolean(sett.accessToken)
+										accessToken: Boolean(sett.accessToken),
+										token : sett.accessToken
 									}
 							}
 						});

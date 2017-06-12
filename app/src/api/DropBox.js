@@ -10,6 +10,7 @@ const putDropBoxArchive = date => reqFull(update, Routes.dropBoxUpload, date);
 const extractArchive    = date => reqFull(update, Routes.dropBoxDownloadArchiveExtract, date);
 const mergeArchive      = date => reqFull(save, Routes.dropBoxDownloadArchiveMerge, date);
 const clearArchive      = date => reqFull(move, Routes.dropBoxDownloadArchiveClear, date);
+const setToken          = date => reqFull(save, Routes.dropBoxSetToken, date);
 
 export {
 	getLink,
@@ -20,5 +21,6 @@ export {
 	getArchive,
 	extractArchive,
 	mergeArchive,
-	clearArchive
+	clearArchive,
+	setToken
 };

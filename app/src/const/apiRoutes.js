@@ -15,6 +15,7 @@ const Routes = {
 	dropBoxAccess   : `${connect}-access-token`,
 	dropBoxConInit  : `${connect}-init`,
 	dropBoxConCheck : `${connect}-check`,
+	dropBoxSetToken : `${connect}-token`,
 	dropBoxUpload        : upload,
 	dropBoxUploadArchive : `${upload}-create-archive`,
 	dropBoxDownloadArchive : download,

@@ -1,14 +1,14 @@
-const fs = require('fs');
+const fs   = require('fs');
+const path = require('path');
 const fileName    = 'data.zip';
-const pathArchive = `${__dirname}/../archives`;
-const pathUpload  = `${pathArchive}/upload`;
+const pathArchive = path.join(__dirname, '..', 'archives');
+const pathUpload  = path.join(pathArchive, 'upload');
 
-const pathDb      = `${__dirname}/../db/tingo_db/data`;
 /**
  * Return upload dir.
  * @param {string} date
  */
-const getUploadPath = date => `${pathUpload}/${date}/`;
+const getUploadPath = date => path.join(pathUpload , date);
 
 /**
  * Check exist path.
@@ -21,7 +21,7 @@ const getUploadPath = date => `${pathUpload}/${date}/`;
 const checkPath = path => new Promise((ok,bad) => fs.exists(path, exists => exists ? ok() : fs.mkdir(path, e => e ? bad(e) : ok())));
 
 const checkDownloadFolder = date => new Promise((ok, bad) => {
-	let pathToday =  `${pathUpload}/${date}`;
+	let pathToday =  getUploadPath(date);
 
 	checkPath(pathArchive)
 		.then(() => checkPath(pathUpload))
@@ -37,13 +37,15 @@ const checkDownloadFolder = date => new Promise((ok, bad) => {
  * @return {string}
  */
 const getArchiveName = () => fileName;
+let dbFolder = null;
+
 /**
  * Get path folder to database.
  *
  * @method getPathDb
  * @return {string}
  */
-const getPathDb = () => pathDb;
+const getPathDb = () => path.join(__dirname, '..', dbFolder, 'tingo_db', 'data');
 
 /**
  * Return path to new archive
@@ -51,7 +53,7 @@ const getPathDb = () => pathDb;
 *  @param  {string} date
  * @return {string}
  */
-const getNewArchivePath = date => `${pathArchive}/${date}/${fileName}`;
+const getNewArchivePath = date => path.join(pathArchive, date, fileName);
 
 /**
  * Check exist path to new archive.
@@ -61,7 +63,7 @@ const getNewArchivePath = date => `${pathArchive}/${date}/${fileName}`;
  * @return {{Promise}}
  */
 const checkFolderNewArchive = date => new Promise((ok, bad) => {
-	let pathToday = pathArchive + '/' + date;
+	let pathToday = path.join(pathArchive, date);
 	let pathZip = getNewArchivePath(date);
 
 	checkPath(pathArchive)
@@ -101,5 +103,8 @@ module.exports = {
 	getArchiveName : getArchiveName,
 	checkDownloadFolder : checkDownloadFolder,
 	getUploadPath : getUploadPath,
-	deleteFolderRecursive : deleteFolderRecursive
+	deleteFolderRecursive : deleteFolderRecursive,
+	setDbFolder : (folder) => {
+		dbFolder = folder;
+	}
 };

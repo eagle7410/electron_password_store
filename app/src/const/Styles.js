@@ -42,6 +42,9 @@ const styleContent = {
 const styleCategoryEdit = {
 	top: '23px'
 };
+const styleDiv = {
+	display : 'block'
+};
 
 export {
 	tabUsers,
@@ -49,5 +52,6 @@ export {
 	styleDataLabel, styleRow, styleBlockInCell, styleArea,
 	styleBlock, styleButtonBlock,
 	styleContent,
-	styleCategoryEdit
+	styleCategoryEdit,
+	styleDiv
 }
