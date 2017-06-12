@@ -20,4 +20,4 @@ tar -czvf $winZip $win
 tar -czvf $linZip $lin
 tar -czvf $macZip $mac
 
-echo "Finish build"
+echo "finish build"

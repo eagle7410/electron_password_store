@@ -2,7 +2,7 @@ const electron    = require('electron');
 const ipcRenderer = electron.ipcMain;
 const dialog      = electron.dialog;
 // Db
-const dbFolder = 'db_test';
+const dbFolder = 'db';
 //Paths
 const pathManager   = require('./libs/path-manager');
 pathManager.setDbFolder(dbFolder);

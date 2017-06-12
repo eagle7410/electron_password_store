@@ -31,6 +31,6 @@ app.on('ready', () => {
 				app.quit();
 			});
 
-			require('./app-menu').add(Menu, app);
+			require('./menu-app').add(Menu, app);
 		});
 });
