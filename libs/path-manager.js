@@ -1,4 +1,4 @@
-const fs   = require('fs');
+const fs   = require('fs-extra');
 const path = require('path');
 const fileName    = 'data.zip';
 const pathArchive = path.join(__dirname, '..', 'archives');
@@ -77,24 +77,9 @@ const checkFolderNewArchive = date => new Promise((ok, bad) => {
 
 /**
  * Delete path.
- * @param {string} path
+ * @param {string} dir
  */
-const deleteFolderRecursive = path => {
-	if ( fs.existsSync(path) ) {
-
-		fs.readdirSync(path).forEach( file => {
-			let curPath = `${path}/${file}`;
-
-			if (fs.lstatSync(curPath).isDirectory()) { // recurse
-				deleteFolderRecursive(curPath);
-			} else { // delete file
-				fs.unlinkSync(curPath);
-			}
-		});
-
-		fs.rmdirSync(path);
-	}
-};
+const deleteFolderRecursive = dir => fs.mkdirpSync(dir);
 
 module.exports = {
 	checkFolderNewArchive : checkFolderNewArchive,

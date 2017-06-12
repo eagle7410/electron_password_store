@@ -1,4 +1,4 @@
-const dbox = require('dbox');
+const dbox = require('./dbox');
 const fs   = require('fs');
 
 let app    = null;

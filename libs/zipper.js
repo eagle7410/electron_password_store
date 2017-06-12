@@ -1,6 +1,6 @@
 const zipFolder = require('zip-folder');
 const unzip     = require('unzip');
-const fs        = require('fs');
+const fs        = require('fs-extra');
 
 /**
  * Create archive.
