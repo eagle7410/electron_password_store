@@ -9,8 +9,8 @@
   "dependencies": {
     "history": "4.6.1",
     "material-ui": "0.18.1",
+    "material-ui-pagination": "^1.0.3",
     "material-ui-password-field": "1.2.0",
-    "material-ui-pagination": "1.0.3",
     "react": "15.5.4",
     "react-dom": "15.5.4",
     "react-redux": "5.0.4",
