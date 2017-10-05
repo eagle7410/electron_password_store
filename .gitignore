@@ -1,6 +1,8 @@
 .idea/
+.DS_Store
 /npm-debug.log
 /node_modules
 /app_build/
 /db_test/
 /archives/
+/libs/clouds/init-data

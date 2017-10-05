@@ -5,7 +5,7 @@ npm run pkg-mac
 npm run pkg-linux
 
 appName="electron_password_store"
-folder="/home/igor/desk/projects/"$appName"/app_build"
+folder="/home/igor/Рабочий\ стол/projects/"$appName"/app_build"
 
 win=$folder"/"$appName"-win32-ia32"
 winZip=$win".tar.gz"

@@ -38,6 +38,7 @@ const SdfTools = (state) => {
 					disabled={!store.buttonLoad}
 					icon={<ActionLoad />}
 				/>
+
 				<RaisedButton
 					label='Clear Sdf'
 					primary={true}
