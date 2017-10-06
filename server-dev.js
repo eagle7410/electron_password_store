@@ -53,20 +53,13 @@ const models = {
 	category : modelsFactory.get(db, modelConstant.cat)
 };
 
-const modelUsers      = models.get(db, modelConstant.usr);
-const modelSettings   = models.get(db, modelConstant.sett);
-const modelStorage    = models.get(db, modelConstant.store);
-const modelCategories = models.get(db, modelConstant.cat);
-
 module.exports = {
 	run: (mainWindow) => new Promise(ok => {
 		listeners([
 			listenCould.setDialog(dialog).setWindow(mainWindow).setModels(models).setClouds(clouds),
 			listenStorage.setModel(models.store),
 			listenSdf.setDialog(dialog).setWindow(mainWindow).setModelStorage(models.store),
-
-			listenAuth.setModels(modelUsers, modelStorage, modelSettings, modelCategories),
-
+			listenAuth.setModels(models).setClouds(clouds),
 			listenCategories.setModel(models.category),
 			listenUsers.setModel(models.users)
 		]);

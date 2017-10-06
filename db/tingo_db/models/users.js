@@ -1,6 +1,7 @@
 const async = require('async');
 let model   = null;
 let libErr  = require('../../../libs/errors');
+const crypto = require('../../../libs/crypto');
 
 /**
  * Init model.
@@ -50,8 +51,8 @@ module.exports.auth = (login, pass) => new Promise((ok, bad) => {
 			return bad(err);
 		}
 
-		if (user.pass === hash(pass)) {
-			ok(hash(`${login}token`));
+		if (user.pass === crypto.hash(pass)) {
+			ok(crypto.hash(`${login}token`));
 		}
 
 		bad(libErr.auth());
@@ -116,22 +117,6 @@ const isValid = (data, action = 'create') => new Promise((ok, bad) => {
 		bad(libErr.valid('User no unique'));
 	});
 });
-
-/**
- * Create password hash.
- *
- * @param {string} pass
- * @param {string} secret
- *
- * @return string
- */
-const hash = (pass, secret = 'IgorStcherbina') => {
-	const crypto = require('crypto');
-
-	return crypto.createHmac('sha256', secret)
-		.update(pass)
-		.digest('hex');
-};
 
 /**
  * Create new user.

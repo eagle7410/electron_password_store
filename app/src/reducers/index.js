@@ -14,9 +14,11 @@ import {dataLoader} from './DataLoader'
 import {sdf} from './Settings/Sdf'
 import {sdfTools} from './Settings/SdfTools'
 import {dropBoxSettingsForm} from './Settings/DropBoxSettingsForm'
-import {dropBoxConnectSteps} from './Settings/DropBoxConnectSteps'
 import {dropBoxStepsUpload} from './Settings/DropBoxStepsUpload'
 import {dropBoxStepsDownload} from './Settings/DropBoxStepsDownload'
+import {googleSettingsForm} from './Settings/GoogleSettingsForm'
+import {googleStepsUpload} from './Settings/GoogleStepsUpload'
+import {googleStepsDownload} from './Settings/GoogleStepsDownload'
 
 
 const reducer = combineReducers({
@@ -35,9 +37,11 @@ const reducer = combineReducers({
 	sdf,
 	sdfTools,
 	dropBoxSettingsForm,
-	dropBoxConnectSteps,
 	dropBoxStepsUpload,
-	dropBoxStepsDownload
+	dropBoxStepsDownload,
+	googleSettingsForm,
+	googleStepsUpload,
+	googleStepsDownload
 });
 
 export {reducer};

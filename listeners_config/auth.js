@@ -2,17 +2,30 @@ const send   = require('../libs/send');
 const libErr = require('../libs/errors');
 
 let Routes = null;
+let couldDbox   = null;
+let couldGoogle = null;
 let modelUsers      = null;
 let modelSettings   = null;
 let modelStorage    = null;
 let modelCategories = null;
 
 module.exports = {
-	setModels: (user, storage, settings, categories) => {
-		modelUsers      = user;
-		modelSettings   = settings;
-		modelStorage    = storage;
-		modelCategories = categories;
+	/**
+	 *
+	 * @param models {{users : {},setting : {},store : {},category : {}}}
+	 */
+	setModels : (models) => {
+
+		modelUsers = models.users;
+		modelStorage = models.store;
+		modelSettings = models.setting;
+		modelCategories = models.category;
+
+		return module.exports;
+	},
+	setClouds : (coulds) => {
+		couldDbox = coulds.dbox;
+		couldGoogle = coulds.google;
 
 		return module.exports;
 	},
@@ -52,7 +65,6 @@ module.exports = {
 			route: Routes.appInit,
 			handel: (res, action) => {
 				let data = {};
-
 				modelUsers.list()
 					.then(list => {
 						data.users = list;
@@ -64,21 +76,14 @@ module.exports = {
 					})
 					.then(list => {
 						data.storage = list;
-						return modelSettings.list();
-					})
-					.then(list => {
-						let settings = {};
 
-						list.map(sett => {
-							switch (sett.type) {
-								case modelSettings.typeDBox:
-									settings[modelSettings.typeDBox] = {
-										apiData: sett.apiData,
-										accessToken: Boolean(sett.accessToken),
-										token : sett.accessToken
-									}
-							}
-						});
+						let settings = {
+							google : {},
+							dbox : {}
+						};
+
+						settings.google.isHaveConfig = couldGoogle.isHaveConfig();
+						settings.dbox.isHaveConfig = couldDbox.isHaveConfig();
 
 						data.settings = settings;
 

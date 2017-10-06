@@ -30,6 +30,7 @@
   "devDependencies": {
     "electron-packager": "8.7.2",
     "electron-prebuilt": "1.4.13",
+    "electron-devtools-installer": "2.2.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-cssmin": "^0.1.7",
@@ -45,7 +46,6 @@
     "async": "2.4.1",
     "dropbox": "2.5.11",
     "electron": "1.7.6",
-    "electron-devtools-installer": "2.2.0",
     "fs-extra": "3.0.1",
     "google-auth-library": "0.11.0",
     "googleapis": "22.2.0",
