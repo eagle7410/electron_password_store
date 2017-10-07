@@ -4,33 +4,42 @@ const BrowserWindow = electron.BrowserWindow;
 const Menu          = electron.Menu;
 const server        = require('./server-dev');
 
-app.on('ready', () => {
-	const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
-	//noinspection JSUnresolvedFunction
-	installExtension(REACT_DEVELOPER_TOOLS)
-		.then((name) => console.log(`Added Extension:  ${name}`))
-		.catch((err) => console.log('An error occurred: ', err));
-	//noinspection JSUnresolvedFunction
-	installExtension(REDUX_DEVTOOLS)
-		.then((name) => console.log(`Added Extension:  ${name}`))
-		.catch((err) => console.log('An error occurred: ', err));
+app.on('ready', async () => {
 
-	let mainWindow = new BrowserWindow({
-		width  : 800,
-		height : 800,
-	});
+	try {
+		// Dev setting
 
-	server.run(mainWindow)
-		.then(() => {
-			mainWindow.maximize();
-			mainWindow.toggleDevTools();
-			mainWindow.loadURL('http://localhost:3000/');
+		const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
-			mainWindow.on('closed', () => {
-				mainWindow = null;
-				app.quit();
-			});
+		await installExtension(REACT_DEVELOPER_TOOLS);
+		await installExtension(REDUX_DEVTOOLS);
 
-			require('./menu-app').add(Menu, app);
+		// End dev setting
+
+		let mainWindow = new BrowserWindow({
+			width  : 800,
+			height : 800,
 		});
+
+		await server.run(mainWindow);
+
+		// Dev setting
+
+		mainWindow.maximize();
+		mainWindow.toggleDevTools();
+
+		// End dev setting
+
+		mainWindow.loadURL('http://localhost:3000/');
+
+		mainWindow.on('closed', () => {
+			mainWindow = null;
+			app.quit();
+		});
+
+		require('./menu-app').add(Menu, app);
+
+	} catch (err) {
+		console.log('Error: ', err);
+	}
 });

@@ -18,39 +18,38 @@ const StepsDownload = (state) => {
 	const finished  = store.finished;
 	const stepIndex = store.stepIndex;
 	const loading   = store.loading;
-	const handelRun = () => {
+	const handelRun = async () => {
+		let date;
 
-		state.run(typeData);
+		try {
+			state.run(typeData);
 
-		getArchive(typeData)
-			.then(date => {
-				state.next(typeData);
-				return extractArchive(date);
-			})
-			.then(date => {
-				state.next(typeData);
-				return mergeArchive(date);
-			})
-			.then(date => {
-				state.next(typeData);
-				return clearArchive(date);
-			})
-			.then(fullData)
-			.then(res => new Promise(ok => {
-				['Projects', 'Users', 'Storage'].forEach(
-					p => state[`init${p}`](res[p.toLowerCase()])
-				);
-				state.next(typeData);
-				ok();
-			}))
-			.then(() => {
-				state.next(typeData);
-			})
-			.catch(err => {
-				console.log('err ', err);
-				state.stop(typeData);
-				state.showAlert(DropBox.badTryUpload, AlertStatus.BAD);
-			});
+			date = await getArchive(typeData);
+			state.next(typeData);
+
+			date = await extractArchive(date);
+			state.next(typeData);
+
+			date = await mergeArchive(date);
+			state.next(typeData);
+
+			await clearArchive(date);
+
+			state.next(typeData);
+
+			let updData = await fullData();
+
+			['Categories', 'Users', 'Storage'].forEach(
+				p => state[`init${p}`](updData[p.toLowerCase()])
+			);
+
+			state.next(typeData);
+
+		} catch (err) {
+			console.log('err ', err);
+			state.stop(typeData);
+			state.showAlert(DropBox.badTryUpload, AlertStatus.BAD);
+		}
 	};
 
 	const actionDisable = !connect.init || loading;
@@ -93,7 +92,7 @@ export default connect(
 
 		initUsers      : data  => dispatch({type: Users.init , data: data}),
 		initStorage    : data  => dispatch({type: Storage.init , data: data}),
-		initProjects   : data  => dispatch({type: StorageCategory.init , data: data}),
+		initCategories : data  => dispatch({type: StorageCategory.init , data: data}),
 		showAlert : (mess, type) => dispatch({
 			type : Alert.show,
 			data : {

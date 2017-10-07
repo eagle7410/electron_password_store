@@ -2,7 +2,6 @@ const Engine = require('tingodb')();
 const fs = require('fs');
 const crypto = require(`${__dirname}/../libs/crypto`);
 const dbPath = `${__dirname}/../db/tingo_db/data`;
-git
 const db = new Engine.Db(dbPath, {});
 const users      = db.collection('users');
 const storage    = db.collection('storage');

@@ -24,22 +24,15 @@ const createServer = async () => {
 
 const createIndex = async () => {
 	const transform = data => new Promise(
-		write => write(
-			data.replace('const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require(\'electron-devtools-installer\');\n' +
-				'\t//noinspection JSUnresolvedFunction\n' +
-				'\tinstallExtension(REACT_DEVELOPER_TOOLS)\n' +
-				'\t\t.then((name) => console.log(`Added Extension:  ${name}`))\n' +
-				'\t\t.catch((err) => console.log(\'An error occurred: \', err));\n' +
-				'\t//noinspection JSUnresolvedFunction\n' +
-				'\tinstallExtension(REDUX_DEVTOOLS)\n' +
-				'\t\t.then((name) => console.log(`Added Extension:  ${name}`))\n' +
-				'\t\t.catch((err) => console.log(\'An error occurred: \', err));', '')
-				.replace('mainWindow.loadURL(\'http://localhost:3000/\');', 'mainWindow.loadURL(`file://${__dirname}/html/index.html`);')
-				.replace('mainWindow.toggleDevTools();', '')
-				.replace('mainWindow.maximize();', '')
-				.replace(/\n(\t){0,}\n/g, '\n')
-				.replace('./server-dev', './server')
-		));
+		write => {
+			write(
+				data.replace(/\/\/ dev([^\/]+)\/\/\send dev(.*)\n/gi, '')
+					.replace('mainWindow.loadURL(\'http://localhost:3000/\');', 'mainWindow.loadURL(`file://${__dirname}/html/index.html`);')
+					.replace(/\n(\t){0,}\n/g, '\n')
+					.replace('./server-dev', './server')
+			)
+
+		});
 
 	await fileContentChange(root + 'index-app-dev.js', root + 'index-app.js', transform);
 	console.log('Index create is ok.');
