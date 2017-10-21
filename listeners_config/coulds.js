@@ -118,17 +118,24 @@ module.exports = {
 		{
 			type: reqTypes.post,
 			route: Routes.cloudDownloadArchiveMerge,
-			handel: (res, action, dateStr) => {
+			handel: async (res, action, dateStr) => {
 
-				let pathUpload = pathManager.getUploadPath(dateStr);
-				let pathExtract = `${pathUpload}/unzip`;
+				try {
+					let pathUpload = pathManager.getUploadPath(dateStr);
+					let pathJson = `${pathUpload}/unzip/${pathManager.getArchiveName().replace('.zip', '')}`;
 
-				migrateTingo.up(modelUsers, modelStorage, modelCategory, pathExtract)
-					.then(() => send.ok(res, action, dateStr))
-					.catch(err => {
-						console.log('!ERR merge archive', err);
-						send.err(res, action, 'ERR merge archive');
+					await migrateTingo.upFromJson(pathJson, {
+						users : modelUsers,
+						store : modelStorage,
+						categories : modelCategory,
 					});
+
+					send.ok(res, action, dateStr);
+
+				} catch (e) {
+					console.log('!ERR merge archive', e);
+					send.err(res, action, 'ERR merge archive');
+				}
 
 			}
 		},

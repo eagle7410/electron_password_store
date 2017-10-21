@@ -40,7 +40,7 @@ const createIndex = async () => {
 
 const setProdArchiveName =  async () => {
 	const transform = data => new Promise(
-		write => write( data.replace(/fileName(\s){0,}=(\s){0,}\'(.*)\'/,'fileName    = \'data.zip\'') )
+		write => write( data.replace(/fileName(\s){0,}=(\s){0,}\'(.*)\'/,'fileName    = \'data.json.zip\'') )
 	)
 
 	await fileContentChange(root + 'libs/path-manager.js', root + 'libs/path-manager.js', transform);
