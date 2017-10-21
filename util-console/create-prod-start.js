@@ -61,7 +61,7 @@ const removeCloudData =  async () => {
 
 const createProdStart = async () => {
 	try {
-		await removeCloudData();
+		// await removeCloudData();
 		await createIndex();
 		await createServer();
 		await setProdArchiveName();
