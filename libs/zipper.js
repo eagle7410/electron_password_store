@@ -1,4 +1,5 @@
 const zipFolder = require('zip-folder');
+const JSZip     = require('jszip');
 const unzip     = require('unzip');
 const fs        = require('fs-extra');
 
@@ -30,7 +31,25 @@ const unzipArchive = (pathZip, pathExtract) => new Promise((ok, bad) => {
 
 });
 
+/**
+ * Save content to zip file.
+ * @param {string} content
+ * @param {string} fileNameInZip
+ * @param {string} pathSave
+ * @returns {Promise.<void>}
+ */
+const createArchiveByContent = async (content, fileNameInZip, pathSave) => {
+	let zip = new JSZip();
+	zip.file(fileNameInZip, content);
+
+	const zipContent = await zip.generateAsync({type : "uint8array"});
+
+	await fs.writeFile(pathSave, zipContent);
+
+};
+
 module.exports = {
 	createArhive : createArchive,
+	createArchiveByContent: createArchiveByContent,
 	unzipArchive : unzipArchive
 };

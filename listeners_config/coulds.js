@@ -1,19 +1,19 @@
-const fs           = require('fs-extra');
-const send         = require('../libs/send');
-const zipper       = require('../libs/zipper');
-const pathManager  = require('../libs/path-manager');
+const fs = require('fs-extra');
+const send = require('../libs/send');
+const zipper = require('../libs/zipper');
+const pathManager = require('../libs/path-manager');
 const migrateTingo = require('../libs/migrate-tingo');
 
 const reqTypes = send.reqTypes;
 let Routes = null;
-let cloudDbox   = null;
+let cloudDbox = null;
 let cloudGoogle = null;
-let modelUsers    = null;
-let modelStorage  = null;
+let modelUsers = null;
+let modelStorage = null;
 let modelSettings = null;
 let modelCategory = null;
-let dialog       = null;
-let mainWindow   = null;
+let dialog = null;
+let mainWindow = null;
 
 /**
  *
@@ -40,14 +40,14 @@ module.exports = {
 	 *
 	 * @param models {{users : {},setting : {},store : {},category : {}}}
 	 */
-	setModels : (models) => {
-			modelUsers = models.users;
-			modelStorage = models.store;
-			modelSettings = models.setting;
-			modelCategory = models.category;
+	setModels: (models) => {
+		modelUsers = models.users;
+		modelStorage = models.store;
+		modelSettings = models.setting;
+		modelCategory = models.category;
 
-			return module.exports;
- 	},
+		return module.exports;
+	},
 	setWindow: win => {
 		mainWindow = win;
 		return module.exports;
@@ -56,7 +56,7 @@ module.exports = {
 		dialog = dialogComponent;
 		return module.exports;
 	},
-	setClouds : (coulds) => {
+	setClouds: (coulds) => {
 		cloudDbox = coulds.dbox;
 		cloudGoogle = coulds.google;
 
@@ -67,7 +67,7 @@ module.exports = {
 
 		return module.exports;
 	},
-	config : () => [
+	config: () => [
 		{
 			route: Routes.cloudInit,
 			handel: (res, action, data) => {
@@ -85,17 +85,18 @@ module.exports = {
 			route: Routes.cloudGetPath,
 			handel: (res, action, data) => {
 				let folder = dialog.showOpenDialog(mainWindow, {
-					filters : [
-						{name: 'Json Files', extensions: ['json']},
-						{name: 'All Files', extensions: ['*']}
-					],
-					properties: ['openFile']}
+						filters: [
+							{name: 'Json Files', extensions: ['json']},
+							{name: 'All Files', extensions: ['*']}
+						],
+						properties: ['openFile']
+					}
 				);
-				send.ok(res, action, {folder : Array.isArray(folder) ? folder.shift() : ''});
+				send.ok(res, action, {folder: Array.isArray(folder) ? folder.shift() : ''});
 			}
 		},
 		{
-			type : reqTypes.post,
+			type: reqTypes.post,
 			route: Routes.cloudSaveConfig,
 			handel: (res, action, data) => {
 				fs.copy(data.folder, getCloudByType(data).getConfigPath())
@@ -105,7 +106,7 @@ module.exports = {
 		},
 
 		{
-			type : reqTypes.del,
+			type: reqTypes.del,
 			route: Routes.cloudDownloadArchiveClear,
 			handel: (res, action, dateStr) => {
 				let pathUpload = pathManager.getUploadPath(dateStr);
@@ -115,7 +116,7 @@ module.exports = {
 			}
 		},
 		{
-			type : reqTypes.post,
+			type: reqTypes.post,
 			route: Routes.cloudDownloadArchiveMerge,
 			handel: (res, action, dateStr) => {
 
@@ -132,7 +133,7 @@ module.exports = {
 			}
 		},
 		{
-			type : reqTypes.put,
+			type: reqTypes.put,
 			route: Routes.cloudDownloadArchiveExtract,
 			handel: (res, action, dateStr) => {
 
@@ -164,25 +165,32 @@ module.exports = {
 		},
 		{
 			route: Routes.cloudUploadArchive,
-			type : reqTypes.post,
-			handel: (res, action) => {
-				let date = new Date();
-				let dateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+			type: reqTypes.post,
+			handel: async (res, action) => {
+				try {
+					let date = new Date();
+					let dateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+					const zipPath = pathManager.getNewArchivePath(dateStr);
 
-				const zipPath  = pathManager.getNewArchivePath(dateStr);
+					const json = await  migrateTingo.dataJson(modelUsers, modelStorage, modelCategory);
 
-				pathManager.checkFolderNewArchive(dateStr)
-					.then(() => zipper.createArhive(pathManager.getPathDb(), zipPath))
-					.then(() => send.ok(res, action, dateStr))
-					.catch(err => {
-						console.log('!ERR create archive', err);
-						send.err(res, action, 'ERR create archive');
-					});
+					const jsonString = JSON.stringify(json);
+
+					await pathManager.checkFolderNewArchive(dateStr);
+
+					await zipper.createArchiveByContent(jsonString, 'data.json', zipPath);
+
+					send.ok(res, action, dateStr);
+
+				} catch (e) {
+					console.log('!ERR create archive', e);
+					send.err(res, action, 'ERR create archive');
+				}
 			}
 		},
 		{
 			route: Routes.cloudUpload,
-			type : reqTypes.put,
+			type: reqTypes.put,
 			handel: (res, action, data) => {
 				const zipPath = pathManager.getNewArchivePath(data.date);
 				const fileName = pathManager.getArchiveName();

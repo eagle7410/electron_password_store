@@ -2,7 +2,7 @@
   "name": "electron_password_store",
   "version": "1.0.0",
   "description": "App for store passwords.",
-  "main": "index-app.js",
+  "main": "index-app-dev.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron --harmony-async-await .",
@@ -49,6 +49,7 @@
     "fs-extra": "3.0.1",
     "google-auth-library": "0.11.0",
     "googleapis": "22.2.0",
+    "jszip": "3.1.4",
     "temporary": "0.0.8",
     "tingodb": "0.5.1",
     "unzip": "0.1.11",

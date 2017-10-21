@@ -65,3 +65,22 @@ module.exports.up = (modelUsers, modelStorage, modelCategories, pathExtract) => 
 		.then(() => ok())
 		.catch(e => bad(e));
 });
+
+/**
+ *
+ * @param {Collection} modelUsers
+ * @param {Collection} modelStorage
+ * @param {Collection} modelCategories
+ * @returns {Promise.<{users: *, store: *, categories: *}>}
+ */
+module.exports.dataJson = async (modelUsers, modelStorage, modelCategories) => {
+	let users       = await modelUsers.list();
+	let store      = await modelStorage.list();
+	let categories = await modelCategories.list();
+
+	return {
+		users : users,
+		store : store,
+		categories : categories
+	}
+}
