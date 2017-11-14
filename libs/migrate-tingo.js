@@ -82,7 +82,7 @@ module.exports.upFromJson = async (jsonPath, models) => {
 
 	for (let id in data.categories) {
 		cat.push({
-			id: id,
+			_id: id,
 			name : data.categories[id]
 		});
 	}
@@ -98,7 +98,7 @@ module.exports.upFromJson = async (jsonPath, models) => {
  * @returns {Promise.<{users: *, store: *, categories: *}>}
  */
 module.exports.dataJson = async (modelUsers, modelStorage, modelCategories) => {
-	let users       = await modelUsers.list();
+	let users      = await modelUsers.list();
 	let store      = await modelStorage.list();
 	let categories = await modelCategories.list();
 
